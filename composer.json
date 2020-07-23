@@ -1,0 +1,44 @@
+{
+    "name": "bokt/flarum-gdpr",
+    "description": "Gives user more control over their data",
+    "keywords": [
+        "extension",
+        "flarum", "bokt",
+        "gdpr", "export"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniël Klabbers",
+            "email": "daniel@klabbers.email",
+            "homepage": "http://luceos.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/bokt/flarum-gdpr/issues",
+        "source": "https://github.com/bokt/flarum-gdpr"
+    },
+    "require": {
+        "ext-zip": "*",
+        "flarum/core": "^0.1.0-beta.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bokt\\Gdpr\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Gdpr",
+            "icon": {
+                "image": "resources/logo.svg",
+                "backgroundColor": "#EBF1FD",
+                "color": "#3a98d0",
+                "backgroundSize": "90%",
+                "backgroundRepeat": "no-repeat",
+                "backgroundPosition": "center"
+            }
+        }
+    }
+}
