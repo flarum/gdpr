@@ -3,9 +3,11 @@
 namespace Bokt\Gdpr\Http\Controller;
 
 use Bokt\Gdpr\Exporter;
+use Bokt\Gdpr\Models\Export;
 use Flarum\User\User;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\UnauthorizedException;
-use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -22,28 +24,18 @@ class ExportController implements RequestHandlerInterface
         /** @var User $actor */
         $actor = $request->getAttribute('actor');
 
-        if (! $actor) {
+        $file = Arr::get($request->getQueryParams(), 'file');
+
+        if (! $actor || !$file) {
             throw new UnauthorizedException;
         }
 
-        $exporter = new Exporter;
-        $zip = $this->zip = $exporter->export($actor);
+        $export = Export::byFile($file);
 
-        return new Response(
-            fopen($zip, 'r'),
-            200,
-            [
-                'Content-Type' => 'application/zip',
-                'Content-Length' => filesize($zip),
-                'Content-Disposition' => 'attachment; filename="gdpr-data-' . $actor->username . '.zip"'
-            ]
-        );
-    }
-
-    public function __destruct()
-    {
-        if ($this->zip) {
-            unlink($this->zip);
+        if ($export) {
+            return (new Exporter)->getZip($export);
         }
+
+        throw new FileNotFoundException;
     }
 }
