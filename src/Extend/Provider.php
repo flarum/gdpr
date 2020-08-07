@@ -17,8 +17,10 @@ class Provider implements ExtenderInterface
 
     public function extend(Container $container, Extension $extension = null)
     {
+        $app = $container->get('flarum');
+
         foreach($this->providers as $provider) {
-            $container->register($provider);
+            $app->register($provider);
         }
     }
 

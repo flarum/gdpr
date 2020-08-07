@@ -35,7 +35,7 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
      */
     public function getSubject()
     {
-        return 'export available';
+        return $this->export;
     }
 
     /**

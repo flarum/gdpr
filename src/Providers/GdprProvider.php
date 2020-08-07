@@ -17,7 +17,7 @@ class GdprProvider extends AbstractServiceProvider
         $disks = $config->get('filesystems.disks', []);
         $disks['gdpr-export'] = [
             'driver' => 'local',
-            'root'   => $this->app->storagePath().'/gdpr-exports'
+            'root'   => $this->app['flarum']->storagePath().'/gdpr-exports'
         ];
         $config->set('filesystems.disks', $disks);
 

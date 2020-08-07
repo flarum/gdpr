@@ -1,6 +1,6 @@
 <?php
 
-namespace Bokt\Gdpr\Api\Controllers;
+namespace Bokt\Gdpr\Api\Controller;
 
 use Bokt\Gdpr\Jobs\ExportJob;
 use Flarum\User\User;

@@ -4,6 +4,7 @@ namespace Bokt\Gdpr\Data;
 
 use Bokt\Gdpr\Contracts\DataType;
 use Flarum\User\User;
+use Illuminate\Support\Str;
 use ZipArchive;
 
 class Assets implements DataType
@@ -21,7 +22,11 @@ class Assets implements DataType
     public function export(ZipArchive $zip)
     {
         if ($this->user->avatar_url) {
-            $zip->addFile($this->user->avatar_url);
+            $fileType  = Str::afterLast($this->user->avatar_url, '.');
+            $zip->addFile(
+                $this->user->avatar_url,
+                "avatar.$fileType"
+            );
         }
     }
 }

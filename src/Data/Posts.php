@@ -5,6 +5,7 @@ namespace Bokt\Gdpr\Data;
 use Bokt\Gdpr\Contracts\DataType;
 use Flarum\Post\Post;
 use Flarum\User\User;
+use Illuminate\Support\Arr;
 use ZipArchive;
 
 class Posts implements DataType
@@ -26,8 +27,19 @@ class Posts implements DataType
             ->each(function (Post $post) use ($zip) {
                 $zip->addFromString(
                     "post-{$post->id}.json",
-                    $post->toJson(JSON_PRETTY_PRINT)
+                    json_encode(
+                        $this->sanitize($post),
+                        JSON_PRETTY_PRINT
+                    )
                 );
             });
+    }
+
+    protected function sanitize(Post $post)
+    {
+        return Arr::only($post->toArray(), [
+            'content', 'created_at',
+            'ip_address'
+        ]);
     }
 }

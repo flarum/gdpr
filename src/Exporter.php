@@ -20,6 +20,7 @@ class Exporter
      * @var SettingsRepositoryInterface
      */
     protected $settings;
+    protected $storagePath;
     /**
      * @var Filesystem
      */
@@ -28,6 +29,7 @@ class Exporter
     public function __construct(Filesystem $filesystem)
     {
         $this->settings = app('flarum.settings');
+        $this->storagePath = app('flarum')->storagePath();
         $this->filesystem = $filesystem;
     }
 
@@ -38,7 +40,7 @@ class Exporter
 
     public function export(User $user): Export
     {
-        $file = tempnam(app()->storagePath() . DIRECTORY_SEPARATOR . 'tmp', 'gdpr-export-' . $user->username);
+        $file = tempnam($this->storagePath . DIRECTORY_SEPARATOR . 'tmp', 'gdpr-export-' . $user->username);
         $zip = new ZipArchive;
         $now = Carbon::now();
 
@@ -54,9 +56,17 @@ class Exporter
 
         $zip->close();
 
-        $this->filesystem->writeStream($user->id, $zip->getStream());
+        if ($this->filesystem->exists($user->id)) {
+            $this->filesystem->delete($user->id);
+        }
 
-        return Export::exported($user, $file);
+        $this->filesystem->writeStream($user->id, $handle = fopen($file, 'r'));
+
+        fclose($handle);
+
+        unlink($file);
+
+        return Export::exported($user, basename($file));
     }
 
     public function getZip(Export $export)
