@@ -41,4 +41,10 @@ class Export extends AbstractModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function destroyable()
+    {
+        return self::query()
+            ->where('destroys_at', '<=', Carbon::now());
+    }
 }

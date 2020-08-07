@@ -60,25 +60,34 @@ class Exporter
             $this->filesystem->delete($user->id);
         }
 
-        $this->filesystem->writeStream($user->id, $handle = fopen($file, 'r'));
+        $export = Export::exported($user, basename($file));
+
+        $this->filesystem->writeStream($export->id, $handle = fopen($file, 'r'));
 
         fclose($handle);
 
         unlink($file);
 
-        return Export::exported($user, basename($file));
+        return $export;
     }
 
     public function getZip(Export $export)
     {
         return new Response(
-            $this->filesystem->readStream($export->user->id),
+            $this->filesystem->readStream($export->id),
             200,
             [
                 'Content-Type' => 'application/zip',
-                'Content-Length' => $this->filesystem->size($export->user->id),
+                'Content-Length' => $this->filesystem->size($export->id),
                 'Content-Disposition' => 'attachment; filename="gdpr-data-' . $export->user->username . '-' . $export->created_at->toIso8601String() . '.zip"'
             ]
         );
+    }
+
+    public function destroy(Export $export)
+    {
+        $this->filesystem->delete($export->id);
+
+        $export->delete();
     }
 }
