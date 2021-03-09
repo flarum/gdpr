@@ -1,10 +1,10 @@
 <?php
 
-namespace Bokt\Gdpr\Jobs;
+namespace Blomstra\Gdpr\Jobs;
 
-use Bokt\Gdpr\Exporter;
-use Bokt\Gdpr\Models\Export;
-use Bokt\Gdpr\Notifications\ExportAvailableBlueprint;
+use Blomstra\Gdpr\Exporter;
+use Blomstra\Gdpr\Models\Export;
+use Blomstra\Gdpr\Notifications\ExportAvailableBlueprint;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Queue\AbstractJob;
 use Flarum\User\User;

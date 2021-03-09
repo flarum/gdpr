@@ -1,9 +1,9 @@
 <?php
 
-namespace Bokt\Gdpr;
+namespace Blomstra\Gdpr;
 
-use Bokt\Gdpr\Contracts\DataType;
-use Bokt\Gdpr\Models\Export;
+use Blomstra\Gdpr\Contracts\DataType;
+use Blomstra\Gdpr\Models\Export;
 use Carbon\Carbon;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;

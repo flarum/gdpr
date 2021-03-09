@@ -1,9 +1,9 @@
 <?php
 
-namespace Bokt\Gdpr\Http\Controller;
+namespace Blomstra\Gdpr\Http\Controller;
 
-use Bokt\Gdpr\Exporter;
-use Bokt\Gdpr\Models\Export;
+use Blomstra\Gdpr\Exporter;
+use Blomstra\Gdpr\Models\Export;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;

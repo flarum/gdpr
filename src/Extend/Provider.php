@@ -1,6 +1,6 @@
 <?php
 
-namespace Bokt\Gdpr\Extend;
+namespace Blomstra\Gdpr\Extend;
 
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;

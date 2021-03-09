@@ -1,10 +1,10 @@
 <?php
 
-namespace Bokt\Gdpr\Notifications;
+namespace Blomstra\Gdpr\Notifications;
 
 
 
-use Bokt\Gdpr\Models\Export;
+use Blomstra\Gdpr\Models\Export;
 use Flarum\Database\AbstractModel;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;

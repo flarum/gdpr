@@ -1,8 +1,8 @@
 <?php
 
-namespace Bokt\Gdpr\Providers;
+namespace Blomstra\Gdpr\Providers;
 
-use Bokt\Gdpr\Exporter;
+use Blomstra\Gdpr\Exporter;
 use Flarum\Foundation\AbstractServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;

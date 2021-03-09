@@ -1,8 +1,8 @@
 <?php
 
-namespace Bokt\Gdpr\Api\Controller;
+namespace Blomstra\Gdpr\Api\Controller;
 
-use Bokt\Gdpr\Jobs\ExportJob;
+use Blomstra\Gdpr\Jobs\ExportJob;
 use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Validation\UnauthorizedException;
