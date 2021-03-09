@@ -1,4 +1,16 @@
 blomstra-gdpr:
+    email:
+        export_available:
+            subject: Data export available
+            body: |
+                Hey {display_name}!
+
+                You requested an export of your data. This export has been successfully been generated and is now available:
+
+                {url}
+
+                This export will remain available until {destroys_at}.
+
     forum:
         settings:
             export_data_button: Export Data

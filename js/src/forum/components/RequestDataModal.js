@@ -24,8 +24,7 @@ export default class RequestDataModal extends Modal {
                             className: 'Button Button--primary Button--block',
                             type: 'submit',
                             loading: this.loading,
-                            children: app.translator.trans('blomstra-gdpr.forum.request_data.request_button'),
-                        })}
+                        }, app.translator.trans('blomstra-gdpr.forum.request_data.request_button'))}
                     </div>
                 </div>
             </div>

@@ -10,10 +10,9 @@ app.initializers.add(
             items.add(
                 'gdprExport',
                 Button.component({
-                    children: app.translator.trans('blomstra-gdpr.forum.settings.export_data_button'),
                     className: 'Button',
                     onclick: () => app.modal.show(RequestDataModal),
-                })
+                }, app.translator.trans('blomstra-gdpr.forum.settings.export_data_button'))
             );
         });
     }
