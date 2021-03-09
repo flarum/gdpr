@@ -1,9 +1,9 @@
 <?php
 
-namespace Bokt\Gdpr\Commands;
+namespace Blomstra\Gdpr\Commands;
 
-use Bokt\Gdpr\Exporter;
-use Bokt\Gdpr\Models\Export;
+use Blomstra\Gdpr\Exporter;
+use Blomstra\Gdpr\Models\Export;
 use Illuminate\Console\Command;
 
 class DestroyExportsCommand extends Command

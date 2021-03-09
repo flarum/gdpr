@@ -1,6 +1,6 @@
 <?php
 
-namespace Bokt\Gdpr\Models;
+namespace Blomstra\Gdpr\Models;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;

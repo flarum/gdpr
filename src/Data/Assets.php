@@ -1,8 +1,8 @@
 <?php
 
-namespace Bokt\Gdpr\Data;
+namespace Blomstra\Gdpr\Data;
 
-use Bokt\Gdpr\Contracts\DataType;
+use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\User\User;
 use Illuminate\Support\Str;
 use ZipArchive;

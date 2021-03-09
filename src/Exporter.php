@@ -1,10 +1,11 @@
 <?php
 
-namespace Bokt\Gdpr;
+namespace Blomstra\Gdpr;
 
-use Bokt\Gdpr\Contracts\DataType;
-use Bokt\Gdpr\Models\Export;
+use Blomstra\Gdpr\Contracts\DataType;
+use Blomstra\Gdpr\Models\Export;
 use Carbon\Carbon;
+use Flarum\Foundation\Paths;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -16,20 +17,26 @@ class Exporter
     protected static $types = [
         Data\Assets::class, Data\Posts::class
     ];
+
     /**
      * @var SettingsRepositoryInterface
      */
     protected $settings;
+
+    /**
+     * @var string
+     */
     protected $storagePath;
+
     /**
      * @var Filesystem
      */
     private $filesystem;
 
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, Paths $paths, SettingsRepositoryInterface $settings)
     {
-        $this->settings = app('flarum.settings');
-        $this->storagePath = app('flarum')->storagePath();
+        $this->settings = $settings;
+        $this->storagePath = $paths->storage;
         $this->filesystem = $filesystem;
     }
 

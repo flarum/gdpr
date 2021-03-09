@@ -1,21 +1,27 @@
 <?php
 
-namespace Bokt\Gdpr;
+namespace Blomstra\Gdpr;
 
-use Flarum\Extend\Console;
-use Flarum\Extend\Frontend;
-use Flarum\Extend\Locales;
-use Flarum\Extend\Routes;
-use Flarum\Extend\View;
+use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
+use Blomstra\Gdpr\Notifications\ExportAvailableBlueprint;
+use Flarum\Extend;
 
 return [
-    new Extend\Provider(Providers\GdprProvider::class),
-    (new Frontend('forum'))->js(__DIR__ . '/js/dist/forum.js'),
-    (new Locales(__DIR__ . '/resources/locale')),
-    (new Routes('forum'))
+    (new Extend\Frontend('forum'))->js(__DIR__ . '/js/dist/forum.js'),
+
+    (new Extend\Locales(__DIR__ . '/resources/locale')),
+
+    (new Extend\Routes('forum'))
         ->get('/gdpr/export/{file}', 'gdpr.export', Http\Controller\ExportController::class),
-    (new Routes('api'))
+
+    (new Extend\Routes('api'))
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class),
-    (new View)->namespace('gdpr', __DIR__ . '/resources/views'),
-    (new Console)->command(Commands\DestroyExportsCommand::class)
+
+    (new Extend\Notification)->type(ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email']),
+
+    (new Extend\View)->namespace('gdpr', __DIR__ . '/resources/views'),
+
+    (new Extend\Console)->command(Commands\DestroyExportsCommand::class),
+
+    (new Extend\ServiceProvider)->register(Providers\GdprProvider::class)
 ];

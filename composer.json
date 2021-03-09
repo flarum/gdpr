@@ -1,9 +1,9 @@
 {
-    "name": "bokt/flarum-gdpr",
+    "name": "blomstra/flarum-gdpr",
     "description": "Gives user more control over their data",
     "keywords": [
         "extension",
-        "flarum", "bokt",
+        "flarum", "blomstra",
         "gdpr", "export"
     ],
     "type": "flarum-extension",
@@ -16,8 +16,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/bokt/flarum-gdpr/issues",
-        "source": "https://github.com/bokt/flarum-gdpr"
+        "issues": "https://github.com/blomstra/flarum-gdpr/issues",
+        "source": "https://github.com/blomstra/flarum-gdpr"
     },
     "require": {
         "ext-zip": "*",
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bokt\\Gdpr\\": "src/"
+            "Blomstra\\Gdpr\\": "src/"
         }
     },
     "extra": {

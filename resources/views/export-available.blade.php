@@ -1,7 +1,5 @@
-Hey {!! $user->display_name !!}!
-
-You requested an export of your data. This export has been successfully been generated and is now available:
-
-{!! app()->url() !!}/gdpr/export/{!! $blueprint->export->file !!}
-
-This export will remain available until {!! $blueprint->export->destroys_at !!}.
+{!! $translator->trans('blomstra-gdpr.email.export_available.body', [
+    "{display_name}" => $user->display_name,
+    "{url}" => $url->to('forum')->route('gdpr.export', ['file' => $blueprint->getSubject()->file]),
+    "{destroys_at}" => $blueprint->getSubject()->destroys_at
+]) !!}

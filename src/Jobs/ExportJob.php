@@ -1,10 +1,10 @@
 <?php
 
-namespace Bokt\Gdpr\Jobs;
+namespace Blomstra\Gdpr\Jobs;
 
-use Bokt\Gdpr\Exporter;
-use Bokt\Gdpr\Models\Export;
-use Bokt\Gdpr\Notifications\ExportAvailableBlueprint;
+use Blomstra\Gdpr\Exporter;
+use Blomstra\Gdpr\Models\Export;
+use Blomstra\Gdpr\Notifications\ExportAvailableBlueprint;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Queue\AbstractJob;
 use Flarum\User\User;
@@ -30,11 +30,11 @@ class ExportJob extends AbstractJob
 
     public function notify(Export $export, NotificationSyncer $notifications)
     {
-        $notifications->onePerUser(function () use ($export, $notifications) {
+        // $notifications->onePerUser(function () use ($export, $notifications) {
             $notifications->sync(
                 new ExportAvailableBlueprint($export),
                 [$export->user]
             );
-        });
+        // });
     }
 }

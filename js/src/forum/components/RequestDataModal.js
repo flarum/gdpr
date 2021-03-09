@@ -11,21 +11,20 @@ export default class RequestDataModal extends Modal {
     }
 
     title() {
-        return app.translator.trans('bokt-gdpr.forum.request_data.title');
+        return app.translator.trans('blomstra-gdpr.forum.request_data.title');
     }
 
     content() {
         return (
             <div className="Modal-body">
                 <div className="Form Form--centered">
-                    <p className="helpText">{app.translator.trans('bokt-gdpr.forum.request_data.text')}</p>
+                    <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_data.text')}</p>
                     <div className="Form-group">
                         {Button.component({
                             className: 'Button Button--primary Button--block',
                             type: 'submit',
                             loading: this.loading,
-                            children: app.translator.trans('bokt-gdpr.forum.request_data.request_button'),
-                        })}
+                        }, app.translator.trans('blomstra-gdpr.forum.request_data.request_button'))}
                     </div>
                 </div>
             </div>

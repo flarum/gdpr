@@ -1,6 +1,6 @@
 <?php
 
-namespace Bokt\Gdpr\Contracts;
+namespace Blomstra\Gdpr\Contracts;
 
 use Flarum\User\User;
 use ZipArchive;

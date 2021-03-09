@@ -1,8 +1,8 @@
 <?php
 
-namespace Bokt\Gdpr\Extend;
+namespace Blomstra\Gdpr\Extend;
 
-use Bokt\Gdpr\Exporter;
+use Blomstra\Gdpr\Exporter;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
 use Illuminate\Contracts\Container\Container;

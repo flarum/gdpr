@@ -1,9 +1,10 @@
 <?php
 
-namespace Bokt\Gdpr\Providers;
+namespace Blomstra\Gdpr\Providers;
 
-use Bokt\Gdpr\Exporter;
+use Blomstra\Gdpr\Exporter;
 use Flarum\Foundation\AbstractServiceProvider;
+use Flarum\Foundation\Paths;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -11,13 +12,15 @@ class GdprProvider extends AbstractServiceProvider
 {
     public function boot()
     {
+        /** @var Paths $paths */
+        $paths = $this->app->make(Paths::class);
         /** @var Repository $config */
         $config = $this->app->get('config');
 
         $disks = $config->get('filesystems.disks', []);
         $disks['gdpr-export'] = [
             'driver' => 'local',
-            'root'   => $this->app['flarum']->storagePath().'/gdpr-exports'
+            'root'   => $paths->storage.'/gdpr-exports'
         ];
         $config->set('filesystems.disks', $disks);
 
@@ -25,7 +28,7 @@ class GdprProvider extends AbstractServiceProvider
             ->when(Exporter::class)
             ->needs(Filesystem::class)
             ->give(function () {
-                return app('filesystem')->disk('gdpr-export');
+                return $this->app->make('filesystem')->disk('gdpr-export');
             });
     }
 }

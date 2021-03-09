@@ -156,7 +156,7 @@ var RequestDataModal = /*#__PURE__*/function (_Modal) {
   };
 
   _proto.title = function title() {
-    return app.translator.trans('bokt-gdpr.forum.request_data.title');
+    return app.translator.trans('blomstra-gdpr.forum.request_data.title');
   };
 
   _proto.content = function content() {
@@ -166,13 +166,13 @@ var RequestDataModal = /*#__PURE__*/function (_Modal) {
       className: "Form Form--centered"
     }, m("p", {
       className: "helpText"
-    }, app.translator.trans('bokt-gdpr.forum.request_data.text')), m("div", {
+    }, app.translator.trans('blomstra-gdpr.forum.request_data.text')), m("div", {
       className: "Form-group"
     }, flarum_components_Button__WEBPACK_IMPORTED_MODULE_2___default.a.component({
       className: 'Button Button--primary Button--block',
       type: 'submit',
       loading: this.loading,
-      children: app.translator.trans('bokt-gdpr.forum.request_data.request_button')
+      children: app.translator.trans('blomstra-gdpr.forum.request_data.request_button')
     }))));
   };
 
@@ -212,10 +212,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-app.initializers.add('bokt-gdpr', function () {
+app.initializers.add('blomstra-gdpr', function () {
   Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_SettingsPage__WEBPACK_IMPORTED_MODULE_1___default.a.prototype, 'accountItems', function (items) {
     items.add('gdprExport', flarum_components_Button__WEBPACK_IMPORTED_MODULE_2___default.a.component({
-      children: app.translator.trans('bokt-gdpr.forum.settings.export_data_button'),
+      children: app.translator.trans('blomstra-gdpr.forum.settings.export_data_button'),
       className: 'Button',
       onclick: function onclick() {
         return app.modal.show(_components_RequestDataModal__WEBPACK_IMPORTED_MODULE_3__["default"]);

@@ -1,14 +1,13 @@
 <?php
 
-namespace Bokt\Gdpr\Notifications;
+namespace Blomstra\Gdpr\Notifications;
 
 
 
-use Bokt\Gdpr\Models\Export;
-use Flarum\Database\AbstractModel;
+use Blomstra\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
-use Flarum\User\User;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
 {
@@ -75,8 +74,8 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
     /**
      * @inheritDoc
      */
-    public function getEmailSubject()
+    public function getEmailSubject(TranslatorInterface $translator)
     {
-        return 'Data export available';
+        return $translator->trans('blomstra-gdpr.email.export_available.subject');
     }
 }

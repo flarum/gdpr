@@ -1,8 +1,8 @@
 <?php
 
-namespace Bokt\Gdpr\Api\Controller;
+namespace Blomstra\Gdpr\Api\Controller;
 
-use Bokt\Gdpr\Jobs\ExportJob;
+use Blomstra\Gdpr\Jobs\ExportJob;
 use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Validation\UnauthorizedException;
@@ -13,6 +13,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RequestExportController implements RequestHandlerInterface
 {
+    public function __construct(Queue $queue) {
+        $this->queue = $queue;
+    }
+
     /**
      * @inheritDoc
      */
@@ -24,10 +28,8 @@ class RequestExportController implements RequestHandlerInterface
         if (! $actor) {
             throw new UnauthorizedException;
         }
-        /** @var Queue $queue */
-        $queue = app(Queue::class);
 
-        $queue->push(new ExportJob($actor));
+        $this->queue->push(new ExportJob($actor));
 
         return new EmptyResponse(201);
     }

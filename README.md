@@ -7,7 +7,7 @@ This extension allows users increasing control over their data.
 Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
 
 ```sh
-composer require bokt/flarum-gdpr
+composer require blomstra/flarum-gdpr
 ```
 
 ### Use
@@ -18,13 +18,13 @@ with a unique, temporary link.
 
 ### For developers
 
-You can easily register a new Data type by implementing the Contract `Bokt\Gdpr\Contracts\DataType`
-and then using the extender `Bokt\Gdpr\Extend\UserData`:
+You can easily register a new Data type by implementing the Contract `Blomstra\Gdpr\Contracts\DataType`
+and then using the extender `Blomstra\Gdpr\Extend\UserData`:
 
 ```php
 <?php
 
-use Bokt\Gdpr\Extend\UserData;
+use Blomstra\Gdpr\Extend\UserData;
 use Your\Own\DataType;
 
 return [
@@ -34,12 +34,12 @@ return [
 
 The implementation you create needs a export method, it will receive a ZipArchive resource.
 You can use that to add any strings or actual files to the archive. Make sure to properly
-name the file and always prefix it with your extension slug (bokt-something-filename).
+name the file and always prefix it with your extension slug (blomstra-something-filename).
 
 ### Links
 
-- [Packagist](https://packagist.org/packages/bokt/flarum-gdpr)
-- [GitHub](https://github.com/bokt/flarum-gdpr)
+- [Packagist](https://packagist.org/packages/blomstra/flarum-gdpr)
+- [GitHub](https://github.com/blomstra/flarum-gdpr)
 
 ### FAQ & Recommendations
 
@@ -48,4 +48,4 @@ with more extensions that work with the gdpr extension to allow data exports.
 
 ### Disclaimer
 
-This extension is developed as an employee of @BartVB at Bokt. Bokt is the largest equine community in the Netherlands. We're currently moving a phpBB forum with over 100 million posts to Flarum. By keeping both in sync until we're more feature complete, we offer our users a slow transition to this fantastic new platform.
+This extension is developed as an employee of @BartVB at Blomstra. Blomstra is the largest equine community in the Netherlands. We're currently moving a phpBB forum with over 100 million posts to Flarum. By keeping both in sync until we're more feature complete, we offer our users a slow transition to this fantastic new platform.
