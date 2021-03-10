@@ -3,8 +3,10 @@
     "description": "Gives user more control over their data",
     "keywords": [
         "extension",
-        "flarum", "blomstra",
-        "gdpr", "export"
+        "flarum",
+        "blomstra",
+        "gdpr",
+        "export"
     ],
     "type": "flarum-extension",
     "license": "MIT",
@@ -13,6 +15,16 @@
             "name": "Daniël Klabbers",
             "email": "daniel@klabbers.email",
             "homepage": "http://luceos.com"
+        },
+        {
+            "name": "IanM",
+            "homepage": "https://discuss.flarum.org/u/ianm",
+            "role": "Developer"
+        },
+        {
+            "name": "Alexander Skvortsov",
+            "email": "askvortsov@flarum.org",
+            "role": "Developer"
         }
     ],
     "support": {
@@ -21,7 +33,7 @@
     },
     "require": {
         "ext-zip": "*",
-        "flarum/core": "^0.1.0-beta.13"
+        "flarum/core": "^0.1.0-beta.15"
     },
     "autoload": {
         "psr-4": {
@@ -30,7 +42,8 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Gdpr",
+            "title": "GDPR",
+            "category": "other",
             "icon": {
                 "image": "resources/logo.svg",
                 "backgroundColor": "#EBF1FD",
