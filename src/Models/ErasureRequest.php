@@ -14,4 +14,9 @@ class ErasureRequest extends AbstractModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public function processedBy()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
