@@ -1,5 +1,16 @@
 blomstra-gdpr:
     email:
+        confirm_erasure:
+            subject: Confirm your account erasure request
+            body: |
+                Hey {display_name}!
+
+                Someone (hopefully you) just requested to erase the account `{display_name}`.
+
+                To confirm this action, please follow the following link, after which your request will be processed by our team.
+
+                {erasure_confirm_url}
+
         export_available:
             subject: Data export available
             body: |
