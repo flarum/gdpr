@@ -14,6 +14,7 @@ return [
 
     (new Extend\Routes('forum'))
         ->get('/gdpr/export/{file}', 'gdpr.export', Http\Controller\ExportController::class),
+        //->get('/gdpr/erasure/confirm/{token}', 'gdpr.erasure-confirm', NEWCONTROLLER),
 
     (new Extend\Routes('api'))
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
