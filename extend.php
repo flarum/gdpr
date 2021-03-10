@@ -18,7 +18,7 @@ return [
 
     (new Extend\Routes('api'))
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
-        ->post('/gdpr/delete-me', 'gdpr.request-deletion', Api\Controller\RequestAnonymizationController::class),
+        ->post('/gdpr/delete-me', 'gdpr.request-deletion', Api\Controller\RequestErasureController::class),
 
     (new Extend\Notification)
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
