@@ -7,7 +7,6 @@ use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
-use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -21,16 +20,6 @@ class RequestErasureController extends AbstractCreateController
      * {@inheritdoc}
      */
     public $serializer = RequestErasureSerializer::class;
-    
-    /**
-     * @var Dispatcher
-     */
-    protected $bus;
-    
-    public function __construct(Dispatcher $bus)
-    {
-        $this->bus = $bus;
-    }
 
     /**
      * @inheritDoc
