@@ -3,7 +3,7 @@
 namespace Blomstra\Gdpr;
 
 use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
-use Blomstra\Gdpr\Api\Serializer\RequestDeletionSerializer;
+use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Notifications;
 use Flarum\Extend;
 
@@ -21,7 +21,7 @@ return [
 
     (new Extend\Notification)
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
-        ->type(Notifications\ConfirmDeletionBlueprint::class, RequestDeletionSerializer::class, ['email']),
+        ->type(Notifications\ConfirmDeletionBlueprint::class, RequestErasureSerializer::class, ['email']),
 
     (new Extend\View)->namespace('gdpr', __DIR__ . '/resources/views'),
 

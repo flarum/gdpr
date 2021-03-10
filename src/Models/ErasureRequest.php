@@ -5,9 +5,9 @@ namespace Blomstra\Gdpr\Models;
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;
 
-class DeletionRequest extends AbstractModel
+class ErasureRequest extends AbstractModel
 {
-    protected $table = 'gdpr_deletion';
+    protected $table = 'gdpr_erasure';
     protected $dates = ['created_at', 'user_confirmed_at', 'processed_at'];
 
     public function user()

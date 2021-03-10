@@ -4,7 +4,7 @@ use Flarum\Database\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 return Migration::createTable(
-    'gdpr_deletion',
+    'gdpr_erasure',
     function (Blueprint $table) {
         $table->increments('id');
         $table->integer('user_id')->unsigned()->unique();

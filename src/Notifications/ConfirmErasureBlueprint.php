@@ -2,19 +2,19 @@
 
 namespace Blomstra\Gdpr\Notifications;
 
-use Blomstra\Gdpr\Models\DeletionRequest;
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
+class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 {
 /**
-     * @var DeletionRequest
+     * @var ErasureRequest
      */
     private $request;
 
-    public function __construct(DeletionRequest $request)
+    public function __construct(ErasureRequest $request)
     {
         $this->request = $request;
     }
@@ -41,7 +41,7 @@ class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
     public function getData()
     {
         return [
-            'deletion-request' => $this->request->id
+            'erasure-request' => $this->request->id
         ];
     }
 
@@ -50,7 +50,7 @@ class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getType()
     {
-        return 'user-deletion-request';
+        return 'user-erasure-request';
     }
 
     /**
@@ -58,7 +58,7 @@ class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getSubjectModel()
     {
-        return DeletionRequest::class;
+        return ErasureRequest::class;
     }
 
     /**
@@ -66,7 +66,7 @@ class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
      */
     public function getEmailView()
     {
-        return 'gdpr::confirm-deletion';
+        return 'gdpr::confirm-erasure';
     }
 
     /**
@@ -74,6 +74,6 @@ class ConfirmDeletionBlueprint implements BlueprintInterface, MailableInterface
      */
     public function getEmailSubject(TranslatorInterface $translator)
     {
-        return $translator->trans('blomstra-gdpr.email.confirm_deletion.subject');
+        return $translator->trans('blomstra-gdpr.email.confirm_erasure.subject');
     }
 }
