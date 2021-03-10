@@ -21,7 +21,7 @@ return [
 
     (new Extend\Notification)
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
-        ->type(Notifications\ConfirmDeletionBlueprint::class, RequestErasureSerializer::class, ['email']),
+        ->type(Notifications\ConfirmErasureBlueprint::class, RequestErasureSerializer::class, ['email']),
 
     (new Extend\View)->namespace('gdpr', __DIR__ . '/resources/views'),
 
