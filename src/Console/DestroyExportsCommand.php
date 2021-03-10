@@ -1,6 +1,6 @@
 <?php
 
-namespace Blomstra\Gdpr\Commands;
+namespace Blomstra\Gdpr\Console;
 
 use Blomstra\Gdpr\Exporter;
 use Blomstra\Gdpr\Models\Export;
