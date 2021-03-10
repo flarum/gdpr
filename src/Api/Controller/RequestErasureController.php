@@ -53,6 +53,8 @@ class RequestErasureController extends AbstractCreateController
 
         $erasureRequest->save();
 
+        ErasureRequest::reguard();
+
         $this->notifications->sync(new ConfirmErasureBlueprint($erasureRequest), [$actor]);
 
         return $erasureRequest;
