@@ -23,7 +23,6 @@ class RequestErasureSerializer extends AbstractSerializer
             'reason'             => $erasure_request->reason,
             'createdAt'          => $this->formatDate($erasure_request->created_at),
             'userConfirmedAt'    => $this->formatDate($erasure_request->user_confirmed_at),
-            'processedBy'        => $erasure_request->processed_by,
             'processorComment'   => $erasure_request->processor_comment,
             'processedAt'        => $this->formatDate($erasure_request->processed_at)
         ];
@@ -35,6 +34,16 @@ class RequestErasureSerializer extends AbstractSerializer
      * @return \Tobscure\JsonApi\Relationship
      */
     protected function user($erasure_request)
+    {
+        return $this->hasOne($erasure_request, BasicUserSerializer::class);
+    }
+
+    /**
+     * @param $request
+     *
+     * @return \Tobscure\JsonApi\Relationship
+     */
+    protected function processedBy($erasure_request)
     {
         return $this->hasOne($erasure_request, BasicUserSerializer::class);
     }
