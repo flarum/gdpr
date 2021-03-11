@@ -53,7 +53,7 @@ class ConfirmErasureController implements RequestHandlerInterface
         $erasureRequest = ErasureRequest::where('verification_token', $token)->first();
 
         $erasureRequest->user_confirmed_at = Carbon::now();
-        $erasureRequest->status = 'confirmed';
+        $erasureRequest->status = 'user_confirmed';
         $erasureRequest->save();
 
         $session = $request->getAttribute('session');

@@ -33,23 +33,30 @@ export default class RequestErasureModal extends Modal {
     fields() {
         const items = new ItemList();
 
-        items.add(
-            'text',
-            <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.text')}</p>
-        )
-
         const currRequest = app.session.user.erasureRequest();
 
         if (currRequest) {
             items.add(
                 'status',
                 <div className="Form-group">
-                    <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.status', {
-                        status: currRequest.status()
-                    })}</p>
+                    <p className="helpText">{app.translator.trans(`blomstra-gdpr.forum.request_erasure.status.${currRequest.status()}`)}</p>
                 </div>
             );
+
+            if (currRequest.reason()) {
+                items.add(
+                    'reason',
+                    <div className="Form-group">
+                        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.reason', { reason: currRequest.reason() })}</p>
+                    </div>
+                );
+            }
         } else {
+            items.add(
+                'text',
+                <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.text')}</p>
+            );
+
             items.add(
                 'password',
                 <div className="Form-group">
@@ -67,7 +74,8 @@ export default class RequestErasureModal extends Modal {
                 <div className="Form-group">
                     <textarea
                         className="FormControl"
-                        bidi={this.reason}
+                        value={this.reason()}
+                        oninput={(e) => this.reason(e.target.value)}
                         placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.reason_label'))}
                     ></textarea>
                 </div>
@@ -89,8 +97,10 @@ export default class RequestErasureModal extends Modal {
     }
 
     data() {
+        // Status is set so that the proper confirmation message is displayed.
         return {
-            attributes: { reason: this.reason() },
+            reason: this.reason(),
+            status: 'user_confirmed',
             relationships: { user: app.session.user }
         }
     }
@@ -103,7 +113,10 @@ export default class RequestErasureModal extends Modal {
         app.store
             .createRecord('user-erasure-requests')
             .save(this.data(), { meta: { password: this.password() } })
-            .then(this.hide.bind(this))
+            .then(erasureRequest => {
+                app.session.user.pushData({ relationships: { erasureRequest } });
+                m.redraw();
+            })
             .catch(() => {
                 this.loading = false;
                 m.redraw();

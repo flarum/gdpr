@@ -45,7 +45,7 @@ class RequestErasureController extends AbstractCreateController
             throw new NotAuthenticatedException();
         }
 
-        $reason = $request->getAttribute('attributes.reason');
+        $reason = Arr::get($request->getParsedBody(), 'data.attributes.reason');
 
         $token = Str::random(40);
 
@@ -56,8 +56,8 @@ class RequestErasureController extends AbstractCreateController
         ]);
 
         $erasureRequest->user_id = $actor->id;
-        $erasureRequest->status = 'sent';
-        $erasureRequest->reason = empty($reason) ? null : $reason;
+        $erasureRequest->status = 'awaiting_user_confirmation';
+        $erasureRequest->reason = $reason;
         $erasureRequest->verification_token = $token;
         $erasureRequest->created_at = Carbon::now();
 

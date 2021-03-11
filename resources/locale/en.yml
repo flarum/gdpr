@@ -36,10 +36,13 @@ blomstra-gdpr:
             request_button: Request archive
         request_erasure:
             title: Request account erasure
-            status: |
-                Your request has been received. It currently has status: <strong>{status}</strong>.
-            text: >
-                An admin will review your request within 30 days, as required by the GDPR.
+            reason: "You provided the following reason: {reason}"
+            status:
+                awaiting_user_confirmation: |
+                    You should have received an email to confirm your account erasure request.
+                user_confirmed: |
+                    You have confirmed your account erasure request. Action will be taken within 30 days, as required by the GDPR.
+            text: Once received and confirmed, an admin will review your request within 30 days, as required by the GDPR.
             password_label: Confirm Password
             reason_label: Reason (optional)
             request_button: Request erasure
