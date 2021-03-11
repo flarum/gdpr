@@ -3,6 +3,7 @@
 namespace Blomstra\Gdpr\Notifications;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
+use Carbon\Carbon;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -41,7 +42,8 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
     public function getData()
     {
         return [
-            'erasure-request' => $this->request->id
+            'erasure-request' => $this->request->id,
+            'timestamp' => Carbon::now()
         ];
     }
 
@@ -50,7 +52,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getType()
     {
-        return 'user-erasure-requests';
+        return 'gdpr_erasure_confirm';
     }
 
     /**
