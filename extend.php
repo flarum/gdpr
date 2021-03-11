@@ -7,6 +7,7 @@ use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications;
 use Flarum\Api\Controller\ShowUserController;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\User\User;
@@ -24,7 +25,9 @@ return [
 
     (new Extend\Routes('api'))
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
+        ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
         ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)
+        ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\ProcessErasureController::class)
         ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\CancelErasureController::class),
 
     (new Extend\Notification)
@@ -38,8 +41,23 @@ return [
     (new Extend\ApiController(ShowUserController::class))
         ->addInclude('erasureRequest'),
 
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->mutate(function ($serializer, $model, $attributes) {
+            $attributes['canProcessErasureRequests'] = $serializer->getActor()->can('processErasure');
+
+            if ($attributes['canProcessErasureRequests']) {
+                $attributes['erasureRequestCount'] = ErasureRequest::where('status', 'user_confirmed')->count();
+            }
+
+            return $attributes;
+        }),
+
     (new Extend\ApiSerializer(UserSerializer::class))
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
+
+    (new Extend\Settings)
+        ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
+        ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
 
     (new Extend\View)->namespace('gdpr', __DIR__ . '/resources/views'),
 

@@ -27,7 +27,7 @@ app.initializers.add(
                 {
                     icon: "fas fa-user-minus",
                     label: app.translator.trans("blomstra-gdpr.admin.permissions.process_erasure"),
-                    permission: "user.processErasure",
+                    permission: "processErasure",
                 },
                 "moderate"
             );

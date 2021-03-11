@@ -16,6 +16,7 @@ return Migration::createTable(
         $table->integer('processed_by')->unsigned()->nullable();
         $table->text('processor_comment')->nullable();
         $table->dateTime('processed_at')->nullable();
+        $table->string('processed_mode')->nullable();
 
         $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
         $table->foreign('processed_by')->references('id')->on('users')->onDelete('no action');
