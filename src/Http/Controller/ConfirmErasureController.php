@@ -11,8 +11,8 @@ namespace Blomstra\Gdpr\Http\Controller;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Http\SessionAuthenticator;
 use Flarum\Http\UrlGenerator;
-use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -27,11 +27,18 @@ class ConfirmErasureController implements RequestHandlerInterface
     protected $url;
 
     /**
+     * @var SessionAuthenticator
+     */
+    protected $authenticator;
+
+
+    /**
      * @param UrlGenerator $url
      */
-    public function __construct(UrlGenerator $url)
+    public function __construct(UrlGenerator $url, SessionAuthenticator $authenticator)
     {
         $this->url = $url;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -45,14 +52,13 @@ class ConfirmErasureController implements RequestHandlerInterface
 
         $erasureRequest = ErasureRequest::where('verification_token', $token)->first();
 
-        if ($actor->id !== $erasureRequest->user_id) {
-            throw new PermissionDeniedException();
-        }
-
         $erasureRequest->user_confirmed_at = Carbon::now();
         $erasureRequest->status = 'confirmed';
         $erasureRequest->save();
 
-        return new RedirectResponse($this->url->to('forum')->base());
+        $session = $request->getAttribute('session');
+        $this->authenticator->logIn($session, $erasureRequest->user_id);
+
+        return new RedirectResponse($this->url->to('forum')->base().'?erasureRequestConfirmed=1');
     }
 }

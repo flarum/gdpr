@@ -23,6 +23,7 @@ blomstra-gdpr:
                 This export will remain available until {destroys_at}.
 
     forum:
+        erasure_request_confirmed: You have confirmed your account erasure request. Action will be taken within 30 days, as required by the GDPR.
         settings:
             export_data_button: Export Data
             request_erasure_button: Erase Account
