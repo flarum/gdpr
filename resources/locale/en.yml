@@ -25,6 +25,7 @@ blomstra-gdpr:
     forum:
         settings:
             export_data_button: Export Data
+            request_erasure_button: Erase Account
         request_data:
             title: Request your data
             text: >
@@ -32,3 +33,12 @@ blomstra-gdpr:
                 an email will be send to you with a link to retrieve
                 this archive. The link will remain active for one day.
             request_button: Request archive
+        request_erasure:
+            title: Request account erasure
+            status: |
+                Your request has been received. It currently has status: <strong>{status}</strong>.
+            text: >
+                An admin will review your request within 30 days, as required by the GDPR.
+            password_label: Confirm Password
+            reason_label: Reason (optional)
+            request_button: Request erasure

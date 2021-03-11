@@ -2,15 +2,16 @@
 
 namespace Blomstra\Gdpr\Api\Controller;
 
+use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -22,9 +23,18 @@ class RequestErasureController extends AbstractCreateController
     public $serializer = RequestErasureSerializer::class;
 
     /**
+     * @var NotificationSyncer
+     */
+    protected $notifications;
+
+    public function __construct(NotificationSyncer $notifications) {
+        $this->notifications = $notifications;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function data(ServerRequestInterface $request, Document $document): ResponseInterface
+    public function data(ServerRequestInterface $request, Document $document)
     {
         /** @var User $actor */
         $actor = $request->getAttribute('actor');

@@ -50,7 +50,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getType()
     {
-        return 'user-erasure-request';
+        return 'user-erasure-requests';
     }
 
     /**
