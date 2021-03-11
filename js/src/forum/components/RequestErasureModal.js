@@ -51,6 +51,17 @@ export default class RequestErasureModal extends Modal {
                     </div>
                 );
             }
+
+            items.add(
+                'cancel',
+                <div className="Form-group">
+                    {Button.component({
+                        className: 'Button Button--primary Button--block',
+                        onclick: this.oncancel.bind(this),
+                        loading: this.loading,
+                    }, app.translator.trans('blomstra-gdpr.forum.request_erasure.cancel_button'))}
+                </div>
+            );
         } else {
             items.add(
                 'text',
@@ -96,6 +107,19 @@ export default class RequestErasureModal extends Modal {
         return items;
     }
 
+    oncancel(e) {
+        this.loading = true;
+        m.redraw();
+
+        app.session.user
+            .erasureRequest()
+            .delete()
+            .then(() => {
+                this.loading = false;
+                m.redraw();
+            });
+    }
+
     data() {
         // Status is set so that the proper confirmation message is displayed.
         return {
@@ -115,6 +139,7 @@ export default class RequestErasureModal extends Modal {
             .save(this.data(), { meta: { password: this.password() } })
             .then(erasureRequest => {
                 app.session.user.pushData({ relationships: { erasureRequest } });
+                this.loading = false;
                 m.redraw();
             })
             .catch(() => {

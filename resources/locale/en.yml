@@ -11,6 +11,13 @@ blomstra-gdpr:
 
                 {erasure_confirm_url}
 
+        erasure_cancelled:
+            subject: Account erasure request cancelled
+            body: |
+                Hey {display_name}!
+
+                This is an automatic notification that you have successfully cancelled your account erasure request.
+
         export_available:
             subject: Data export available
             body: |
@@ -45,4 +52,5 @@ blomstra-gdpr:
             text: Once received and confirmed, an admin will review your request within 30 days, as required by the GDPR.
             password_label: Confirm Password
             reason_label: Reason (optional)
+            cancel_button: Cancel request
             request_button: Request erasure
