@@ -1,4 +1,15 @@
 blomstra-gdpr:
+    admin:
+        permissions:
+            process_anonymization: Process anonymization requests
+        settings:
+            allow_anonymization: Allow anonymization for erasure requests?
+            allow_deletion: Allow deletion for erasure requests?
+            default_erasure: Default action for erasure requests
+            default_erasure_options:
+                anonymization: Anonymization
+                deletion: Deletion
+
     email:
         confirm_erasure:
             subject: Confirm your account erasure request
