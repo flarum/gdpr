@@ -13,7 +13,7 @@ namespace Blomstra\Gdpr;
 
 use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Blomstra\Gdpr\Models\ErasureRequest
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications;
 use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\ForumSerializer;
