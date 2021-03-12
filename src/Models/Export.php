@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Models;
 
 use Carbon\Carbon;
@@ -7,12 +16,12 @@ use Flarum\Database\AbstractModel;
 use Flarum\User\User;
 
 /**
- * @property int $id
- * @property int $user_id
+ * @property int    $id
+ * @property int    $user_id
  * @property string $file
  * @property Carbon $created_at
  * @property Carbon $destroys_at
- * @property User $user
+ * @property User   $user
  */
 class Export extends AbstractModel
 {
@@ -28,7 +37,7 @@ class Export extends AbstractModel
 
     public static function exported(User $user, string $tmp)
     {
-        return tap(new self, function ($export) use ($user, $tmp) {
+        return tap(new self(), function ($export) use ($user, $tmp) {
             $export->user_id = $user->id;
             $export->file = $tmp;
             $export->created_at = Carbon::now();

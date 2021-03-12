@@ -1,10 +1,12 @@
 <?php
 
 /*
- * This file is part of Flarum.
+ * This file is part of blomstra/flarum-gdpr
  *
- * For detailed copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Blomstra\Gdpr\Http\Controller;
@@ -30,7 +32,6 @@ class ConfirmErasureController implements RequestHandlerInterface
      * @var SessionAuthenticator
      */
     protected $authenticator;
-
 
     /**
      * @param UrlGenerator $url

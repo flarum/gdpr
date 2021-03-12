@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Notifications;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
@@ -10,7 +19,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 {
-/**
+    /**
      * @var ErasureRequest
      */
     private $request;
@@ -43,7 +52,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
     {
         return [
             'erasure-request' => $this->request->id,
-            'timestamp' => Carbon::now()
+            'timestamp'       => Carbon::now(),
         ];
     }
 

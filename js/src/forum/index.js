@@ -22,7 +22,6 @@ app.initializers.add(
 
         app.erasureRequests = new ErasureRequestsListState(app);
 
-
         extend(Page.prototype, 'oninit', function () {
             if (m.route.param('erasureRequestConfirmed')) {
                 app.alerts.show({ type: 'success' }, app.translator.trans('blomstra-gdpr.forum.erasure_request_confirmed'));

@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Notifications;
-
-
 
 use Blomstra\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
@@ -43,7 +50,7 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
     public function getData()
     {
         return [
-            'export' => $this->export->id
+            'export' => $this->export->id,
         ];
     }
 

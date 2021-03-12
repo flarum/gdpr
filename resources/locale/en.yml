@@ -46,6 +46,7 @@ blomstra-gdpr:
             item_text: "{name} requested account erasure"
             tooltip: Account Erasure Requests
             title: Account Erasure Requests
+           
         erasure_request_confirmed: You have confirmed your account erasure request. Action will be taken within 30 days, as required by the GDPR.
         settings:
             export_data_button: Export Data
@@ -57,6 +58,7 @@ blomstra-gdpr:
                 an email will be send to you with a link to retrieve
                 this archive. The link will remain active for one day.
             request_button: Request archive
+            
         process_erasure:
             confirm: Are you sure you want to erase {name}'s account under {mode} mode?
             title: Process erasure request
@@ -64,6 +66,7 @@ blomstra-gdpr:
             comments_label: Comments (optional)
             anonymization_button: Anonymize user
             deletion_button: Delete user
+            
         request_erasure:
             title: Request account erasure
             reason: "You provided the following reason: {reason}"

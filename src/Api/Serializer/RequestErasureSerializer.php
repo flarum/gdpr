@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
@@ -24,7 +33,7 @@ class RequestErasureSerializer extends AbstractSerializer
             'createdAt'          => $this->formatDate($erasure_request->created_at),
             'userConfirmedAt'    => $this->formatDate($erasure_request->user_confirmed_at),
             'processorComment'   => $erasure_request->processor_comment,
-            'processedAt'        => $this->formatDate($erasure_request->processed_at)
+            'processedAt'        => $this->formatDate($erasure_request->processed_at),
         ];
     }
 
