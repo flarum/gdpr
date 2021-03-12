@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Jobs;
 
 use Blomstra\Gdpr\Exporter;
@@ -31,10 +40,10 @@ class ExportJob extends AbstractJob
     public function notify(Export $export, NotificationSyncer $notifications)
     {
         // $notifications->onePerUser(function () use ($export, $notifications) {
-            $notifications->sync(
-                new ExportAvailableBlueprint($export),
-                [$export->user]
-            );
+        $notifications->sync(
+            new ExportAvailableBlueprint($export),
+            [$export->user]
+        );
         // });
     }
 }

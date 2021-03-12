@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Providers;
 
 use Blomstra\Gdpr\Exporter;
@@ -20,7 +29,7 @@ class GdprProvider extends AbstractServiceProvider
         $disks = $config->get('filesystems.disks', []);
         $disks['gdpr-export'] = [
             'driver' => 'local',
-            'root'   => $paths->storage.'/gdpr-exports'
+            'root'   => $paths->storage.'/gdpr-exports',
         ];
         $config->set('filesystems.disks', $disks);
 

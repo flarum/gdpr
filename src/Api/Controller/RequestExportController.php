@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Jobs\ExportJob;
@@ -13,7 +22,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RequestExportController implements RequestHandlerInterface
 {
-    public function __construct(Queue $queue) {
+    public function __construct(Queue $queue)
+    {
         $this->queue = $queue;
     }
 
@@ -25,8 +35,8 @@ class RequestExportController implements RequestHandlerInterface
         /** @var User $actor */
         $actor = $request->getAttribute('actor');
 
-        if (! $actor) {
-            throw new UnauthorizedException;
+        if (!$actor) {
+            throw new UnauthorizedException();
         }
 
         $this->queue->push(new ExportJob($actor));

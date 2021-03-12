@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Http\Controller;
 
 use Blomstra\Gdpr\Exporter;
@@ -26,8 +35,8 @@ class ExportController implements RequestHandlerInterface
 
         $file = Arr::get($request->getQueryParams(), 'file');
 
-        if (! $actor || !$file) {
-            throw new UnauthorizedException;
+        if (!$actor || !$file) {
+            throw new UnauthorizedException();
         }
 
         $export = Export::byFile($file);
@@ -36,6 +45,6 @@ class ExportController implements RequestHandlerInterface
             return app(Exporter::class)->getZip($export);
         }
 
-        throw new FileNotFoundException;
+        throw new FileNotFoundException();
     }
 }

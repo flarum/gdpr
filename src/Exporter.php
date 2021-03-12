@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr;
 
 use Blomstra\Gdpr\Contracts\DataType;
@@ -15,7 +24,7 @@ use ZipArchive;
 class Exporter
 {
     protected static $types = [
-        Data\Assets::class, Data\Posts::class
+        Data\Assets::class, Data\Posts::class,
     ];
 
     /**
@@ -40,15 +49,15 @@ class Exporter
         $this->filesystem = $filesystem;
     }
 
-    static public function addType(string $type)
+    public static function addType(string $type)
     {
         static::$types[] = $type;
     }
 
     public function export(User $user): Export
     {
-        $file = tempnam($this->storagePath . DIRECTORY_SEPARATOR . 'tmp', 'gdpr-export-' . $user->username);
-        $zip = new ZipArchive;
+        $file = tempnam($this->storagePath.DIRECTORY_SEPARATOR.'tmp', 'gdpr-export-'.$user->username);
+        $zip = new ZipArchive();
         $now = Carbon::now();
 
         $zip->open($file);
@@ -84,9 +93,9 @@ class Exporter
             $this->filesystem->readStream($export->id),
             200,
             [
-                'Content-Type' => 'application/zip',
-                'Content-Length' => $this->filesystem->size($export->id),
-                'Content-Disposition' => 'attachment; filename="gdpr-data-' . $export->user->username . '-' . $export->created_at->toIso8601String() . '.zip"'
+                'Content-Type'        => 'application/zip',
+                'Content-Length'      => $this->filesystem->size($export->id),
+                'Content-Disposition' => 'attachment; filename="gdpr-data-'.$export->user->username.'-'.$export->created_at->toIso8601String().'.zip"',
             ]
         );
     }
