@@ -14,7 +14,6 @@ namespace Blomstra\Gdpr;
 use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
-use Blomstra\Gdpr\Notifications;
 use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
@@ -22,9 +21,9 @@ use Flarum\Extend;
 use Flarum\User\User;
 
 return [
-    (new Extend\Frontend('admin'))->js(__DIR__ . '/js/dist/admin.js'),
+    (new Extend\Frontend('admin'))->js(__DIR__.'/js/dist/admin.js'),
 
-    (new Extend\Frontend('forum'))->js(__DIR__ . '/js/dist/forum.js'),
+    (new Extend\Frontend('forum'))->js(__DIR__.'/js/dist/forum.js'),
 
     (new Extend\Locales(__DIR__.'/resources/locale')),
 
@@ -64,7 +63,7 @@ return [
     (new Extend\ApiSerializer(UserSerializer::class))
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
-    (new Extend\Settings)
+    (new Extend\Settings())
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
 
