@@ -8,7 +8,7 @@ use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
+class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableInterface
 {
 /**
      * @var ErasureRequest
@@ -52,7 +52,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getType()
     {
-        return 'gdpr_erasure_confirm';
+        return 'gdpr_erasure_cancelled';
     }
 
     /**
@@ -68,7 +68,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
      */
     public function getEmailView()
     {
-        return 'gdpr::confirm-erasure';
+        return 'gdpr::erasure-cancelled';
     }
 
     /**
@@ -76,6 +76,6 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
      */
     public function getEmailSubject(TranslatorInterface $translator)
     {
-        return $translator->trans('blomstra-gdpr.email.confirm_erasure.subject');
+        return $translator->trans('blomstra-gdpr.email.erasure_cancelled.subject');
     }
 }

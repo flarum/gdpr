@@ -2,15 +2,16 @@
 
 namespace Blomstra\Gdpr\Api\Controller;
 
+use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -22,9 +23,18 @@ class RequestErasureController extends AbstractCreateController
     public $serializer = RequestErasureSerializer::class;
 
     /**
+     * @var NotificationSyncer
+     */
+    protected $notifications;
+
+    public function __construct(NotificationSyncer $notifications) {
+        $this->notifications = $notifications;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function data(ServerRequestInterface $request, Document $document): ResponseInterface
+    public function data(ServerRequestInterface $request, Document $document)
     {
         /** @var User $actor */
         $actor = $request->getAttribute('actor');
@@ -35,7 +45,7 @@ class RequestErasureController extends AbstractCreateController
             throw new NotAuthenticatedException();
         }
 
-        $reason = $request->getAttribute('attributes.reason');
+        $reason = Arr::get($request->getParsedBody(), 'data.attributes.reason');
 
         $token = Str::random(40);
 
@@ -46,8 +56,8 @@ class RequestErasureController extends AbstractCreateController
         ]);
 
         $erasureRequest->user_id = $actor->id;
-        $erasureRequest->status = 'sent';
-        $erasureRequest->reason = empty($reason) ? null : $reason;
+        $erasureRequest->status = 'awaiting_user_confirmation';
+        $erasureRequest->reason = $reason;
         $erasureRequest->verification_token = $token;
         $erasureRequest->created_at = Carbon::now();
 

@@ -10,7 +10,7 @@ class RequestErasureSerializer extends AbstractSerializer
     /**
      * {@inheritdoc}
      */
-    protected $type = 'user-erasure-request';
+    protected $type = 'user-erasure-requests';
 
     /**
      * {@inheritdoc}

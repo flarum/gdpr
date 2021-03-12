@@ -1,10 +1,6 @@
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 
-/**
- * The `ChangePasswordModal` component shows a modal dialog which allows the
- * user to send themself a password reset email.
- */
 export default class RequestDataModal extends Modal {
     className() {
         return 'RequestDataModal Modal--small';
