@@ -44,6 +44,7 @@ class ConfirmErasureController implements RequestHandlerInterface
 
     /**
      * @param Request $request
+     *
      * @return ResponseInterface
      */
     public function handle(Request $request): ResponseInterface

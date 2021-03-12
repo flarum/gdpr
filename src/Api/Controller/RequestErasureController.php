@@ -35,7 +35,7 @@ class RequestErasureController extends AbstractCreateController
      * @var NotificationSyncer
      */
     protected $notifications;
- 
+
     public function __construct(NotificationSyncer $notifications)
     {
         $this->notifications = $notifications;

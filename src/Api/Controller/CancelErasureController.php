@@ -11,7 +11,6 @@
 
 namespace Blomstra\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
 use Flarum\Api\Controller\AbstractDeleteController;
