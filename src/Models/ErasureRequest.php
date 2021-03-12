@@ -12,10 +12,13 @@
 namespace Blomstra\Gdpr\Models;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\User\User;
 
 class ErasureRequest extends AbstractModel
 {
+    use ScopeVisibilityTrait;
+
     protected $table = 'gdpr_erasure';
     protected $dates = ['created_at', 'user_confirmed_at', 'processed_at'];
 

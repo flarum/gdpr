@@ -1,11 +1,15 @@
 import { extend } from 'flarum/extend';
 import Model from 'flarum/common/Model';
+import Button from 'flarum/components/Button';
+import HeaderSecondary from 'flarum/components/HeaderSecondary';
 import Page from 'flarum/components/Page';
 import SettingsPage from 'flarum/components/SettingsPage';
-import Button from 'flarum/components/Button';
 import RequestDataModal from './components/RequestDataModal';
 import RequestErasureModal from './components/RequestErasureModal';
 import ErasureRequest from './models/ErasureRequest';
+import ErasureRequestsPage from './components/ErasureRequestsPage';
+import ErasureRequestsDropdown from './components/ErasureRequestsDropdown';
+import ErasureRequestsListState from './states/ErasureRequestsListState';
 
 
 app.initializers.add(
@@ -14,6 +18,9 @@ app.initializers.add(
         app.store.models['user-erasure-requests'] = ErasureRequest;
         app.store.models.users.prototype.erasureRequest = Model.hasOne('erasureRequest');
 
+        app.routes['erasure-requests'] = { path: '/erasure-requests', component: ErasureRequestsPage };
+
+        app.erasureRequests = new ErasureRequestsListState(app);
 
         extend(Page.prototype, 'oninit', function () {
             if (m.route.param('erasureRequestConfirmed')) {
@@ -39,6 +46,12 @@ app.initializers.add(
                     onclick: () => app.modal.show(RequestDataModal),
                 }, app.translator.trans('blomstra-gdpr.forum.settings.export_data_button'))
             );
+        });
+
+        extend(HeaderSecondary.prototype, 'items', function (items) {
+            if (app.forum.attribute('erasureRequestCount')) {
+                items.add('UsernameRequests', <ErasureRequestsDropdown state={app.erasureRequests} />, 20);
+            }
         });
     }
 );
