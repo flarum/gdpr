@@ -27,7 +27,7 @@ return [
 
     (new Extend\Notification)
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
-        ->type(Notifications\ConfirmErasureBlueprint::class, RequestErasureSerializer::class, ['alert', 'email'])
+        ->type(Notifications\ConfirmErasureBlueprint::class, RequestErasureSerializer::class, ['email'])
         ->type(Notifications\ErasureRequestCancelledBlueprint::class, RequestErasureSerializer::class, ['alert', 'email']),
 
     (new Extend\Model(User::class))
