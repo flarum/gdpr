@@ -53,7 +53,7 @@ class ProcessErasureController extends AbstractShowController
 
         $erasureRequest = ErasureRequest::findOrFail($id);
 
-        //$erasureRequest->status = 'processed';
+        $erasureRequest->status = 'processed';
         $erasureRequest->processed_mode = Arr::get($request->getParsedBody(), 'meta.mode');
         $erasureRequest->processed_at = Carbon::now();
         $erasureRequest->processed_by = $actor->id;
