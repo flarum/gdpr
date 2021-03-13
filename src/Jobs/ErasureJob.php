@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Jobs;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
@@ -25,7 +34,7 @@ class ErasureJob extends AbstractJob
      * @var Builder
      */
     protected $schema;
-    
+
     public function __construct(ErasureRequest $erasureRequest)
     {
         $this->erasureRequest = $erasureRequest;
@@ -71,10 +80,10 @@ class ErasureJob extends AbstractJob
                 unset($columns[$idx]);
                 continue;
             }
-            
+
             $user->{$column} = null;
         }
-        
+
         $user->username = Str::random(40);
         $user->nickname = '';
         $user->email = "$user->username@flarum-gdpr.local";
