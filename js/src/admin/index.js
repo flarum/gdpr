@@ -1,7 +1,6 @@
 app.initializers.add(
     'blomstra-gdpr',
     () => {
-        console.log('hi')
         app.extensionData
             .for('blomstra-gdpr')
             .registerSetting({
