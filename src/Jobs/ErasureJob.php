@@ -85,7 +85,6 @@ class ErasureJob extends AbstractJob
         }
 
         $user->username = Str::random(40);
-        $user->nickname = '';
         $user->email = "$user->username@flarum-gdpr.local";
         $user->is_email_confirmed = false;
         $user->setPasswordAttribute(Str::random(40));
