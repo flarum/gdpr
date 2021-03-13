@@ -75,9 +75,8 @@ class ErasureJob extends AbstractJob
 
         $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences'];
 
-        foreach ($columns as $idx => $column) {
+        foreach ($columns as $column) {
             if (in_array($column, $remove)) {
-                unset($columns[$idx]);
                 continue;
             }
 
