@@ -12,10 +12,11 @@
 namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Blomstra\Gdpr\Jobs\ErasureJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
-use Flarum\Notification\NotificationSyncer;
 use Flarum\User\User;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,13 +30,13 @@ class ProcessErasureController extends AbstractShowController
     public $serializer = RequestErasureSerializer::class;
 
     /**
-     * @var NotificationSyncer
+     * @var Queue
      */
-    protected $notifications;
+    protected $queue;
 
-    public function __construct(NotificationSyncer $notifications)
+    public function __construct(Queue $queue)
     {
-        $this->notifications = $notifications;
+        $this->queue = $queue;
     }
 
     /**
@@ -52,7 +53,7 @@ class ProcessErasureController extends AbstractShowController
 
         $erasureRequest = ErasureRequest::findOrFail($id);
 
-        $erasureRequest->status = 'processed';
+        //$erasureRequest->status = 'processed';
         $erasureRequest->processed_mode = Arr::get($request->getParsedBody(), 'meta.mode');
         $erasureRequest->processed_at = Carbon::now();
         $erasureRequest->processed_by = $actor->id;
@@ -60,8 +61,7 @@ class ProcessErasureController extends AbstractShowController
 
         $erasureRequest->save();
 
-        // TODO: Process the erasure
-        // TODO: Notify the user
+        $this->queue->push(new ErasureJob($erasureRequest));
 
         return $erasureRequest;
     }
