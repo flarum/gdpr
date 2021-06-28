@@ -15,6 +15,7 @@ use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
@@ -47,7 +48,7 @@ class RequestErasureController extends AbstractCreateController
     public function data(ServerRequestInterface $request, Document $document)
     {
         /** @var User $actor */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $actor->assertRegistered();
 

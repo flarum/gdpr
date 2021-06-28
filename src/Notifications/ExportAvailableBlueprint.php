@@ -14,7 +14,7 @@ namespace Blomstra\Gdpr\Notifications;
 use Blomstra\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
 {

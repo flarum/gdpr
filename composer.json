@@ -33,7 +33,7 @@
     },
     "require": {
         "ext-zip": "*",
-        "flarum/core": "^0.1.0-beta.15"
+        "flarum/core": "^1.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +43,7 @@
     "extra": {
         "flarum-extension": {
             "title": "GDPR",
-            "category": "other",
+            "category": "feature",
             "icon": {
                 "image": "resources/logo.svg",
                 "backgroundColor": "#EBF1FD",

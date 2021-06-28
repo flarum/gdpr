@@ -14,6 +14,7 @@ namespace Blomstra\Gdpr\Api\Controller;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
 use Flarum\Api\Controller\AbstractDeleteController;
+use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
@@ -38,7 +39,7 @@ class CancelErasureController extends AbstractDeleteController
     public function delete(ServerRequestInterface $request)
     {
         /** @var User $actor */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $erasureRequest = ErasureRequest::where('id', $id)->firstOrFail();

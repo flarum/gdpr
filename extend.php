@@ -50,7 +50,7 @@ return [
         ->addInclude('erasureRequest'),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
-        ->mutate(function ($serializer, $model, $attributes) {
+        ->attributes(function ($serializer, $model, $attributes) {
             $attributes['canProcessErasureRequests'] = $serializer->getActor()->can('processErasure');
 
             if ($attributes['canProcessErasureRequests']) {

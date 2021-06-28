@@ -22,9 +22,9 @@ class GdprProvider extends AbstractServiceProvider
     public function boot()
     {
         /** @var Paths $paths */
-        $paths = $this->app->make(Paths::class);
+        $paths = $this->container->make(Paths::class);
         /** @var Repository $config */
-        $config = $this->app->get('config');
+        $config = $this->container->get('config');
 
         $disks = $config->get('filesystems.disks', []);
         $disks['gdpr-export'] = [
@@ -33,11 +33,11 @@ class GdprProvider extends AbstractServiceProvider
         ];
         $config->set('filesystems.disks', $disks);
 
-        $this->app
+        $this->container
             ->when(Exporter::class)
             ->needs(Filesystem::class)
             ->give(function () {
-                return $this->app->make('filesystem')->disk('gdpr-export');
+                return $this->container->make('filesystem')->disk('gdpr-export');
             });
     }
 }

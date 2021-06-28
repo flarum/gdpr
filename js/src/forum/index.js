@@ -1,9 +1,10 @@
-import { extend } from 'flarum/extend';
+import app from 'flarum/forum/app';
+import { extend } from 'flarum/common/extend';
 import Model from 'flarum/common/Model';
-import Button from 'flarum/components/Button';
-import HeaderSecondary from 'flarum/components/HeaderSecondary';
-import Page from 'flarum/components/Page';
-import SettingsPage from 'flarum/components/SettingsPage';
+import Button from 'flarum/common/components/Button';
+import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
+import Page from 'flarum/common/components/Page';
+import SettingsPage from 'flarum/forum/components/SettingsPage';
 import RequestDataModal from './components/RequestDataModal';
 import RequestErasureModal from './components/RequestErasureModal';
 import ErasureRequest from './models/ErasureRequest';

@@ -14,6 +14,7 @@ namespace Blomstra\Gdpr\Api\Controller;
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
@@ -44,7 +45,7 @@ class ProcessErasureController extends AbstractShowController
     public function data(ServerRequestInterface $request, Document $document)
     {
         /** @var User $actor */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('processErasure');
 

@@ -42,7 +42,7 @@ class ExportController implements RequestHandlerInterface
         $export = Export::byFile($file);
 
         if ($export) {
-            return app(Exporter::class)->getZip($export);
+            return resolve(Exporter::class)->getZip($export);
         }
 
         throw new FileNotFoundException();
