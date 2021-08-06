@@ -14,7 +14,23 @@ namespace Blomstra\Gdpr\Models;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\User\User;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property User $user
+ * @property string $verification_token
+ * @property string $status
+ * @property string|null $reason
+ * @property Carbon $created_at
+ * @property Carbon|null $user_confirmed_at
+ * @property int|null $processed_by
+ * @property User|null $processedBy
+ * @property string|null $processor_comment
+ * @property Carbon|null $processed_at
+ * @property string|null $processed_mode
+ */
 class ErasureRequest extends AbstractModel
 {
     use ScopeVisibilityTrait;
@@ -29,6 +45,6 @@ class ErasureRequest extends AbstractModel
 
     public function processedBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'processed_by');
     }
 }

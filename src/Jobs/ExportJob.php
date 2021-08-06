@@ -39,11 +39,9 @@ class ExportJob extends AbstractJob
 
     public function notify(Export $export, NotificationSyncer $notifications)
     {
-        // $notifications->onePerUser(function () use ($export, $notifications) {
         $notifications->sync(
             new ExportAvailableBlueprint($export),
             [$export->user]
         );
-        // });
     }
 }
