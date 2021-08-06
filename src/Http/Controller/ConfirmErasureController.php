@@ -13,6 +13,7 @@ namespace Blomstra\Gdpr\Http\Controller;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\SessionAuthenticator;
 use Flarum\Http\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -52,14 +53,18 @@ class ConfirmErasureController implements RequestHandlerInterface
         $actor = $request->getAttribute('actor');
         $token = Arr::get($request->getQueryParams(), 'token');
 
-        $erasureRequest = ErasureRequest::where('verification_token', $token)->first();
+        /** @var ErasureRequest $erasureRequest */
+        $erasureRequest = ErasureRequest::query()
+            ->where('verification_token', $token)
+            ->firstOrFail();
+
+        if ($erasureRequest->user->is($actor)) {
+            throw new ValidationException('Erase requests cannot be confirmed by different users.');
+        }
 
         $erasureRequest->user_confirmed_at = Carbon::now();
         $erasureRequest->status = 'user_confirmed';
         $erasureRequest->save();
-
-        $session = $request->getAttribute('session');
-        $this->authenticator->logIn($session, $erasureRequest->user_id);
 
         return new RedirectResponse($this->url->to('forum')->base().'?erasureRequestConfirmed=1');
     }
