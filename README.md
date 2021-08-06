@@ -4,7 +4,7 @@ This extension allows users increasing control over their data.
 
 ### Installation or update
 
-Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
+Install manually with composer:
 
 ```sh
 composer require blomstra/flarum-gdpr
@@ -43,9 +43,15 @@ name the file and always prefix it with your extension slug (blomstra-something-
 
 ### FAQ & Recommendations
 
-- Generating the zip archive can be pushed to queue functionality. This is exceptionally important on larger communities and
-with more extensions that work with the gdpr extension to allow data exports.
+- Generating the zip archive can be pushed to [queue functionality](https://extiverse.com/?filter[q]=queue). This is exceptionally important on larger communities and with more extensions that work with the gdpr extension to allow data exports.
 
-### Disclaimer
+### Links
 
-This extension is developed as an employee of @BartVB at Blomstra. Blomstra is the largest equine community in the Netherlands. We're currently moving a phpBB forum with over 100 million posts to Flarum. By keeping both in sync until we're more feature complete, we offer our users a slow transition to this fantastic new platform.
+- [Packagist](https://packagist.org/packages/blomstra/flarum-ext-gdpr)
+- [GitHub](https://github.com/blomstra/flarum-ext-gdpr)
+
+---
+
+- Blomstra provides managed Flarum hosting.
+- https://blomstra.net
+- https://blomstra.community/t/ext-gdpr
