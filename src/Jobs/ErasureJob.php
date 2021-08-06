@@ -47,7 +47,9 @@ class ErasureJob extends AbstractJob
         /** @var User */
         $user = User::find($this->erasureRequest->user_id);
 
-        if (! $user) return;
+        if (!$user) {
+            return;
+        }
 
         // Store these props here, as they'll be erased/anonymized in a moment
         $username = $user->getDisplayNameAttribute();
