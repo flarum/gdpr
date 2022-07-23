@@ -1,5 +1,5 @@
 {
-    "name": "blomstra/flarum-gdpr",
+    "name": "blomstra/gdpr",
     "description": "Gives user more control over their data",
     "keywords": [
         "extension",
@@ -14,7 +14,7 @@
         {
             "name": "Daniël Klabbers",
             "email": "daniel@klabbers.email",
-            "homepage": "http://luceos.com"
+            "homepage": "https://luceos.com"
         },
         {
             "name": "IanM",

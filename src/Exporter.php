@@ -57,11 +57,15 @@ class Exporter
     public function export(User $user): Export
     {
         $file = tempnam($this->storagePath.DIRECTORY_SEPARATOR.'tmp', 'gdpr-export-'.$user->username);
+
         $zip = new ZipArchive();
         $now = Carbon::now();
 
-        $zip->open($file);
-        $zip->setArchiveComment("Export of user data for {$user->username} ({$user->email}) on $now. From: {$this->settings->get('forum_title')}.");
+        if ($errCode = $zip->open($file, ZipArchive::CREATE|ZipArchive::OVERWRITE)) {
+            throw new \Exception("Could not create zip archive [$errCode]");
+        }
+
+        $zip->setArchiveComment("Export of user data for $user->username ($user->email) on $now. From: {$this->settings->get('forum_title')}.");
 
         foreach (static::$types as $type) {
             /** @var DataType $segment */

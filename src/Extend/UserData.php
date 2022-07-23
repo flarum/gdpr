@@ -20,7 +20,7 @@ class UserData implements ExtenderInterface
 {
     public function extend(Container $container, Extension $extension = null)
     {
-        // Nothing here 👨‍💻
+        // ..
     }
 
     public function addType(string $type)

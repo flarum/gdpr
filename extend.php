@@ -18,6 +18,8 @@ use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
+use Flarum\Foundation\Paths;
+use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
 
 return [
@@ -72,4 +74,10 @@ return [
     (new Extend\Console())->command(Console\DestroyExportsCommand::class),
 
     (new Extend\ServiceProvider())->register(Providers\GdprProvider::class),
+
+    (new Extend\Filesystem())->disk('gdpr-export', function (Paths $paths, UrlGenerator $url) {
+        return [
+            'root'   => "$paths->storage/gdpr-exports",
+        ];
+    })
 ];
