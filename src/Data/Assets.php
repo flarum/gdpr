@@ -14,7 +14,7 @@ namespace Blomstra\Gdpr\Data;
 use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\User\User;
 use Illuminate\Support\Str;
-use ZipArchive;
+use PhpZip\ZipFile;
 
 class Assets implements DataType
 {
@@ -28,14 +28,19 @@ class Assets implements DataType
         $this->user = $user;
     }
 
-    public function export(ZipArchive $zip)
+    public function export(ZipFile $zip)
     {
         if ($this->user->avatar_url) {
             $fileType = Str::afterLast($this->user->avatar_url, '.');
-            $zip->addFile(
-                $this->user->avatar_url,
+
+            $stream = fopen($this->user->avatar_url, 'r');
+
+            $zip->addFromStream(
+                $stream,
                 "avatar.$fileType"
             );
+
+            fclose($stream);
         }
     }
 }

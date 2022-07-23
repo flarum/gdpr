@@ -19,7 +19,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Laminas\Diactoros\Response;
-use ZipArchive;
+use PhpZip\ZipFile;
 
 class Exporter
 {
@@ -58,12 +58,8 @@ class Exporter
     {
         $file = tempnam($this->storagePath.DIRECTORY_SEPARATOR.'tmp', 'gdpr-export-'.$user->username);
 
-        $zip = new ZipArchive();
+        $zip = new ZipFile();
         $now = Carbon::now();
-
-        if ($errCode = $zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
-            throw new \Exception("Could not create zip archive [$errCode]");
-        }
 
         $zip->setArchiveComment("Export of user data for $user->username ($user->email) on $now. From: {$this->settings->get('forum_title')}.");
 
@@ -74,6 +70,7 @@ class Exporter
             $segment->export($zip);
         }
 
+        $zip->saveAsFile($file);
         $zip->close();
 
         if ($this->filesystem->exists($user->id)) {

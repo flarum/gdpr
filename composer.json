@@ -32,8 +32,8 @@
         "source": "https://github.com/blomstra/flarum-gdpr"
     },
     "require": {
-        "ext-zip": "*",
-        "flarum/core": "^1.0.0"
+        "flarum/core": "^1.0.0",
+        "nelexa/zip": "^4.0.2"
     },
     "autoload": {
         "psr-4": {

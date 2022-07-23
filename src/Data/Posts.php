@@ -15,7 +15,7 @@ use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\Post\Post;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
-use ZipArchive;
+use PhpZip\ZipFile;
 
 class Posts implements DataType
 {
@@ -29,7 +29,7 @@ class Posts implements DataType
         $this->user = $user;
     }
 
-    public function export(ZipArchive $zip)
+    public function export(ZipFile $zip)
     {
         Post::query()
             ->where('user_id', $this->user->id)
