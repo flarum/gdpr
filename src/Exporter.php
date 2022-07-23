@@ -61,7 +61,7 @@ class Exporter
         $zip = new ZipArchive();
         $now = Carbon::now();
 
-        if ($errCode = $zip->open($file, ZipArchive::CREATE|ZipArchive::OVERWRITE)) {
+        if ($errCode = $zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
             throw new \Exception("Could not create zip archive [$errCode]");
         }
 

@@ -79,5 +79,5 @@ return [
         return [
             'root'   => "$paths->storage/gdpr-exports",
         ];
-    })
+    }),
 ];
