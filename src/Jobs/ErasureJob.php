@@ -11,6 +11,8 @@
 
 namespace Blomstra\Gdpr\Jobs;
 
+use Blomstra\Gdpr\Contracts\DataType;
+use Blomstra\Gdpr\DataProcessor;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\ApiKey;
 use Flarum\Http\AccessToken;
@@ -40,7 +42,7 @@ class ErasureJob extends AbstractJob
         $this->erasureRequest = $erasureRequest;
     }
 
-    public function handle(ConnectionInterface $connection): void
+    public function handle(ConnectionInterface $connection, DataProcessor $processor): void
     {
         $this->schema = $connection->getSchemaBuilder();
 
@@ -57,18 +59,26 @@ class ErasureJob extends AbstractJob
 
         $mode = $this->erasureRequest->processed_mode;
 
-        $this->{$mode}($user);
+        $this->{$mode}($user, $processor);
 
         $this->sendUserConfirmation($username, $email);
     }
 
-    private function deletion(User $user): void
+    private function deletion(User $user, DataProcessor $processor): void
     {
+        foreach ($processor->types() as $type) {
+            (new $type($user))->delete();
+        }
+
         $user->delete();
     }
 
-    private function anonymization(User $user): void
+    private function anonymization(User $user, DataProcessor $processor): void
     {
+        foreach ($processor->types() as $type) {
+            (new $type($user))->anonymize();
+        }
+
         ApiKey::where('user_id', $user->id)->delete();
         AccessToken::where('user_id', $user->id)->delete();
         EmailToken::where('user_id', $user->id)->delete();
