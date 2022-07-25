@@ -11,7 +11,6 @@
 
 namespace Blomstra\Gdpr\Jobs;
 
-use Blomstra\Gdpr\Contracts\DataType;
 use Blomstra\Gdpr\DataProcessor;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\ApiKey;
