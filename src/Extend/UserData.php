@@ -11,7 +11,7 @@
 
 namespace Blomstra\Gdpr\Extend;
 
-use Blomstra\Gdpr\Exporter;
+use Blomstra\Gdpr\DataProcessor;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
 use Illuminate\Contracts\Container\Container;
@@ -25,6 +25,6 @@ class UserData implements ExtenderInterface
 
     public function addType(string $type)
     {
-        Exporter::addType($type);
+        DataProcessor::addType($type);
     }
 }

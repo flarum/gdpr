@@ -12,6 +12,7 @@
 namespace Blomstra\Gdpr\Data;
 
 use Blomstra\Gdpr\Contracts\DataType;
+use Flarum\Filesystem\FilesystemManager;
 use Flarum\User\User;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
@@ -28,7 +29,7 @@ class Assets implements DataType
         $this->user = $user;
     }
 
-    public function export(ZipFile $zip)
+    public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {
             $fileType = Str::afterLast($this->user->avatar_url, '.');
@@ -41,6 +42,24 @@ class Assets implements DataType
             );
 
             fclose($stream);
+        }
+    }
+
+    public function anonymize(): void
+    {
+        // Anonymization isn't really possible with avatars, just delete 'em.
+        $this->delete();
+    }
+
+    public function delete(): void
+    {
+        if ($path = $this->user->avatar_url) {
+            /** @var FilesystemManager $fs */
+            $fs = resolve(FilesystemManager::class);
+
+            $filesystem = $fs->disk('flarum-avatars');
+
+            $filesystem->exists($path) && $filesystem->delete($path);
         }
     }
 }

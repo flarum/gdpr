@@ -29,7 +29,7 @@ class Posts implements DataType
         $this->user = $user;
     }
 
-    public function export(ZipFile $zip)
+    public function export(ZipFile $zip):void
     {
         Post::query()
             ->where('user_id', $this->user->id)
@@ -50,5 +50,15 @@ class Posts implements DataType
             'content', 'created_at',
             'ip_address',
         ]);
+    }
+
+    public function anonymize(): void
+    {
+        // TODO: Implement anonymize() method.
+    }
+
+    public function delete(): void
+    {
+        Post::query()->where('user_id', $this->user->id)->delete();
     }
 }

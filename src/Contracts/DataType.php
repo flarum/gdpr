@@ -18,5 +18,9 @@ interface DataType
 {
     public function __construct(User $user);
 
-    public function export(ZipFile $zip);
+    public function export(ZipFile $zip): void;
+
+    public function anonymize(): void;
+
+    public function delete(): void;
 }

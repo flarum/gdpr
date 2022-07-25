@@ -23,35 +23,13 @@ use PhpZip\ZipFile;
 
 class Exporter
 {
-    protected static $types = [
-        Data\Assets::class, Data\Posts::class,
-    ];
+    protected string $storagePath;
+    protected array $types;
 
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    /**
-     * @var string
-     */
-    protected $storagePath;
-
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    public function __construct(Filesystem $filesystem, Paths $paths, SettingsRepositoryInterface $settings)
+    public function __construct(protected Filesystem $filesystem, Paths $paths, protected SettingsRepositoryInterface $settings, DataProcessor $processor)
     {
-        $this->settings = $settings;
         $this->storagePath = $paths->storage;
-        $this->filesystem = $filesystem;
-    }
-
-    public static function addType(string $type)
-    {
-        static::$types[] = $type;
+        $this->types = $processor->types();
     }
 
     public function export(User $user): Export
@@ -63,7 +41,7 @@ class Exporter
 
         $zip->setArchiveComment("Export of user data for $user->username ($user->email) on $now. From: {$this->settings->get('forum_title')}.");
 
-        foreach (static::$types as $type) {
+        foreach ($this->types as $type) {
             /** @var DataType $segment */
             $segment = new $type($user);
 
