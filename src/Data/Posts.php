@@ -29,7 +29,7 @@ class Posts implements DataType
         $this->user = $user;
     }
 
-    public function export(ZipFile $zip):void
+    public function export(ZipFile $zip): void
     {
         Post::query()
             ->where('user_id', $this->user->id)
