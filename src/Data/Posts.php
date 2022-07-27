@@ -11,24 +11,12 @@
 
 namespace Blomstra\Gdpr\Data;
 
-use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\Post\Post;
-use Flarum\User\User;
 use Illuminate\Support\Arr;
 use PhpZip\ZipFile;
 
-class Posts implements DataType
+class Posts extends Type
 {
-    /**
-     * @var User
-     */
-    private $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     public function export(ZipFile $zip): void
     {
         Post::query()
@@ -54,7 +42,12 @@ class Posts implements DataType
 
     public function anonymize(): void
     {
-        // TODO: Implement anonymize() method.
+        Post::query()
+            ->where('user_id', $this->user_id)
+            ->each(function (Post $post) {
+                $post->ip_address = null;
+                $post->save();
+            });
     }
 
     public function delete(): void

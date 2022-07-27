@@ -81,8 +81,6 @@ class ErasureJob extends AbstractJob
         foreach ($processor->types() as $type) {
             (new $type($user))->delete();
         }
-
-        $user->delete();
     }
 
     private function anonymization(User $user, DataProcessor $processor): void
@@ -90,32 +88,6 @@ class ErasureJob extends AbstractJob
         foreach ($processor->types() as $type) {
             (new $type($user))->anonymize();
         }
-
-        ApiKey::where('user_id', $user->id)->delete();
-        AccessToken::where('user_id', $user->id)->delete();
-        EmailToken::where('user_id', $user->id)->delete();
-        LoginProvider::where('user_id', $user->id)->delete();
-        PasswordToken::where('user_id', $user->id)->delete();
-
-        $columns = $this->schema->getColumnListing($user->getTable());
-
-        $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences'];
-
-        foreach ($columns as $column) {
-            if (in_array($column, $remove)) {
-                continue;
-            }
-
-            $user->{$column} = null;
-        }
-
-        $user->username = Str::random(40);
-        $user->email = "$user->username@flarum-gdpr.local";
-        $user->is_email_confirmed = false;
-        $user->setPasswordAttribute(Str::random(40));
-        $user->preferences = [];
-
-        $user->save();
     }
 
     private function sendUserConfirmation(string $username, string $email): void

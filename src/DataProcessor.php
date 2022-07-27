@@ -17,6 +17,9 @@ final class DataProcessor
 {
     protected static $types = [
         Data\Assets::class, Data\Posts::class,
+        Data\Tokens::class,
+        // Ought to be last at all times.
+        Data\User::class,
     ];
 
     public static function addType(string $type)

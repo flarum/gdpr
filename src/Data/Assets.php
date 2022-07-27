@@ -11,24 +11,12 @@
 
 namespace Blomstra\Gdpr\Data;
 
-use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\Filesystem\FilesystemManager;
-use Flarum\User\User;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
 
-class Assets implements DataType
+class Assets extends Type
 {
-    /**
-     * @var User
-     */
-    private $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {
