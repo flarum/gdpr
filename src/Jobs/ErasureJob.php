@@ -15,17 +15,11 @@ use Blomstra\Gdpr\DataProcessor;
 use Blomstra\Gdpr\Events\Erased;
 use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
-use Flarum\Api\ApiKey;
-use Flarum\Http\AccessToken;
 use Flarum\Queue\AbstractJob;
-use Flarum\User\EmailToken;
-use Flarum\User\LoginProvider;
-use Flarum\User\PasswordToken;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Str;
 
 class ErasureJob extends AbstractJob
 {
