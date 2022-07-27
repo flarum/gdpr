@@ -70,7 +70,9 @@ class ErasureJob extends AbstractJob
         $this->sendUserConfirmation($username, $email);
 
         $events->dispatch(new Erased(
-            $username, $email, $mode
+            $username,
+            $email,
+            $mode
         ));
     }
 
