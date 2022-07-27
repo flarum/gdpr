@@ -44,10 +44,7 @@ class Posts extends Type
     {
         Post::query()
             ->where('user_id', $this->user_id)
-            ->each(function (Post $post) {
-                $post->ip_address = null;
-                $post->save();
-            });
+            ->update(['ip_address' => null]);
     }
 
     public function delete(): void
