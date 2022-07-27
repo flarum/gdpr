@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Console;
 
 use Blomstra\Gdpr\Jobs\ErasureJob;
@@ -25,7 +34,7 @@ class ProcessEraseRequests extends Command
                 $request->status = 'processed';
                 $request->processed_at = Carbon::now();
                 $request->processed_mode = $request->processed_mode ?? $settings->get('blomstra-gdpr.default-erasure');
-                $request->processor_comment = 'Automatically processed after ' . static::days . ' through scheduled task.';
+                $request->processor_comment = 'Automatically processed after '.static::days.' through scheduled task.';
                 $request->save();
 
                 $queue->push(new ErasureJob($request));
