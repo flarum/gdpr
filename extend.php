@@ -21,6 +21,7 @@ use Flarum\Extend;
 use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
+use Illuminate\Console\Scheduling\Event;
 
 return [
     (new Extend\Frontend('admin'))->js(__DIR__.'/js/dist/admin.js'),
@@ -71,7 +72,11 @@ return [
 
     (new Extend\View())->namespace('gdpr', __DIR__.'/resources/views'),
 
-    (new Extend\Console())->command(Console\DestroyExportsCommand::class),
+    (new Extend\Console())
+        ->command(Console\DestroyExportsCommand::class)
+        ->schedule(Console\ProcessEraseRequests::class, function (Event $event) {
+            $event->daily()->withoutOverlapping();
+        }),
 
     (new Extend\ServiceProvider())->register(Providers\GdprProvider::class),
 
