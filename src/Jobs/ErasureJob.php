@@ -12,6 +12,8 @@
 namespace Blomstra\Gdpr\Jobs;
 
 use Blomstra\Gdpr\DataProcessor;
+use Blomstra\Gdpr\Events\Erased;
+use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\ApiKey;
 use Flarum\Http\AccessToken;
@@ -20,6 +22,7 @@ use Flarum\User\EmailToken;
 use Flarum\User\LoginProvider;
 use Flarum\User\PasswordToken;
 use Flarum\User\User;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Str;
@@ -41,7 +44,7 @@ class ErasureJob extends AbstractJob
         $this->erasureRequest = $erasureRequest;
     }
 
-    public function handle(ConnectionInterface $connection, DataProcessor $processor): void
+    public function handle(ConnectionInterface $connection, DataProcessor $processor, Dispatcher $events): void
     {
         $this->schema = $connection->getSchemaBuilder();
 
@@ -58,9 +61,17 @@ class ErasureJob extends AbstractJob
 
         $mode = $this->erasureRequest->processed_mode;
 
+        $events->dispatch(new Erasing(
+            $this->erasureRequest
+        ));
+
         $this->{$mode}($user, $processor);
 
         $this->sendUserConfirmation($username, $email);
+
+        $events->dispatch(new Erased(
+            $username, $email, $mode
+        ));
     }
 
     private function deletion(User $user, DataProcessor $processor): void

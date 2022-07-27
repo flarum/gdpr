@@ -11,12 +11,15 @@
 
 namespace Blomstra\Gdpr\Jobs;
 
+use Blomstra\Gdpr\Events\Exported;
+use Blomstra\Gdpr\Events\Exporting;
 use Blomstra\Gdpr\Exporter;
 use Blomstra\Gdpr\Models\Export;
 use Blomstra\Gdpr\Notifications\ExportAvailableBlueprint;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Queue\AbstractJob;
 use Flarum\User\User;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class ExportJob extends AbstractJob
 {
@@ -30,11 +33,15 @@ class ExportJob extends AbstractJob
         $this->user = $user;
     }
 
-    public function handle(Exporter $exporter, NotificationSyncer $notifications)
+    public function handle(Exporter $exporter, NotificationSyncer $notifications, Dispatcher $events)
     {
+        $events->dispatch(new Exporting($this->user));
+
         $export = $exporter->export($this->user);
 
         $this->notify($export, $notifications);
+
+        $events->dispatch(new Exported($this->user));
     }
 
     public function notify(Export $export, NotificationSyncer $notifications)
