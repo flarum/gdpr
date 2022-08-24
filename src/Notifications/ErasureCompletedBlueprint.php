@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Notifications;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
@@ -10,7 +19,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 {
     public function __construct(private ErasureRequest $request, private $username)
-    {}
+    {
+    }
 
     public function getFromUser()
     {
@@ -25,7 +35,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
     public function getData()
     {
         return [
-            'username' => $this->username
+            'username' => $this->username,
         ];
     }
 

@@ -34,6 +34,7 @@ class UserData implements ExtenderInterface
      * Removes user table columns from exports.
      *
      * @param string|string[] $column
+     *
      * @return void
      */
     public function removeUserColumn($column): self

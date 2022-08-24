@@ -17,8 +17,6 @@ use PhpZip\ZipFile;
 
 class User extends Type
 {
-
-
     public function export(ZipFile $zip): void
     {
         $remove = ['id', 'password'];

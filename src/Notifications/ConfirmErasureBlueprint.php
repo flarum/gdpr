@@ -20,7 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 {
     public function __construct(private ErasureRequest $request)
-    {}
+    {
+    }
 
     /**
      * @inheritDoc
