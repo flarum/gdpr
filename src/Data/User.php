@@ -11,14 +11,22 @@
 
 namespace Blomstra\Gdpr\Data;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
 
 class User extends Type
 {
+
+
     public function export(ZipFile $zip): void
     {
-        // TODO: Implement export() method.
+        $remove = ['id', 'password'];
+
+        $zip->addFile(
+            'user.json',
+            json_encode(Arr::except($this->user->toArray(), $remove))
+        );
     }
 
     public function anonymize(): void

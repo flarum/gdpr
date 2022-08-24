@@ -19,15 +19,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 {
-    /**
-     * @var ErasureRequest
-     */
-    private $request;
-
-    public function __construct(ErasureRequest $request)
-    {
-        $this->request = $request;
-    }
+    public function __construct(private ErasureRequest $request)
+    {}
 
     /**
      * @inheritDoc

@@ -23,8 +23,25 @@ class UserData implements ExtenderInterface
         // ..
     }
 
-    public function addType(string $type)
+    public function addType(string $type): self
     {
         DataProcessor::addType($type);
+
+        return $this;
+    }
+
+    /**
+     * Removes user table columns from exports.
+     *
+     * @param string|string[] $column
+     * @return void
+     */
+    public function removeUserColumn($column): self
+    {
+        $columns = (array) $column;
+
+        DataProcessor::removeUserColumns($columns);
+
+        return $this;
     }
 }

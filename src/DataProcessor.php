@@ -15,30 +15,42 @@ use Illuminate\Support\Arr;
 
 final class DataProcessor
 {
-    protected static $types = [
+    private static $types = [
         Data\Assets::class, Data\Posts::class,
         Data\Tokens::class,
         // Ought to be last at all times.
         Data\User::class,
     ];
 
+    private static array $removeUserColumns = [];
+
     public static function addType(string $type)
     {
-        static::$types[] = $type;
+        self::$types[] = $type;
     }
 
     public static function removeType(string $type)
     {
-        static::$types = Arr::except(static::$types, $type);
+        self::$types = Arr::except(self::$types, $type);
     }
 
     public static function setTypes(array $types)
     {
-        static::$types = $types;
+        self::$types = $types;
+    }
+
+    public static function removeUserColumns(array $columns)
+    {
+        self::$removeUserColumns = self::$removeUserColumns + $columns;
     }
 
     public function types(): array
     {
-        return static::$types;
+        return self::$types;
+    }
+
+    public function removableUserColumns(): array
+    {
+        return self::$removeUserColumns;
     }
 }

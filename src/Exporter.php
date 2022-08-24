@@ -26,10 +26,9 @@ class Exporter
     protected string $storagePath;
     protected array $types;
 
-    public function __construct(protected Filesystem $filesystem, Paths $paths, protected SettingsRepositoryInterface $settings, DataProcessor $processor)
+    public function __construct(protected Filesystem $filesystem, Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor)
     {
         $this->storagePath = $paths->storage;
-        $this->types = $processor->types();
     }
 
     public function export(User $user): Export
@@ -39,9 +38,15 @@ class Exporter
         $zip = new ZipFile();
         $now = Carbon::now();
 
+        foreach ($this->processor->removableUserColumns() as $column) {
+            if ($user->{$column} !== null) {
+                $user->{$column} = null;
+            }
+        }
+
         $zip->setArchiveComment("Export of user data for $user->username ($user->email) on $now. From: {$this->settings->get('forum_title')}.");
 
-        foreach ($this->types as $type) {
+        foreach ($this->processor->types() as $type) {
             /** @var DataType $segment */
             $segment = new $type($user);
 

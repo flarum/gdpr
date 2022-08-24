@@ -15,11 +15,15 @@ use Blomstra\Gdpr\DataProcessor;
 use Blomstra\Gdpr\Events\Erased;
 use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
+use Blomstra\Gdpr\Notifications\ErasureCompletedBlueprint;
 use Flarum\Queue\AbstractJob;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Mail\Message;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ErasureJob extends AbstractJob
 {
@@ -38,7 +42,7 @@ class ErasureJob extends AbstractJob
         $this->erasureRequest = $erasureRequest;
     }
 
-    public function handle(ConnectionInterface $connection, DataProcessor $processor, Dispatcher $events): void
+    public function handle(ConnectionInterface $connection, DataProcessor $processor, Dispatcher $events, Mailer $mailer, TranslatorInterface $translator): void
     {
         $this->schema = $connection->getSchemaBuilder();
 
@@ -61,7 +65,7 @@ class ErasureJob extends AbstractJob
 
         $this->{$mode}($user, $processor);
 
-        $this->sendUserConfirmation($username, $email);
+        $this->sendUserConfirmation($username, $email, $mailer, $translator);
 
         $events->dispatch(new Erased(
             $username,
@@ -84,8 +88,17 @@ class ErasureJob extends AbstractJob
         }
     }
 
-    private function sendUserConfirmation(string $username, string $email): void
+    private function sendUserConfirmation(string $username, string $email, Mailer $mailer, TranslatorInterface $translator): void
     {
-        // TODO
+        $blueprint = new ErasureCompletedBlueprint($this->erasureRequest, $username);
+
+        $mailer->send(
+            $blueprint->getEmailView(),
+            $blueprint->getData(),
+            function (Message $message) use ($username, $email, $blueprint, $translator) {
+                $message->to($email, $username)
+                    ->subject($blueprint->getEmailSubject($translator));
+            }
+        );
     }
 }
