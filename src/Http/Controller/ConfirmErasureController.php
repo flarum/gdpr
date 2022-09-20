@@ -59,7 +59,7 @@ class ConfirmErasureController implements RequestHandlerInterface
             ->firstOrFail();
 
         if ($erasureRequest->user->is($actor)) {
-            throw new ValidationException('Erase requests cannot be confirmed by different users.');
+            throw new ValidationException(['user' => 'Erase requests cannot be confirmed by different users.']);
         }
 
         $erasureRequest->user_confirmed_at = Carbon::now();

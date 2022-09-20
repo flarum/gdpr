@@ -33,7 +33,7 @@ class Tokens extends Type
     public function export(ZipFile $zip): void
     {
         foreach ($this->classes as $class) {
-            $baseName = Str::after($class, '\\');
+            $baseName = Str::afterLast($class, '\\');
 
             $class::query()
                 ->where('user_id', $this->user->id)
