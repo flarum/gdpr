@@ -39,7 +39,7 @@ class Tokens extends Type
                 ->where('user_id', $this->user->id)
                 ->each(function ($token) use ($zip, $baseName) {
                     $id = $token->getKey();
-                    $zip->addFile(
+                    $zip->addFromString(
                         "token-$baseName-$id",
                         json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']))
                     );
