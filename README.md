@@ -7,7 +7,7 @@ This extension allows users increasing control over their data.
 Install manually with composer:
 
 ```sh
-composer require blomstra/flarum-gdpr
+composer require "blomstra/gdpr:dev-master"
 ```
 
 ### Use
