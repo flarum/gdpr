@@ -1,0 +1,89 @@
+blomstra-gdpr:
+    admin:
+        permissions:
+            process_erasure: Traiter les demandes d'effacement
+        settings:
+            allow_anonymization: Autoriser l'anonymat pour les demandes d'effacement ?
+            allow_deletion: Autoriser l'effacement pour les demandes d'effacement ?
+            default_erasure: Action par défaut pour les demandes d'effacement
+            default_erasure_options:
+                anonymization: Anonymisation
+                deletion: Suppression
+
+    email:
+        confirm_erasure:
+            subject: Confirmer la demande d'effacement de votre compte
+            body: |
+                Bonjour {display_name}!
+
+                Quelqu'un (vous, j'espère) vient de demander l'effacement de votre compte. `{display_name}`.
+
+                Pour confirmer cette action, veuillez suivre le lien suivant, après quoi votre demande sera traitée par notre équipe.
+
+                {erasure_confirm_url}
+
+        erasure_completed:
+            subject: Effacement du compte terminé
+            body: |
+                Bonjour {display_name}!
+
+                Il s'agit d'une notification automatique, votre compte est désormais supprimé.
+
+        erasure_cancelled:
+            subject: Demande d'effacement de compte annulée
+            body: |
+                Hey {display_name}!
+
+                Il s'agit d'une notification automatique indiquant que votre demande d'annulation de la suppression du compte a été traitée.
+
+                Votre compte ne sera plus supprimé.
+
+        export_available:
+            subject: Exportation des données disponible
+            body: |
+                Bonjour {display_name}!
+
+                Vous avez demandé une exportation de vos données. Cet export a été généré avec succès et est maintenant disponible:
+
+                {url}
+
+                Cette exportation restera disponible jusqu'à {destroys_at}.
+
+    forum:
+        erasure_requests:
+            empty_text: Aucune demande d'effacement de compte en attente
+            item_text: "{name} a demandé l'effacement de son compte"
+            tooltip: Demandes d'effacement de compte
+            title: Demandes d'effacement de compte
+
+        erasure_request_confirmed: Vous avez confirmé votre demande d'effacement de compte. Une action sera entreprise dans les 30 jours, comme l'exige le GDPR.
+        settings:
+            export_data_button: Données d'exportation
+            request_erasure_button: Effacer le compte
+        request_data:
+            title: Demandez vos données
+            text: >
+                Une archive zip sera préparée pour vous. Après avoir terminé un courriel vous sera envoyé avec un lien permettant de récupérer cette archive. Le lien restera actif pendant un jour.
+            request_button: Demande d'archives
+
+        process_erasure:
+            confirm: Voulez-vous vraiment supprimer le compte de {name} en mode {mode} ?
+            title: Traiter la demande d'effacement
+            text: "{name} a demandé l'effacement du compte."
+            comments_label: Commentaires (optionnel)
+            anonymization_button: Anonymiser l'utilisateur
+            deletion_button: Supprimer l'utilisateur
+
+        request_erasure:
+            title: Demander l'effacement du compte
+            reason: "Vous avez fourni la raison suivante: {reason}"
+            status:
+                awaiting_user_confirmation: |
+                    Vous devriez avoir reçu un e-mail pour confirmer votre demande d'effacement de compte.
+                user_confirmed: |
+                    Vous avez confirmé votre demande d'effacement de compte. Une action sera entreprise dans les 30 jours, comme l'exige le GDPR.
+            text: Une fois reçue et confirmée, un administrateur examinera votre demande dans les 30 jours, comme l'exige le GDPR.
+            password_label: Confirmer le mot de passe
+            reason_label: Motif (facultatif)
+            cancel_button: Annuler la demande
+            request_button: Demande d'effacement
