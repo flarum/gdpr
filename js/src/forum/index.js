@@ -1,24 +1,21 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
-import Model from 'flarum/common/Model';
 import Button from 'flarum/common/components/Button';
 import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
 import Page from 'flarum/common/components/Page';
 import SettingsPage from 'flarum/forum/components/SettingsPage';
 import RequestDataModal from './components/RequestDataModal';
 import RequestErasureModal from './components/RequestErasureModal';
-import ErasureRequest from './models/ErasureRequest';
-import ErasureRequestsPage from './components/ErasureRequestsPage';
 import ErasureRequestsDropdown from './components/ErasureRequestsDropdown';
 import ErasureRequestsListState from './states/ErasureRequestsListState';
+import ExportAvailableNotification from './components/ExportAvailableNotification';
+
+export { default as extend } from './extend';
 
 app.initializers.add('blomstra-gdpr', () => {
-  app.store.models['user-erasure-requests'] = ErasureRequest;
-  app.store.models.users.prototype.erasureRequest = Model.hasOne('erasureRequest');
-
-  app.routes['erasure-requests'] = { path: '/erasure-requests', component: ErasureRequestsPage };
-
   app.erasureRequests = new ErasureRequestsListState(app);
+
+  app.notificationComponents.gdprExportAvailable = ExportAvailableNotification;
 
   extend(Page.prototype, 'oninit', function () {
     if (m.route.param('erasureRequestConfirmed')) {

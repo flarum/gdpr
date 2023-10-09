@@ -59,7 +59,7 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
      */
     public static function getType()
     {
-        return 'gdpr-export-available';
+        return 'gdprExportAvailable';
     }
 
     /**

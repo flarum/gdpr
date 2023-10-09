@@ -21,7 +21,7 @@ class User extends Type
     {
         $remove = ['id', 'password'];
 
-        $zip->addFile(
+        $zip->addFromString(
             'user.json',
             json_encode(Arr::except($this->user->toArray(), $remove))
         );

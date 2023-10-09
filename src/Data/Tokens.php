@@ -40,7 +40,7 @@ class Tokens extends Type
                 ->each(function ($token) use ($zip, $baseName) {
                     $id = $token->getKey();
                     $zip->addFromString(
-                        "token-$baseName-$id",
+                        "token-$baseName-$id.json",
                         json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']))
                     );
                 });
