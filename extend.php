@@ -85,4 +85,9 @@ return [
             'root'   => "$paths->storage/gdpr-exports",
         ];
     }),
+
+    (new Extend\Settings())
+        ->default('blomstra-gdpr.allow-anonymization', true)
+        ->default('blomstra-gdpr.allow-deletion', true)
+        ->default('blomstra-gdpr.default-erasure', 'deletion'),
 ];
