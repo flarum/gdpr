@@ -28,7 +28,7 @@ return [
 
     (new Extend\Frontend('forum'))->js(__DIR__.'/js/dist/forum.js'),
 
-    (new Extend\Locales(__DIR__.'/resources/locale')),
+    new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('forum'))
         ->get('/gdpr/export/{file}', 'gdpr.export', Http\Controller\ExportController::class)
