@@ -7,7 +7,7 @@ This extension allows users increasing control over their data.
 Install manually with composer:
 
 ```sh
-composer require blomstra/flarum-gdpr
+composer require blomstra/gdpr
 ```
 
 ### Use
@@ -35,11 +35,6 @@ return [
 The implementation you create needs a export method, it will receive a ZipArchive resource.
 You can use that to add any strings or actual files to the archive. Make sure to properly
 name the file and always prefix it with your extension slug (blomstra-something-filename).
-
-### Links
-
-- [Packagist](https://packagist.org/packages/blomstra/flarum-gdpr)
-- [GitHub](https://github.com/blomstra/flarum-gdpr)
 
 ### FAQ & Recommendations
 
