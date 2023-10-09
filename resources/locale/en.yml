@@ -64,7 +64,7 @@ blomstra-gdpr:
             title: Request your data
             text: >
                 A zip archive will be prepared for you. Upon completion
-                an email will be send to you with a link to retrieve
+                an email will be sent to you with a link to retrieve
                 this archive. The link will remain active for one day.
             request_button: Request archive
 
