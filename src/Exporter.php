@@ -33,7 +33,11 @@ class Exporter
 
     public function export(User $user): Export
     {
-        $file = tempnam($this->storagePath.DIRECTORY_SEPARATOR.'tmp', 'gdpr-export-'.$user->username);
+        $tmpDir = $this->storagePath . DIRECTORY_SEPARATOR . 'tmp';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+        $file = tempnam($tmpDir, 'gdpr-export-' . $user->username);
 
         $zip = new ZipFile();
         $now = Carbon::now();
@@ -79,7 +83,7 @@ class Exporter
             [
                 'Content-Type'        => 'application/zip',
                 'Content-Length'      => $this->filesystem->size($export->id),
-                'Content-Disposition' => 'attachment; filename="gdpr-data-'.$export->user->username.'-'.$export->created_at->toIso8601String().'.zip"',
+                'Content-Disposition' => 'attachment; filename="gdpr-data-' . $export->user->username . '-' . $export->created_at->toIso8601String() . '.zip"',
             ]
         );
     }
