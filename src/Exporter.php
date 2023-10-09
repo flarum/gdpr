@@ -33,7 +33,11 @@ class Exporter
 
     public function export(User $user): Export
     {
-        $file = tempnam($this->storagePath.DIRECTORY_SEPARATOR.'tmp', 'gdpr-export-'.$user->username);
+        $tmpDir = $this->storagePath.DIRECTORY_SEPARATOR.'tmp';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+        $file = tempnam($tmpDir, 'gdpr-export-'.$user->username);
 
         $zip = new ZipFile();
         $now = Carbon::now();
