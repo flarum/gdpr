@@ -77,6 +77,9 @@ return [
         ->command(Console\ProcessEraseRequests::class)
         ->schedule(Console\ProcessEraseRequests::class, function (Event $event) {
             $event->daily()->withoutOverlapping();
+        })
+        ->schedule(Console\DestroyExportsCommand::class, function (Event $event) {
+            $event->daily();
         }),
 
     (new Extend\ServiceProvider())->register(Providers\GdprProvider::class),
