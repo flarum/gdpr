@@ -53,6 +53,11 @@
                 "backgroundRepeat": "no-repeat",
                 "backgroundPosition": "center"
             }
+        },
+        "flarum-cli": {
+            "modules": {
+                "githubActions": true
+            }
         }
     }
 }
