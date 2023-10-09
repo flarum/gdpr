@@ -89,3 +89,5 @@ blomstra-gdpr:
             reason_label: Reason (optional)
             cancel_button: Cancel request
             request_button: Request erasure
+        notification:
+            export-ready: "Your data export is ready to download."

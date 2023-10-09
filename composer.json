@@ -33,7 +33,7 @@
     },
     "require": {
         "php": "8.*",
-        "flarum/core": "^1.2.0",
+        "flarum/core": "^1.8.0",
         "nelexa/zip": "^4.0.2"
     },
     "autoload": {
@@ -56,7 +56,8 @@
         },
         "flarum-cli": {
             "modules": {
-                "githubActions": true
+                "githubActions": true,
+                "typescript": true
             }
         }
     }
