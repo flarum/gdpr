@@ -74,6 +74,7 @@ return [
 
     (new Extend\Console())
         ->command(Console\DestroyExportsCommand::class)
+        ->command(Console\ProcessEraseRequests::class)
         ->schedule(Console\ProcessEraseRequests::class, function (Event $event) {
             $event->daily()->withoutOverlapping();
         }),
