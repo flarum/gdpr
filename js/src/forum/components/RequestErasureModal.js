@@ -1,8 +1,9 @@
-import Modal from 'flarum/components/Modal';
-import Button from 'flarum/components/Button';
-import extractText from 'flarum/utils/extractText';
-import ItemList from 'flarum/utils/ItemList';
-import Stream from 'flarum/utils/Stream';
+import app from 'flarum/forum/app';
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
+import extractText from 'flarum/common/utils/extractText';
+import ItemList from 'flarum/common/utils/ItemList';
+import Stream from 'flarum/common/utils/Stream';
 
 export default class RequestErasureModal extends Modal {
   oninit(vnode) {

@@ -1,15 +1,5 @@
-/*
- *
- *  This file is part of fof/erasurerequests.
- *
- *  Copyright (c) 2019 FriendsOfFlarum.
- *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
- *
- */
-
-import NotificationsDropdown from 'flarum/components/NotificationsDropdown';
+import app from 'flarum/forum/app';
+import NotificationsDropdown from 'flarum/common/components/NotificationsDropdown';
 
 import ErasureRequestsList from './ErasureRequestsList';
 

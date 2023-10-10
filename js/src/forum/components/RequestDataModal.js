@@ -1,6 +1,6 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/components/Modal';
-import Button from 'flarum/components/Button';
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
 
 export default class RequestDataModal extends Modal {
   className() {
