@@ -16,7 +16,6 @@ use Blomstra\Gdpr\Jobs\ErasureJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;

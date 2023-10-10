@@ -38,9 +38,9 @@ class ErasureRequest extends AbstractModel
     protected $table = 'gdpr_erasure';
 
     protected $casts = [
-        'created_at' => 'datetime',
+        'created_at'        => 'datetime',
         'user_confirmed_at' => 'datetime',
-        'processed_at' => 'datetime',
+        'processed_at'      => 'datetime',
     ];
 
     public function user()

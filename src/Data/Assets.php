@@ -12,7 +12,6 @@
 namespace Blomstra\Gdpr\Data;
 
 use Flarum\Filesystem\FilesystemManager;
-use Flarum\User\User;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
 
