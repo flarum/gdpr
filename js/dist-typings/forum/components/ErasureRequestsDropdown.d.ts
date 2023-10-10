@@ -1,7 +1,15 @@
-export default class ErasureRequestsDropdown {
-    static initAttrs(attrs: any): void;
+/// <reference types="mithril" />
+import NotificationsDropdown from 'flarum/forum/components/NotificationsDropdown';
+import { IDropdownAttrs } from 'flarum/common/components/Dropdown';
+import ErasureRequestsListState from '../states/ErasureRequestsListState';
+interface ErasureRequestsDropdownAttrs extends IDropdownAttrs {
+    state: ErasureRequestsListState;
+}
+export default class ErasureRequestsDropdown extends NotificationsDropdown<ErasureRequestsDropdownAttrs> {
+    static initAttrs(attrs: ErasureRequestsDropdownAttrs): void;
     getMenu(): JSX.Element;
     goToRoute(): void;
-    getUnreadCount(): unknown;
-    getNewCount(): unknown;
+    getUnreadCount(): number | undefined;
+    getNewCount(): number | undefined;
 }
+export {};
