@@ -60,11 +60,11 @@ class Exporter
         $zip->saveAsFile($file);
         $zip->close();
 
-        if ($this->filesystem->exists($user->id)) {
-            $this->filesystem->delete($user->id);
-        }
-
         $export = Export::exported($user, basename($file));
+
+        if ($this->filesystem->exists($export->id)) {
+            $this->filesystem->delete($export->id);
+        }
 
         $this->filesystem->writeStream($export->id, $handle = fopen($file, 'r'));
 
