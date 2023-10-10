@@ -14,7 +14,6 @@ namespace Blomstra\Gdpr\Api\Controller;
 use Blomstra\Gdpr\Jobs\ExportJob;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
-use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -27,12 +26,8 @@ class RequestExportController implements RequestHandlerInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var User $actor */
         $actor = RequestUtil::getActor($request);
 
         if ($actor->isGuest()) {

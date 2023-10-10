@@ -15,12 +15,10 @@ use Blomstra\Gdpr\Models\Export;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use InvalidArgumentException;
+use Tobscure\JsonApi\Relationship;
 
 class ExportSerializer extends AbstractSerializer
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $type = 'exports';
 
     /**
@@ -41,10 +39,7 @@ class ExportSerializer extends AbstractSerializer
         return $attributes;
     }
 
-    /**
-     * @return \Tobscure\JsonApi\Relationship
-     */
-    protected function user($post)
+    protected function user($post): Relationship
     {
         return $this->hasOne($post, BasicUserSerializer::class);
     }

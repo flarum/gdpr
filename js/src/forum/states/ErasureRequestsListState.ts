@@ -1,11 +1,8 @@
+import app from 'flarum/forum/app';
+
 export default class ErasureRequestsListState {
-  constructor(app) {
-    this.app = app;
-
-    this.loading = false;
-
-    this.requestsLoaded = false;
-  }
+  loading: boolean = false;
+  requestsLoaded: boolean = false;
 
   load() {
     if (this.requestsLoaded) {

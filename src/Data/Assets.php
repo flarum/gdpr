@@ -12,6 +12,7 @@
 namespace Blomstra\Gdpr\Data;
 
 use Flarum\Filesystem\FilesystemManager;
+use Flarum\User\User;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
 
@@ -44,7 +45,6 @@ class Assets extends Type
         if ($path = $this->user->avatar_url) {
             /** @var FilesystemManager $fs */
             $fs = resolve(FilesystemManager::class);
-
             $filesystem = $fs->disk('flarum-avatars');
 
             $filesystem->exists($path) && $filesystem->delete($path);

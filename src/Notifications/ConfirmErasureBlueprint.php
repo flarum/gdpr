@@ -15,6 +15,7 @@ use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
+use Flarum\User\User;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
@@ -23,26 +24,17 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return $this->request->user;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getSubject()
+    public function getSubject(): ErasureRequest
     {
         return $this->request;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getData()
+    public function getData(): array
     {
         return [
             'erasure-request' => $this->request->id,
@@ -50,34 +42,22 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getType()
+    public static function getType(): string
     {
         return 'gdpr_erasure_confirm';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return ErasureRequest::class;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEmailView()
+    public function getEmailView(): array
     {
-        return 'gdpr::confirm-erasure';
+        return ['text' => 'gdpr::confirm-erasure'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEmailSubject(TranslatorInterface $translator)
+    public function getEmailSubject(TranslatorInterface $translator): string
     {
         return $translator->trans('blomstra-gdpr.email.confirm_erasure.subject');
     }

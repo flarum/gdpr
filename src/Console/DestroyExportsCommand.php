@@ -20,7 +20,7 @@ class DestroyExportsCommand extends Command
     protected $signature = 'gdpr:destroy-exports';
     protected $description = 'Deletes exported data sets.';
 
-    public function handle(Exporter $exporter)
+    public function handle(Exporter $exporter): void
     {
         Export::destroyable()
             ->each(function (Export $export) use ($exporter) {

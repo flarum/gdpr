@@ -32,7 +32,7 @@ class Posts extends Type
             });
     }
 
-    protected function sanitize(Post $post)
+    protected function sanitize(Post $post): array
     {
         return Arr::only($post->toArray(), [
             'content', 'created_at',
@@ -43,7 +43,7 @@ class Posts extends Type
     public function anonymize(): void
     {
         Post::query()
-            ->where('user_id', $this->user_id)
+            ->where('user_id', $this->user->id)
             ->update(['ip_address' => null]);
     }
 

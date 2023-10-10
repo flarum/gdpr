@@ -13,17 +13,12 @@ namespace Blomstra\Gdpr\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use Tobscure\JsonApi\Relationship;
 
 class RequestErasureSerializer extends AbstractSerializer
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $type = 'user-erasure-requests';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultAttributes($erasure_request)
     {
         return [
@@ -37,22 +32,12 @@ class RequestErasureSerializer extends AbstractSerializer
         ];
     }
 
-    /**
-     * @param $request
-     *
-     * @return \Tobscure\JsonApi\Relationship
-     */
-    protected function user($erasure_request)
+    protected function user($erasure_request): Relationship
     {
         return $this->hasOne($erasure_request, BasicUserSerializer::class);
     }
 
-    /**
-     * @param $request
-     *
-     * @return \Tobscure\JsonApi\Relationship
-     */
-    protected function processedBy($erasure_request)
+    protected function processedBy($erasure_request): Relationship
     {
         return $this->hasOne($erasure_request, BasicUserSerializer::class);
     }

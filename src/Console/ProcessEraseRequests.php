@@ -24,7 +24,7 @@ class ProcessEraseRequests extends Command
     protected $signature = 'gdpr:process-erase-requests';
     protected $description = 'Process open erase requests with community default erase mode.';
 
-    public function handle(Queue $queue, SettingsRepositoryInterface $settings)
+    public function handle(Queue $queue, SettingsRepositoryInterface $settings): void
     {
         ErasureRequest::query()
             ->whereNotNull('user_confirmed_at')

@@ -1,10 +1,16 @@
 import app from 'flarum/forum/app';
-import NotificationsDropdown from 'flarum/common/components/NotificationsDropdown';
+import NotificationsDropdown from 'flarum/forum/components/NotificationsDropdown';
 
 import ErasureRequestsList from './ErasureRequestsList';
+import { IDropdownAttrs } from 'flarum/common/components/Dropdown';
+import ErasureRequestsListState from '../states/ErasureRequestsListState';
 
-export default class ErasureRequestsDropdown extends NotificationsDropdown {
-  static initAttrs(attrs) {
+interface ErasureRequestsDropdownAttrs extends IDropdownAttrs {
+  state: ErasureRequestsListState;
+}
+
+export default class ErasureRequestsDropdown extends NotificationsDropdown<ErasureRequestsDropdownAttrs> {
+  static initAttrs(attrs: ErasureRequestsDropdownAttrs) {
     attrs.label = attrs.label || app.translator.trans('blomstra-gdpr.forum.erasure_requests.tooltip');
     attrs.icon = attrs.icon || 'fas fa-user-minus';
 
@@ -23,7 +29,7 @@ export default class ErasureRequestsDropdown extends NotificationsDropdown {
     m.route.set(app.route('erasure-requests'));
   }
 
-  getUnreadCount() {
+  getUnreadCount(): number | undefined {
     if (!this.attrs.state.requestsLoaded) {
       return app.forum.attribute('erasureRequestCount');
     }

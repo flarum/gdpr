@@ -18,7 +18,6 @@ use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;
-use Flarum\User\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -27,27 +26,14 @@ use Tobscure\JsonApi\Document;
 
 class RequestErasureController extends AbstractCreateController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = RequestErasureSerializer::class;
 
-    /**
-     * @var NotificationSyncer
-     */
-    protected $notifications;
-
-    public function __construct(NotificationSyncer $notifications)
+    public function __construct(protected NotificationSyncer $notifications)
     {
-        $this->notifications = $notifications;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function data(ServerRequestInterface $request, Document $document)
     {
-        /** @var User $actor */
         $actor = RequestUtil::getActor($request);
 
         $actor->assertRegistered();

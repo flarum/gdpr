@@ -26,7 +26,11 @@ use Flarum\User\User;
 class Export extends AbstractModel
 {
     protected $table = 'gdpr_exports';
-    protected $dates = ['created_at', 'destroys_at'];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'destroys_at' => 'datetime',
+    ];
 
     public static function byFile(string $file): ?self
     {
@@ -35,7 +39,7 @@ class Export extends AbstractModel
             ->first();
     }
 
-    public static function exported(User $user, string $tmp)
+    public static function exported(User $user, string $tmp): self
     {
         return tap(new self(), function ($export) use ($user, $tmp) {
             $export->user_id = $user->id;

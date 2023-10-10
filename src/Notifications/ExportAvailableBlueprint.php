@@ -14,6 +14,7 @@ namespace Blomstra\Gdpr\Notifications;
 use Blomstra\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
+use Flarum\User\User;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
@@ -28,60 +29,39 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         $this->export = $export;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return $this->export->user;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getSubject()
+    public function getSubject(): Export
     {
         return $this->export;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getData()
+    public function getData(): array
     {
         return [
             'export' => $this->export->id,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getType()
+    public static function getType(): string
     {
         return 'gdprExportAvailable';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return Export::class;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEmailView()
+    public function getEmailView(): array
     {
-        return 'gdpr::export-available';
+        return ['text' => 'gdpr::export-available'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEmailSubject(TranslatorInterface $translator)
+    public function getEmailSubject(TranslatorInterface $translator): string
     {
         return $translator->trans('blomstra-gdpr.email.export_available.subject');
     }

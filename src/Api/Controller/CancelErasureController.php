@@ -23,22 +23,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class CancelErasureController extends AbstractDeleteController
 {
-    /**
-     * @var NotificationSyncer
-     */
-    protected $notifications;
-
-    public function __construct(NotificationSyncer $notifications)
+    public function __construct(protected NotificationSyncer $notifications)
     {
-        $this->notifications = $notifications;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function delete(ServerRequestInterface $request)
     {
-        /** @var User $actor */
         $actor = RequestUtil::getActor($request);
 
         $id = Arr::get($request->getQueryParams(), 'id');

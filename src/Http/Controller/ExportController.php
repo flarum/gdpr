@@ -27,9 +27,6 @@ class ExportController implements RequestHandlerInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $actor = RequestUtil::getActor($request);

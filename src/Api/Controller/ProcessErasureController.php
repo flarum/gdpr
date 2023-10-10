@@ -25,27 +25,14 @@ use Tobscure\JsonApi\Document;
 
 class ProcessErasureController extends AbstractShowController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = RequestErasureSerializer::class;
 
-    /**
-     * @var Queue
-     */
-    protected $queue;
-
-    public function __construct(Queue $queue)
+    public function __construct(protected Queue $queue)
     {
-        $this->queue = $queue;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function data(ServerRequestInterface $request, Document $document)
     {
-        /** @var User $actor */
         $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('processErasure');

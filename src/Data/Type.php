@@ -16,10 +16,7 @@ use Flarum\User\User;
 
 abstract class Type implements DataType
 {
-    protected User $user;
-
-    public function __construct(User $user)
+    public function __construct(protected User $user)
     {
-        $this->user = $user;
     }
 }

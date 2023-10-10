@@ -14,6 +14,7 @@ namespace Blomstra\Gdpr\Http\Controller;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Foundation\ValidationException;
+use Flarum\Http\RequestUtil;
 use Flarum\Http\SessionAuthenticator;
 use Flarum\Http\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -24,33 +25,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ConfirmErasureController implements RequestHandlerInterface
 {
-    /**
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * @var SessionAuthenticator
-     */
-    protected $authenticator;
-
-    /**
-     * @param UrlGenerator $url
-     */
-    public function __construct(UrlGenerator $url, SessionAuthenticator $authenticator)
+    public function __construct(protected UrlGenerator $url, protected SessionAuthenticator $authenticator)
     {
-        $this->url = $url;
-        $this->authenticator = $authenticator;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return ResponseInterface
-     */
     public function handle(Request $request): ResponseInterface
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $token = Arr::get($request->getQueryParams(), 'token');
 
         /** @var ErasureRequest $erasureRequest */

@@ -20,21 +20,12 @@ use Tobscure\JsonApi\Document;
 
 class ListErasureRequestsController extends AbstractListController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = RequestErasureSerializer::class;
 
-    /**
-     * {@inheritdoc}
-     */
     public $include = [
         'user',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);

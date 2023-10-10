@@ -27,19 +27,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureJob extends AbstractJob
 {
-    /**
-     * @var ErasureRequest
-     */
-    private $erasureRequest;
+    protected Builder $schema;
 
-    /**
-     * @var Builder
-     */
-    protected $schema;
-
-    public function __construct(ErasureRequest $erasureRequest)
+    public function __construct(private ErasureRequest $erasureRequest)
     {
-        $this->erasureRequest = $erasureRequest;
     }
 
     public function handle(ConnectionInterface $connection, DataProcessor $processor, Dispatcher $events, Mailer $mailer, TranslatorInterface $translator): void
