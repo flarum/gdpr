@@ -41,7 +41,7 @@ class Tokens extends Type
                     $id = $token->getKey();
                     $zip->addFromString(
                         "token-$baseName-$id.json",
-                        json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']))
+                        json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']), JSON_PRETTY_PRINT)
                     );
                 });
         }

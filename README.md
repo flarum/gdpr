@@ -28,7 +28,8 @@ use Blomstra\Gdpr\Extend\UserData;
 use Your\Own\DataType;
 
 return [
-    new UserData(DataType::class)
+    (new UserData())
+        ->addType(DataType::class)
 ];
 ```
 
