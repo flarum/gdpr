@@ -58,14 +58,16 @@ blomstra-gdpr:
 
         erasure_request_confirmed: You have confirmed your account erasure request. Action will be taken within 30 days, as required by the GDPR.
         settings:
+            data:
+                heading: Personal data
             export_data_button: Export Data
+            export_data_help: "Requesting data export will provide you with a downloadable copy of all the information associated with your account. This includes posts, comments, and profile details."
             request_erasure_button: Erase Account
+            request_erasure_help: "Requesting erasure will permanently delete your account and all associated data. This action is irreversible. Before proceeding, ensure you have saved any content you wish to keep."
         request_data:
             title: Request your data
             text: >
-                A zip archive will be prepared for you. Upon completion
-                an email will be sent to you with a link to retrieve
-                this archive. The link will remain active for one day.
+                A zip archive will be prepared for you. Once it's ready, you'll recieve a notification with a download link. The link will remain active for one day.
             request_button: Request archive
 
         process_erasure:

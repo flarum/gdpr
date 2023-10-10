@@ -1,20 +1,10 @@
-/*
- *
- *  This file is part of fof/erasurerequests.
- *
- *  Copyright (c) 2019 FriendsOfFlarum.
- *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
- *
- */
-
-import Component from 'flarum/Component';
-import LoadingIndicator from 'flarum/components/LoadingIndicator';
-import avatar from 'flarum/helpers/avatar';
-import icon from 'flarum/helpers/icon';
-import username from 'flarum/helpers/username';
-import humanTime from 'flarum/helpers/humanTime';
+import app from 'flarum/forum/app';
+import Component from 'flarum/common/Component';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import avatar from 'flarum/common/helpers/avatar';
+import icon from 'flarum/common/helpers/icon';
+import username from 'flarum/common/helpers/username';
+import humanTime from 'flarum/common/helpers/humanTime';
 
 import ProcessErasureRequestModal from './ProcessErasureRequestModal';
 

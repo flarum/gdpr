@@ -1,15 +1,5 @@
-/*
- *
- *  This file is part of fof/erasurerequests.
- *
- *  Copyright (c) 2019 FriendsOfFlarum.
- *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
- *
- */
-
-import Page from 'flarum/components/Page';
+import app from 'flarum/forum/app';
+import Page from 'flarum/common/components/Page';
 
 import ErasureRequestsList from './ErasureRequestsList';
 
