@@ -18,15 +18,14 @@ use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
-use Flarum\Foundation\Paths;
-use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
-use Illuminate\Console\Scheduling\Event;
 
 return [
-    (new Extend\Frontend('admin'))->js(__DIR__.'/js/dist/admin.js'),
+    (new Extend\Frontend('admin'))
+        ->js(__DIR__.'/js/dist/admin.js'),
 
-    (new Extend\Frontend('forum'))->js(__DIR__.'/js/dist/forum.js'),
+    (new Extend\Frontend('forum'))
+        ->js(__DIR__.'/js/dist/forum.js'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -53,15 +52,7 @@ return [
         ->addInclude('erasureRequest'),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
-        ->attributes(function ($serializer, $model, $attributes) {
-            $attributes['canProcessErasureRequests'] = $serializer->getActor()->can('processErasure');
-
-            if ($attributes['canProcessErasureRequests']) {
-                $attributes['erasureRequestCount'] = ErasureRequest::where('status', 'user_confirmed')->count();
-            }
-
-            return $attributes;
-        }),
+        ->attributes(AddForumAttributes::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
@@ -75,20 +66,14 @@ return [
     (new Extend\Console())
         ->command(Console\DestroyExportsCommand::class)
         ->command(Console\ProcessEraseRequests::class)
-        ->schedule(Console\ProcessEraseRequests::class, function (Event $event) {
-            $event->daily()->withoutOverlapping();
-        })
-        ->schedule(Console\DestroyExportsCommand::class, function (Event $event) {
-            $event->daily();
-        }),
+        ->schedule(Console\ProcessEraseRequests::class, new Console\DailySchedule())
+        ->schedule(Console\DestroyExportsCommand::class, new Console\DailySchedule()),
 
-    (new Extend\ServiceProvider())->register(Providers\GdprProvider::class),
+    (new Extend\ServiceProvider())
+        ->register(Providers\GdprProvider::class),
 
-    (new Extend\Filesystem())->disk('gdpr-export', function (Paths $paths, UrlGenerator $url) {
-        return [
-            'root'   => "$paths->storage/gdpr-exports",
-        ];
-    }),
+    (new Extend\Filesystem())
+        ->disk('gdpr-export', ExportDiskConfig::class),
 
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)

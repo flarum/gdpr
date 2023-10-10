@@ -13,7 +13,7 @@ namespace Blomstra\Gdpr\Http\Controller;
 
 use Blomstra\Gdpr\Exporter;
 use Blomstra\Gdpr\Models\Export;
-use Flarum\User\User;
+use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\UnauthorizedException;
@@ -23,15 +23,16 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ExportController implements RequestHandlerInterface
 {
-    protected $zip;
+    public function __construct(protected Exporter $exporter)
+    {
+    }
 
     /**
      * @inheritDoc
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var User $actor */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $file = Arr::get($request->getQueryParams(), 'file');
 
@@ -42,7 +43,7 @@ class ExportController implements RequestHandlerInterface
         $export = Export::byFile($file);
 
         if ($export) {
-            return resolve(Exporter::class)->getZip($export);
+            return $this->exporter->getZip($export);
         }
 
         throw new FileNotFoundException();

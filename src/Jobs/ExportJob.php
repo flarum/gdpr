@@ -23,14 +23,8 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class ExportJob extends AbstractJob
 {
-    /**
-     * @var User
-     */
-    private $user;
-
-    public function __construct(User $user)
+    public function __construct(private User $user)
     {
-        $this->user = $user;
     }
 
     public function handle(Exporter $exporter, NotificationSyncer $notifications, Dispatcher $events)
