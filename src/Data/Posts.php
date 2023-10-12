@@ -23,7 +23,7 @@ class Posts extends Type
             ->where('user_id', $this->user->id)
             ->each(function (Post $post) use ($zip) {
                 $zip->addFromString(
-                    "post-{$post->id}.json",
+                    "posts/post-{$post->id}.json",
                     json_encode(
                         $this->sanitize($post),
                         JSON_PRETTY_PRINT
