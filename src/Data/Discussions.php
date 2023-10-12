@@ -11,46 +11,44 @@
 
 namespace Blomstra\Gdpr\Data;
 
-use Flarum\Post\Post;
+use Flarum\Discussion\Discussion;
 use Illuminate\Support\Arr;
 use PhpZip\ZipFile;
 
-class Posts extends Type
+class Discussions extends Type
 {
     public function export(ZipFile $zip): void
     {
-        Post::query()
+        Discussion::query()
             ->where('user_id', $this->user->id)
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
-            ->each(function (Post $post) use ($zip) {
+            ->each(function (Discussion $discussion) use ($zip) {
                 $zip->addFromString(
-                    "posts/post-{$post->id}.json",
+                    "discussions/discussion-{$discussion->id}.json",
                     json_encode(
-                        $this->sanitize($post),
+                        $this->sanitize($discussion),
                         JSON_PRETTY_PRINT
                     )
                 );
             });
     }
 
-    protected function sanitize(Post $post): array
+    protected function sanitize(Discussion $discussion): array
     {
-        return Arr::only($post->toArray(), [
-            'content', 'created_at',
-            'ip_address', 'discussion_id',
+        return Arr::only($discussion->toArray(), [
+            'title', 'created_at',
         ]);
     }
 
     public function anonymize(): void
     {
-        Post::query()
-            ->where('user_id', $this->user->id)
-            ->update(['ip_address' => null]);
+        // Nothing to do
     }
 
     public function delete(): void
     {
-        Post::query()->where('user_id', $this->user->id)->delete();
+        // Be careful here, do we really want to delete a whole discussion? TODO: discuss...
+        Discussion::query()->where('user_id', $this->user->id)->delete();
     }
 }

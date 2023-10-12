@@ -17,7 +17,7 @@ final class DataProcessor
 {
     private static $types = [
         Data\Assets::class, Data\Posts::class,
-        Data\Tokens::class,
+        Data\Tokens::class, Data\Discussions::class,
         // Ought to be last at all times.
         Data\User::class,
     ];

@@ -19,7 +19,7 @@ class User extends Type
 {
     public function export(ZipFile $zip): void
     {
-        $remove = ['id', 'password'];
+        $remove = ['id', 'password', 'groups'];
 
         $zip->addFromString(
             'user.json',
