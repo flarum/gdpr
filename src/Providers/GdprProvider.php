@@ -19,11 +19,11 @@ class GdprProvider extends AbstractServiceProvider
 {
     public function boot()
     {
-        $this->container
-            ->when(Exporter::class)
-            ->needs(Filesystem::class)
-            ->give(function () {
-                return $this->container->make('filesystem')->disk('gdpr-export');
-            });
+        // $this->container
+        //     ->when(Exporter::class)
+        //     ->needs(Filesystem::class)
+        //     ->give(function () {
+        //         return $this->container->make('filesystem')->disk('gdpr-export');
+        //     });
     }
 }

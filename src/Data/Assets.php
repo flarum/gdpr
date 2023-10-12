@@ -11,7 +11,6 @@
 
 namespace Blomstra\Gdpr\Data;
 
-use Flarum\Filesystem\FilesystemManager;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
 
@@ -20,16 +19,19 @@ class Assets extends Type
     public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {
-            $fileType = Str::afterLast($this->user->avatar_url, '.');
+            $fileName = $this->getAvatarFileName();
+            $fileType = Str::afterLast($fileName, '.');
 
-            $stream = fopen($this->user->avatar_url, 'r');
+            $filesystem = $this->getDisk('flarum-avatars');
 
-            $zip->addFromStream(
-                $stream,
-                "avatar.$fileType"
-            );
+            if ($filesystem->exists($fileName)) {
+                $file = $filesystem->get($fileName);
 
-            fclose($stream);
+                $zip->addFromString(
+                    "avatar.$fileType",
+                    $file
+                );
+            }
         }
     }
 
@@ -41,12 +43,16 @@ class Assets extends Type
 
     public function delete(): void
     {
-        if ($path = $this->user->avatar_url) {
-            /** @var FilesystemManager $fs */
-            $fs = resolve(FilesystemManager::class);
-            $filesystem = $fs->disk('flarum-avatars');
+        if ($this->user->avatar_url) {
+            $filesystem = $this->getDisk('flarum-avatars');
+            $fileName = $this->getAvatarFileName();
 
-            $filesystem->exists($path) && $filesystem->delete($path);
+            $filesystem->exists($fileName) && $filesystem->delete($fileName);
         }
+    }
+
+    private function getAvatarFileName(): string
+    {
+        return Str::afterLast($this->user->avatar_url, '/');
     }
 }

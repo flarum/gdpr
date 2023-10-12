@@ -13,10 +13,17 @@ namespace Blomstra\Gdpr\Data;
 
 use Blomstra\Gdpr\Contracts\DataType;
 use Flarum\User\User;
+use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 abstract class Type implements DataType
 {
-    public function __construct(protected User $user)
+    public function __construct(protected User $user, protected Factory $factory)
     {
+    }
+
+    public function getDisk(?string $name): Filesystem
+    {
+        return $this->factory->disk($name);
     }
 }

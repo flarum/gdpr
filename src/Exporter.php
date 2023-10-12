@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Flarum\Foundation\Paths;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Laminas\Diactoros\Response;
 use PhpZip\ZipFile;
@@ -25,10 +26,12 @@ class Exporter
 {
     protected string $storagePath;
     protected array $types;
+    protected Filesystem $filesystem;
 
-    public function __construct(protected Filesystem $filesystem, Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor)
+    public function __construct(Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor, protected Factory $factory)
     {
         $this->storagePath = $paths->storage;
+        $this->filesystem = $factory->disk('gdpr-export');
     }
 
     public function export(User $user): Export
@@ -52,7 +55,7 @@ class Exporter
 
         foreach ($this->processor->types() as $type) {
             /** @var DataType $segment */
-            $segment = new $type($user);
+            $segment = new $type($user, $this->factory);
 
             $segment->export($zip);
         }
