@@ -113,7 +113,7 @@ class ExportTest extends TestCase
     public function export_file_exists_in_storage()
     {
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $this->assertFileExists($paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$this->export->id);
+        $this->assertFileExists($paths->storage . DIRECTORY_SEPARATOR . 'gdpr-exports' . DIRECTORY_SEPARATOR . $this->export->id);
     }
 
     /**
@@ -125,7 +125,7 @@ class ExportTest extends TestCase
         $response = $this->send(
             $this->request(
                 'GET',
-                '/gdpr/export/'.$fileName,
+                '/gdpr/export/' . $fileName,
                 ['authenticatedAs' => 2]
             )->withAttribute('bypassCsrfToken', true)
         );
@@ -144,7 +144,7 @@ class ExportTest extends TestCase
         $response = $this->send(
             $this->request(
                 'GET',
-                '/gdpr/export/'.$fileName,
+                '/gdpr/export/' . $fileName,
             )->withAttribute('bypassCsrfToken', true)
         );
 
@@ -159,7 +159,7 @@ class ExportTest extends TestCase
     public function zip_file_contains_expected_json_files()
     {
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$this->export->id;
+        $zipFilePath = $paths->storage . DIRECTORY_SEPARATOR . 'gdpr-exports' . DIRECTORY_SEPARATOR . $this->export->id;
 
         $zip = new ZipFile();
         $zip->openFile($zipFilePath);
@@ -176,10 +176,10 @@ class ExportTest extends TestCase
 
         // Check for dynamic expected files
         $accessTokenFiles = array_filter($actualFiles, function ($fileName) {
-            return strpos($fileName, 'token-AccessToken-') === 0 && preg_match('/token-AccessToken-\d+\.json/', $fileName);
+            return strpos($fileName, 'tokens/token-AccessToken-') === 0 && preg_match('/tokens\/token-AccessToken-\d+\.json/', $fileName);
         });
 
-        $this->assertNotEmpty($accessTokenFiles, 'No token-AccessToken-#.json file found in zip.');
+        $this->assertNotEmpty($accessTokenFiles, 'No tokens/token-AccessToken-#.json file found in zip.');
 
         // Create a combined list of all expected files (static + dynamic)
         $allExpectedFiles = array_merge($expectedFilesStatic, $accessTokenFiles);
