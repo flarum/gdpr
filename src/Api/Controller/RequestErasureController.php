@@ -38,7 +38,9 @@ class RequestErasureController extends AbstractCreateController
 
         $actor->assertRegistered();
 
-        if (!$actor->checkPassword(Arr::get($request->getParsedBody(), 'meta.password'))) {
+        // If they signed up using a third party oauth provider, they won't have a password
+        // so we can't check it. We'll just assume they're authenticated.
+        if ($actor->loginProviders()->count() === 0 && !$actor->checkPassword(Arr::get($request->getParsedBody(), 'meta.password'))) {
             throw new NotAuthenticatedException();
         }
 

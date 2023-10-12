@@ -80,4 +80,12 @@ return [
         ->default('blomstra-gdpr.allow-anonymization', true)
         ->default('blomstra-gdpr.allow-deletion', true)
         ->default('blomstra-gdpr.default-erasure', 'deletion'),
+
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('fof-oauth', [
+            (new Extend\ApiSerializer(ForumSerializer::class))
+                ->attribute('passwordlessSignUp', function (ForumSerializer $serializer) {
+                    return !$serializer->getActor()->isGuest() && $serializer->getActor()->loginProviders()->count() > 0;
+                }),
+        ]),
 ];

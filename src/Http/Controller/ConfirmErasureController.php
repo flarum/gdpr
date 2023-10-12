@@ -39,7 +39,7 @@ class ConfirmErasureController implements RequestHandlerInterface
             ->where('verification_token', $token)
             ->firstOrFail();
 
-        if ($erasureRequest->user->is($actor)) {
+        if ($erasureRequest->user->isNot($actor)) {
             throw new ValidationException(['user' => 'Erase requests cannot be confirmed by different users.']);
         }
 

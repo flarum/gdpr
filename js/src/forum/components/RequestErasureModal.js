@@ -67,17 +67,19 @@ export default class RequestErasureModal extends Modal {
     } else {
       items.add('text', <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.text')}</p>);
 
-      items.add(
-        'password',
-        <div className="Form-group">
-          <input
-            type="password"
-            className="FormControl"
-            bidi={this.password}
-            placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.password_label'))}
-          />
-        </div>
-      );
+      if (!app.forum.attribute('passwordlessSignUp')) {
+        items.add(
+          'password',
+          <div className="Form-group">
+            <input
+              type="password"
+              className="FormControl"
+              bidi={this.password}
+              placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.password_label'))}
+            />
+          </div>
+        );
+      }
 
       items.add(
         'reason',
