@@ -30,14 +30,13 @@ class Exporter
     protected Filesystem $filesystem;
 
     public function __construct(
-        Paths $paths, 
-        protected SettingsRepositoryInterface $settings, 
-        protected DataProcessor $processor, 
-        protected Factory $factory, 
-        protected UrlGenerator $url, 
+        Paths $paths,
+        protected SettingsRepositoryInterface $settings,
+        protected DataProcessor $processor,
+        protected Factory $factory,
+        protected UrlGenerator $url,
         protected TranslatorInterface $translator
-    )
-    {
+    ) {
         $this->storagePath = $paths->storage;
         $this->filesystem = $factory->disk('gdpr-export');
     }
@@ -45,7 +44,7 @@ class Exporter
     public function export(User $user): Export
     {
         $tmpDir = $this->getTempDir();
-        
+
         $file = tempnam($tmpDir, 'gdpr-export-'.$user->username);
 
         $zip = new ZipFile();

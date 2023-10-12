@@ -20,7 +20,7 @@ class Assets extends Type
     {
         return 'Avatar';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {
