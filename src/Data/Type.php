@@ -12,13 +12,16 @@
 namespace Blomstra\Gdpr\Data;
 
 use Blomstra\Gdpr\Contracts\DataType;
+use Flarum\Http\UrlGenerator;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class Type implements DataType
 {
-    public function __construct(protected User $user, protected Factory $factory)
+    public function __construct(protected User $user, protected Factory $factory, protected SettingsRepositoryInterface $settings, protected UrlGenerator $url, protected TranslatorInterface $translator)
     {
     }
 

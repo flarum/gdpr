@@ -93,3 +93,4 @@ blomstra-gdpr:
             request_button: Request erasure
         notification:
             export-ready: "Your data export is ready to download."
+        export_file: Export of user data for {username} ({email}) prepared at {date} from {forumTitle} ({url})

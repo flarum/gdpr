@@ -31,6 +31,7 @@ class ExportTest extends TestCase
         parent::setUp();
 
         $this->setting('mail_driver', 'log');
+        $this->setting('forum_title', 'Flarum Test');
 
         $this->prepareDatabase([
             'users' => [
@@ -156,7 +157,7 @@ class ExportTest extends TestCase
     /**
      * @test
      */
-    public function zip_file_contains_expected_json_files()
+    public function zip_file_contains_expected_files()
     {
         $paths = $this->app()->getContainer()->make(Paths::class);
         $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$this->export->id;
@@ -167,7 +168,7 @@ class ExportTest extends TestCase
         $actualFiles = $zip->getListFiles();
 
         // Expected files without dynamic keys
-        $expectedFilesStatic = ['user.json'];
+        $expectedFilesStatic = ['user.json', 'Flarum Test-normal.txt'];
 
         // Check static expected files are present
         foreach ($expectedFilesStatic as $expectedFile) {

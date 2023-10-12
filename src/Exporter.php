@@ -15,12 +15,14 @@ use Blomstra\Gdpr\Contracts\DataType;
 use Blomstra\Gdpr\Models\Export;
 use Carbon\Carbon;
 use Flarum\Foundation\Paths;
+use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Laminas\Diactoros\Response;
 use PhpZip\ZipFile;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Exporter
 {
@@ -28,7 +30,7 @@ class Exporter
     protected array $types;
     protected Filesystem $filesystem;
 
-    public function __construct(Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor, protected Factory $factory)
+    public function __construct(Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor, protected Factory $factory, protected UrlGenerator $url, protected TranslatorInterface $translator)
     {
         $this->storagePath = $paths->storage;
         $this->filesystem = $factory->disk('gdpr-export');
@@ -51,11 +53,9 @@ class Exporter
             }
         }
 
-        $zip->setArchiveComment("Export of user data for $user->username ($user->email) on $now. From: {$this->settings->get('forum_title')}.");
-
         foreach ($this->processor->types() as $type) {
             /** @var DataType $segment */
-            $segment = new $type($user, $this->factory);
+            $segment = new $type($user, $this->factory, $this->settings, $this->url, $this->translator);
 
             $segment->export($zip);
         }

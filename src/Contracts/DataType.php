@@ -11,10 +11,17 @@
 
 namespace Blomstra\Gdpr\Contracts;
 
+use Flarum\Http\UrlGenerator;
+use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\User\User;
+use Illuminate\Contracts\Filesystem\Factory;
 use PhpZip\ZipFile;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface DataType
 {
+    public function __construct(User $user, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
+
     public function export(ZipFile $zip): void;
 
     public function anonymize(): void;

@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 final class DataProcessor
 {
     private static $types = [
+        Data\Forum::class,
         Data\Assets::class, Data\Posts::class,
         Data\Tokens::class, Data\Discussions::class,
         // Ought to be last at all times.
