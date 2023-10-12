@@ -16,9 +16,25 @@ use Flarum\Api\Serializer\ForumSerializer;
 
 class AddForumAttributes
 {
+    public function __construct(protected DataProcessor $processor)
+    {
+    }
+
     public function __invoke(ForumSerializer $serializer, $model, array $attributes): array
     {
-        $attributes['canProcessErasureRequests'] = $serializer->getActor()->can('processErasure');
+        $actor = $serializer->getActor();
+
+        if ($actor->isAdmin()) {
+            $types = $this->processor->types();
+            $attributes['gdpr-data-types'] = array_combine(
+                $types,
+                array_map(function ($type) {
+                    return $type::dataType();
+                }, $types)
+            );
+        }
+
+        $attributes['canProcessErasureRequests'] = $actor->can('processErasure');
 
         if ($attributes['canProcessErasureRequests']) {
             $attributes['erasureRequestCount'] = ErasureRequest::query()->where('status', 'user_confirmed')->count();

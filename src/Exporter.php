@@ -13,7 +13,6 @@ namespace Blomstra\Gdpr;
 
 use Blomstra\Gdpr\Contracts\DataType;
 use Blomstra\Gdpr\Models\Export;
-use Carbon\Carbon;
 use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -30,7 +29,14 @@ class Exporter
     protected array $types;
     protected Filesystem $filesystem;
 
-    public function __construct(Paths $paths, protected SettingsRepositoryInterface $settings, protected DataProcessor $processor, protected Factory $factory, protected UrlGenerator $url, protected TranslatorInterface $translator)
+    public function __construct(
+        Paths $paths, 
+        protected SettingsRepositoryInterface $settings, 
+        protected DataProcessor $processor, 
+        protected Factory $factory, 
+        protected UrlGenerator $url, 
+        protected TranslatorInterface $translator
+    )
     {
         $this->storagePath = $paths->storage;
         $this->filesystem = $factory->disk('gdpr-export');
@@ -38,14 +44,11 @@ class Exporter
 
     public function export(User $user): Export
     {
-        $tmpDir = $this->storagePath.DIRECTORY_SEPARATOR.'tmp';
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0777, true);
-        }
+        $tmpDir = $this->getTempDir();
+        
         $file = tempnam($tmpDir, 'gdpr-export-'.$user->username);
 
         $zip = new ZipFile();
-        $now = Carbon::now();
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {
@@ -96,5 +99,15 @@ class Exporter
         $this->filesystem->delete($export->id);
 
         $export->delete();
+    }
+
+    private function getTempDir(): string
+    {
+        $tmpDir = $this->storagePath.DIRECTORY_SEPARATOR.'tmp';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        return $tmpDir;
     }
 }

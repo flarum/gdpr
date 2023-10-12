@@ -17,12 +17,18 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class Type implements DataType
 {
     public function __construct(protected User $user, protected Factory $factory, protected SettingsRepositoryInterface $settings, protected UrlGenerator $url, protected TranslatorInterface $translator)
     {
+    }
+
+    public static function dataType(): string
+    {
+        return Str::afterLast(static::class, '\\');
     }
 
     public function getDisk(?string $name): Filesystem

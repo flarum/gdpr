@@ -1,0 +1,113 @@
+<?php
+
+namespace Blomstra\Gdpr\tests\integration\api;
+
+use Blomstra\Gdpr\Data\Forum;
+use Blomstra\Gdpr\Data\User;
+use Flarum\Testing\integration\RetrievesAuthorizedUsers;
+use Flarum\Testing\integration\TestCase;
+use Illuminate\Support\Arr;
+
+class ForumAttributesTest extends TestCase
+{
+    use RetrievesAuthorizedUsers;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->prepareDatabase([
+            'users' => [
+                $this->normalUser(),
+                ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1,]
+            ],
+            'group_user' => [
+                ['user_id' => 3, 'group_id' => 4],
+            ],
+            'group_permission' => [
+                ['permission' => 'processErasure', 'group_id' => 4],
+            ],
+        ]);
+
+        $this->extension('blomstra-gdpr');
+    }
+    
+    /**
+     * @test
+     */
+    public function normal_users_do_not_see_gdpr_data()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/api',
+                [
+                    'authenticatedAs' => 2,
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertArrayNotHasKey('gdpr-data-types', $json['data']['attributes']);
+        $this->assertFalse($json['data']['attributes']['canProcessErasureRequests']);
+        $this->assertArrayNotHasKey('erasureRequestCount', $json['data']['attributes']);
+    }
+
+    /**
+     * @test
+     */
+    public function admins_see_gdpr_data()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/api',
+                [
+                    'authenticatedAs' => 1,
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertArrayHasKey('gdpr-data-types', $json['data']['attributes']);
+
+        $types = Arr::get($json, 'data.attributes.gdpr-data-types');
+
+        $this->assertEquals('Forum', $types[Forum::class]);
+        $this->assertEquals('User', $types[User::class]);
+
+        $this->assertTrue($json['data']['attributes']['canProcessErasureRequests']);
+        $this->assertArrayHasKey('erasureRequestCount', $json['data']['attributes']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_see_gdpr_data()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/api',
+                [
+                    'authenticatedAs' => 3,
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertArrayNotHasKey('gdpr-data-types', $json['data']['attributes']);
+
+        $this->assertTrue($json['data']['attributes']['canProcessErasureRequests']);
+        $this->assertArrayHasKey('erasureRequestCount', $json['data']['attributes']);
+    }
+}

@@ -21,6 +21,7 @@ class Posts extends Type
     {
         Post::query()
             ->where('user_id', $this->user->id)
+            ->where('type', 'comment')
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
             ->each(function (Post $post) use ($zip) {

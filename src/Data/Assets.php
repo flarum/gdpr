@@ -16,6 +16,11 @@ use PhpZip\ZipFile;
 
 class Assets extends Type
 {
+    public static function dataType(): string
+    {
+        return 'Avatar';
+    }
+    
     public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {

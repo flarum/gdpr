@@ -22,6 +22,8 @@ interface DataType
 {
     public function __construct(User $user, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
 
+    public static function dataType(): string;
+    
     public function export(ZipFile $zip): void;
 
     public function anonymize(): void;
