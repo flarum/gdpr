@@ -30,6 +30,13 @@ class RequestErasureTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
+                ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
+            ],
+            'group_user' => [
+                ['user_id' => 3, 'group_id' => 4],
+            ],
+            'group_permission' => [
+                ['permission' => 'processErasure', 'group_id' => 4],
             ],
         ]);
 
@@ -188,5 +195,33 @@ class RequestErasureTest extends TestCase
         $notification = Notification::query()->where('user_id', 2)->where('type', 'gdpr_erasure_confirm')->orderBy('id', 'desc')->first();
 
         $this->assertNotNull($notification);
+    }
+
+    /**
+     * @test
+     */
+    public function moderator_with_permission_does_not_see_requests_pending_confirmation()
+    {
+        $this->normal_user_can_request_erasure_and_recieves_notification_to_confirm();
+        
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/api/user-erasure-requests',
+                [
+                    'authenticatedAs' => 3,
+                ]
+            )->withAttribute('bypassCsrfToken', true)
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertEmpty($body['data']);
+
+        $erasureRequests = ErasureRequest::query()->where('user_id', 2)->get();
+
+        $this->assertNotEmpty($erasureRequests);
     }
 }

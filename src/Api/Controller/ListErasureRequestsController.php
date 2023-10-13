@@ -30,7 +30,7 @@ class ListErasureRequestsController extends AbstractListController
     {
         $actor = RequestUtil::getActor($request);
 
-        $actor->assertCan('user.viewUsernameRequests');
+        $actor->assertCan('processErasure');
 
         return ErasureRequest::whereVisibleTo($actor)
             ->where('status', 'user_confirmed')

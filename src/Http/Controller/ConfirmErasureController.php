@@ -36,10 +36,11 @@ class ConfirmErasureController implements RequestHandlerInterface
 
         /** @var ErasureRequest $erasureRequest */
         $erasureRequest = ErasureRequest::query()
+            ->with('user')
             ->where('verification_token', $token)
             ->firstOrFail();
 
-        if ($erasureRequest->user->isNot($actor)) {
+        if ($erasureRequest->user->isNot($actor) && !$actor->isGuest()) {
             throw new ValidationException(['user' => 'Erase requests cannot be confirmed by different users.']);
         }
 
