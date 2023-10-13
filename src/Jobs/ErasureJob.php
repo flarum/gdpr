@@ -40,21 +40,20 @@ class ErasureJob extends GdprJob
     }
 
     public function handle(
-        ConnectionInterface $connection, 
-        DataProcessor $processor, 
-        Dispatcher $events, 
-        Mailer $mailer, 
+        ConnectionInterface $connection,
+        DataProcessor $processor,
+        Dispatcher $events,
+        Mailer $mailer,
         TranslatorInterface $translator,
         Factory $filesystemFactory,
         SettingsRepositoryInterface $settings,
         UrlGenerator $url,
-    ): void
-    {
+    ): void {
         $this->translator = $translator;
         $this->filesystemFactory = $filesystemFactory;
         $this->settings = $settings;
         $this->url = $url;
-        
+
         $this->schema = $connection->getSchemaBuilder();
 
         /** @var User */
