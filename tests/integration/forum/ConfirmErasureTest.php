@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\tests\integration\forum;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
@@ -18,7 +27,7 @@ class ConfirmErasureTest extends TestCase
         parent::setUp();
 
         $this->extend(
-            (new Extend\Csrf)
+            (new Extend\Csrf())
                 ->exemptRoute('login')
                 ->exemptRoute('gdpr.erasure.confirm')
         );
@@ -44,12 +53,12 @@ class ConfirmErasureTest extends TestCase
             $this->request('POST', '/login', [
                 'json' => [
                     'identification' => $username,
-                    'password' => $password
-                ]
+                    'password'       => $password,
+                ],
             ])
         );
 
-        $this->assertEquals(200, $response->getStatusCode(), "Failed to login as '{$username}' using password '{$password}'" );
+        $this->assertEquals(200, $response->getStatusCode(), "Failed to login as '{$username}' using password '{$password}'");
 
         return $response;
     }
@@ -142,7 +151,7 @@ class ConfirmErasureTest extends TestCase
     public function different_user_cannot_confirm_erasure_for_user()
     {
         $loginResponse = $this->loginUser('moderator');
-        
+
         $response = $this->send(
             $this->request(
                 'GET',

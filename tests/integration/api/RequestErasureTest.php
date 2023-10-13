@@ -203,7 +203,7 @@ class RequestErasureTest extends TestCase
     public function moderator_with_permission_does_not_see_requests_pending_confirmation()
     {
         $this->normal_user_can_request_erasure_and_recieves_notification_to_confirm();
-        
+
         $response = $this->send(
             $this->request(
                 'GET',
