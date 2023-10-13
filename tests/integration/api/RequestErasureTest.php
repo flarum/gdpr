@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\tests\integration\api;
 
 use Blomstra\Gdpr\Models\ErasureRequest;
@@ -61,11 +70,11 @@ class RequestErasureTest extends TestCase
                 '/api/user-erasure-requests',
                 [
                     'authenticatedAs' => 2,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
-                                'reason' => 'I want to be forgotten'
-                            ]
+                                'reason' => 'I want to be forgotten',
+                            ],
                         ],
                         'meta' => [
                             'password' => 'wrong-password',
@@ -89,11 +98,11 @@ class RequestErasureTest extends TestCase
                 '/api/user-erasure-requests',
                 [
                     'authenticatedAs' => 2,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
-                                'reason' => 'I want to be forgotten'
-                            ]
+                                'reason' => 'I want to be forgotten',
+                            ],
                         ],
                         'meta' => [
                             'password' => 'too-obscure',
@@ -141,10 +150,10 @@ class RequestErasureTest extends TestCase
                 '/api/user-erasure-requests',
                 [
                     'authenticatedAs' => 2,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
-                            ]
+                            ],
                         ],
                         'meta' => [
                             'password' => 'too-obscure',
