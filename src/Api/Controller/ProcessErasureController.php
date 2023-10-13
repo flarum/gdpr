@@ -13,6 +13,7 @@ namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Jobs\ErasureJob;
+use Blomstra\Gdpr\Jobs\GdprJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
@@ -48,7 +49,10 @@ class ProcessErasureController extends AbstractShowController
 
         $erasureRequest->save();
 
-        $this->queue->push(new ErasureJob($erasureRequest));
+        $this->queue->push(
+            job: new ErasureJob($erasureRequest),
+            queue: GdprJob::$onQueue
+        );
 
         return $erasureRequest;
     }

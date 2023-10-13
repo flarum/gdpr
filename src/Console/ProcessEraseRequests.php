@@ -12,6 +12,7 @@
 namespace Blomstra\Gdpr\Console;
 
 use Blomstra\Gdpr\Jobs\ErasureJob;
+use Blomstra\Gdpr\Jobs\GdprJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -37,7 +38,10 @@ class ProcessEraseRequests extends Command
                 $request->processor_comment = 'Automatically processed after '.static::days.' through scheduled task.';
                 $request->save();
 
-                $queue->push(new ErasureJob($request));
+                $queue->push(
+                    job: new ErasureJob($request),
+                    queue: GdprJob::$onQueue
+                );
             });
     }
 }

@@ -16,7 +16,6 @@ use Blomstra\Gdpr\Events\Erased;
 use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ErasureCompletedBlueprint;
-use Flarum\Queue\AbstractJob;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Mail\Mailer;
@@ -25,7 +24,7 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Mail\Message;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ErasureJob extends AbstractJob
+class ErasureJob extends GdprJob
 {
     protected Builder $schema;
 
