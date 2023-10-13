@@ -21,7 +21,7 @@ class UserData implements ExtenderInterface
     protected array $types = [];
     protected array $removeTypes = [];
     protected array $removeUserColumns = [];
-    
+
     public function extend(Container $container, Extension $extension = null)
     {
         foreach ($this->types as $type) {
@@ -39,10 +39,11 @@ class UserData implements ExtenderInterface
 
     /**
      * Register a new data type and methods.
-     * 
+     *
      * Must be a class that implements Blomstra\Gdpr\Contracts\DataType.
      *
      * @param string $type
+     *
      * @return self
      */
     public function addType(string $type): self
@@ -86,6 +87,7 @@ class UserData implements ExtenderInterface
      * Removes multiple user table columns from exports.
      *
      * @param array $columns
+     *
      * @return self
      */
     public function removeUserColumns(array $columns): self

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Tests\integration\api;
 
 use Blomstra\Gdpr\Data\Forum;
@@ -24,7 +33,7 @@ class ExtenderTest extends TestCase
         $types = $this->getDataProcessor()->types();
 
         $this->assertContains(MyNewDataType::class, $types);
-        $this->assertEquals('my-new-data-type', $types[count ($types) - 1]::dataType());
+        $this->assertEquals('my-new-data-type', $types[count($types) - 1]::dataType());
     }
 
     /**

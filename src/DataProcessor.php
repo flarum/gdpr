@@ -33,7 +33,6 @@ final class DataProcessor
         self::$types = array_values(array_diff(self::$types, [$type]));
     }
 
-
     public static function setTypes(array $types)
     {
         self::$types = $types;
