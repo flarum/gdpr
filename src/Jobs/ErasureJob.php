@@ -16,8 +16,11 @@ use Blomstra\Gdpr\Events\Erased;
 use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ErasureCompletedBlueprint;
+use Flarum\Http\UrlGenerator;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
@@ -27,13 +30,31 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ErasureJob extends GdprJob
 {
     protected Builder $schema;
+    protected TranslatorInterface $translator;
+    protected Factory $filesystemFactory;
+    protected SettingsRepositoryInterface $settings;
+    protected UrlGenerator $url;
 
     public function __construct(private ErasureRequest $erasureRequest)
     {
     }
 
-    public function handle(ConnectionInterface $connection, DataProcessor $processor, Dispatcher $events, Mailer $mailer, TranslatorInterface $translator): void
+    public function handle(
+        ConnectionInterface $connection, 
+        DataProcessor $processor, 
+        Dispatcher $events, 
+        Mailer $mailer, 
+        TranslatorInterface $translator,
+        Factory $filesystemFactory,
+        SettingsRepositoryInterface $settings,
+        UrlGenerator $url,
+    ): void
     {
+        $this->translator = $translator;
+        $this->filesystemFactory = $filesystemFactory;
+        $this->settings = $settings;
+        $this->url = $url;
+        
         $this->schema = $connection->getSchemaBuilder();
 
         /** @var User */
@@ -67,14 +88,14 @@ class ErasureJob extends GdprJob
     private function deletion(User $user, DataProcessor $processor): void
     {
         foreach ($processor->types() as $type) {
-            (new $type($user))->delete();
+            (new $type($user, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->delete();
         }
     }
 
     private function anonymization(User $user, DataProcessor $processor): void
     {
         foreach ($processor->types() as $type) {
-            (new $type($user))->anonymize();
+            (new $type($user, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->anonymize();
         }
     }
 

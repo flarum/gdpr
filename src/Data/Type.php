@@ -22,7 +22,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class Type implements DataType
 {
-    public function __construct(protected User $user, protected Factory $factory, protected SettingsRepositoryInterface $settings, protected UrlGenerator $url, protected TranslatorInterface $translator)
+    public function __construct(
+        protected User $user, 
+        protected Factory $factory, 
+        protected SettingsRepositoryInterface $settings, 
+        protected UrlGenerator $url, 
+        protected TranslatorInterface $translator
+        )
     {
     }
 
