@@ -16,6 +16,18 @@ The user has a new button in their settings - account section called "Export Dat
 will appear showing that user data can be exported. Once the export has been generated the user is notified through email
 with a unique, temporary link.
 
+#### Specifying which queue to use
+If your forum runs multiple queues, ie `low` and `high`, you may specify which queue jobs for this extension are run on in your skeleton's `extend.php` file:
+
+```php
+
+Blomstra\Gdpr\Jobs\GdprJob::$onQueue = 'low';
+
+return [
+    ... your current extenders,
+];
+```
+
 ### For developers
 
 You can easily register a new Data type by implementing the Contract `Blomstra\Gdpr\Contracts\DataType`
