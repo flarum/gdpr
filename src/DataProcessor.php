@@ -11,8 +11,6 @@
 
 namespace Blomstra\Gdpr;
 
-use Illuminate\Support\Arr;
-
 final class DataProcessor
 {
     private static $types = [
@@ -32,8 +30,9 @@ final class DataProcessor
 
     public static function removeType(string $type)
     {
-        self::$types = Arr::except(self::$types, $type);
+        self::$types = array_values(array_diff(self::$types, [$type]));
     }
+
 
     public static function setTypes(array $types)
     {
@@ -42,7 +41,7 @@ final class DataProcessor
 
     public static function removeUserColumns(array $columns)
     {
-        self::$removeUserColumns = self::$removeUserColumns + $columns;
+        self::$removeUserColumns = array_merge(self::$removeUserColumns, $columns);
     }
 
     public function types(): array
