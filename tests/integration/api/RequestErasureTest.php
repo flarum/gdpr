@@ -91,7 +91,12 @@ class RequestErasureTest extends TestCase
             )->withAttribute('bypassCsrfToken', true)
         );
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $body = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertEquals('validation_error', $body['errors'][0]['code']);
+        $this->assertEquals('Incorrect password', $body['errors'][0]['detail']);
     }
 
     /**

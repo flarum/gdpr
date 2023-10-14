@@ -15,6 +15,7 @@ use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;
@@ -41,7 +42,7 @@ class RequestErasureController extends AbstractCreateController
         // If they signed up using a third party oauth provider, they won't have a password
         // so we can't check it. We'll just assume they're authenticated.
         if ($actor->loginProviders()->count() === 0 && !$actor->checkPassword(Arr::get($request->getParsedBody(), 'meta.password', ''))) {
-            throw new NotAuthenticatedException();
+            throw new ValidationException(['password' => 'Incorrect password']);
         }
 
         $reason = Arr::get($request->getParsedBody(), 'data.attributes.reason');
