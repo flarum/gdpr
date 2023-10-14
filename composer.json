@@ -58,7 +58,8 @@
             "modules": {
                 "githubActions": true,
                 "typescript": true,
-                "backendTesting": true
+                "backendTesting": true,
+                "jsCommon": true
             }
         }
     },

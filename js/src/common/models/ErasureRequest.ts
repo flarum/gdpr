@@ -26,6 +26,10 @@ export default class ErasureRequest extends Model {
     return Model.attribute<string>('processorComment').call(this);
   }
 
+  processedMode() {
+    return Model.attribute<string>('processedMode').call(this);
+  }
+
   user() {
     return Model.hasOne<User>('user').call(this);
   }

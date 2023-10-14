@@ -29,6 +29,7 @@ class RequestErasureSerializer extends AbstractSerializer
             'userConfirmedAt'    => $this->formatDate($erasure_request->user_confirmed_at),
             'processorComment'   => $erasure_request->processor_comment,
             'processedAt'        => $this->formatDate($erasure_request->processed_at),
+            'processedMode'      => $erasure_request->processed_mode,
         ];
     }
 

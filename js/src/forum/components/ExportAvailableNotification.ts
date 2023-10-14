@@ -1,6 +1,6 @@
 import app from 'flarum/forum/app';
 import Notification from 'flarum/forum/components/Notification';
-import Export from '../models/Export';
+import Export from '../../common/models/Export';
 
 export default class ExportAvailableNotification extends Notification {
   icon() {
