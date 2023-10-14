@@ -55,7 +55,7 @@ class RequestErasureController extends AbstractCreateController
         ]);
 
         $erasureRequest->user_id = $actor->id;
-        $erasureRequest->status = 'awaiting_user_confirmation';
+        $erasureRequest->status = ErasureRequest::STATUS_AWAITING_USER_CONFIRMATION;
         $erasureRequest->reason = $reason;
         $erasureRequest->verification_token = $token;
         $erasureRequest->created_at = Carbon::now();

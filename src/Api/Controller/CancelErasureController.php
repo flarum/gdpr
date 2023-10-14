@@ -44,6 +44,8 @@ class CancelErasureController extends AbstractDeleteController
             throw new PermissionDeniedException();
         }
 
+        // TODO: set status to cancelled with timestamp/actor
+
         $this->notifications->sync(new ErasureRequestCancelledBlueprint($erasureRequest), [$erasureRequest->user]);
     }
 }

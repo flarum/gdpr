@@ -37,7 +37,7 @@ class AddForumAttributes
         $attributes['canProcessErasureRequests'] = $actor->can('processErasure');
 
         if ($attributes['canProcessErasureRequests']) {
-            $attributes['erasureRequestCount'] = ErasureRequest::query()->where('status', 'user_confirmed')->count();
+            $attributes['erasureRequestCount'] = ErasureRequest::query()->where('status', ErasureRequest::STATUS_USER_CONFIRMED)->count();
         }
 
         return $attributes;

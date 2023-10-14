@@ -32,7 +32,7 @@ class ProcessEraseRequests extends Command
             ->whereNull('processed_at')
             ->where('user_confirmed_at', '<=', Carbon::now()->subDays(static::days))
             ->each(function (ErasureRequest $request) use ($queue, $settings) {
-                $request->status = 'processed';
+                $request->status = ErasureRequest::STATUS_PROCESSED;
                 $request->processed_at = Carbon::now();
                 $request->processed_mode = $request->processed_mode ?? $settings->get('blomstra-gdpr.default-erasure');
                 $request->processor_comment = 'Automatically processed after '.static::days.' through scheduled task.';

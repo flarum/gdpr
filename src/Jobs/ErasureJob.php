@@ -75,10 +75,10 @@ class ErasureJob extends GdprJob
             throw new RuntimeException('Erasure request has no mode set.');
         }
 
-        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === 'anonymization') {
+        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
         }
-        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === 'deletion') {
+        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
             throw new ValidationException(['mode' => 'Deletion is not enabled.']);
         }
 

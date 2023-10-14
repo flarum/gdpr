@@ -35,6 +35,14 @@ class ErasureRequest extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    const STATUS_AWAITING_USER_CONFIRMATION = 'awaiting_user_confirmation';
+    const STATUS_USER_CONFIRMED = 'user_confirmed';
+    const STATUS_CANCELLED = 'cancelled';
+    const STATUS_PROCESSED = 'processed';
+
+    const MODE_ANONYMIZATION = 'anonymization';
+    const MODE_DELETION = 'deletion';
+
     protected $table = 'gdpr_erasure';
 
     protected $casts = [

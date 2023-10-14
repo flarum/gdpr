@@ -43,21 +43,21 @@ class ProcessErasureController extends AbstractShowController
 
         $mode = Arr::get($request->getParsedBody(), 'meta.mode');
 
-        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === 'anonymization') {
+        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
         }
-        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === 'deletion') {
+        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
             throw new ValidationException(['mode' => 'Deletion is not enabled.']);
         }
 
         $erasureRequest = ErasureRequest::findOrFail($id);
 
         // if the request is not confirmed, or already processed we should not proceed, but throw an error
-        if ($erasureRequest->status !== 'user_confirmed' || $erasureRequest->user_confirmed_at === null) {
+        if ($erasureRequest->status !== ErasureRequest::STATUS_USER_CONFIRMED || $erasureRequest->user_confirmed_at === null) {
             throw new ValidationException(['user' => 'Erasure request is not confirmed.']);
         }
 
-        $erasureRequest->status = 'processed';
+        $erasureRequest->status = ErasureRequest::STATUS_PROCESSED;
         $erasureRequest->processed_mode = $mode;
         $erasureRequest->processed_at = Carbon::now();
         $erasureRequest->processed_by = $actor->id;

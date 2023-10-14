@@ -11,6 +11,7 @@
 
 namespace Blomstra\Gdpr\tests\integration\api;
 
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
@@ -81,7 +82,7 @@ class ProcessErasureTest extends TestCase
         $json = json_decode($response->getBody()->getContents(), true);
 
         $this->assertCount(1, $json['data']);
-        $this->assertEquals('user_confirmed', $json['data'][0]['attributes']['status']);
+        $this->assertEquals(ErasureRequest::STATUS_USER_CONFIRMED, $json['data'][0]['attributes']['status']);
     }
 
     /**
@@ -98,7 +99,7 @@ class ProcessErasureTest extends TestCase
                             'processor_comment' => 'I am trying to process this request',
                         ],
                         'meta' => [
-                            'mode' => 'deletion',
+                            'mode' => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
@@ -122,7 +123,7 @@ class ProcessErasureTest extends TestCase
                             'processor_comment' => 'I am trying to process this request',
                         ],
                         'meta' => [
-                            'mode' => 'deletion',
+                            'mode' => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
@@ -147,7 +148,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'deletion',
+                        'mode' => ErasureRequest::MODE_DELETION,
                     ],
                 ],
             ])
@@ -157,8 +158,8 @@ class ProcessErasureTest extends TestCase
 
         $json = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals('processed', $json['data']['attributes']['status']);
-        $this->assertEquals('deletion', $json['data']['attributes']['processedMode']);
+        $this->assertEquals(ErasureRequest::STATUS_PROCESSED, $json['data']['attributes']['status']);
+        $this->assertEquals(ErasureRequest::MODE_DELETION, $json['data']['attributes']['processedMode']);
         $this->assertEquals('I have processed this request', $json['data']['attributes']['processorComment']);
 
         $this->assertNull(User::find(5));
@@ -179,7 +180,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'anonymization',
+                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
                     ],
                 ],
             ])
@@ -189,8 +190,8 @@ class ProcessErasureTest extends TestCase
 
         $json = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals('processed', $json['data']['attributes']['status']);
-        $this->assertEquals('anonymization', $json['data']['attributes']['processedMode']);
+        $this->assertEquals(ErasureRequest::STATUS_PROCESSED, $json['data']['attributes']['status']);
+        $this->assertEquals(ErasureRequest::MODE_ANONYMIZATION, $json['data']['attributes']['processedMode']);
         $this->assertEquals('I have processed this request', $json['data']['attributes']['processorComment']);
 
         $user = User::where('id', 5)->with('groups')->first();
@@ -220,7 +221,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'anonymization',
+                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
                     ],
                 ],
             ])
@@ -246,7 +247,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'deletion',
+                        'mode' => ErasureRequest::MODE_DELETION,
                     ],
                 ],
             ])
@@ -279,7 +280,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'anonymization',
+                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
                     ],
                 ],
             ])
@@ -317,7 +318,7 @@ class ProcessErasureTest extends TestCase
                         ],
                     ],
                     'meta' => [
-                        'mode' => 'anonymization',
+                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
                     ],
                 ],
             ])
