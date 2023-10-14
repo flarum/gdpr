@@ -29,7 +29,7 @@ class User extends Type
 
     public function anonymize(): void
     {
-        $columns = $this->schema->getColumnListing($this->user->getTable());
+        $columns = $this->user->getConnection()->getSchemaBuilder()->getColumnListing($this->user->getTable());
 
         $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences'];
 
@@ -45,7 +45,7 @@ class User extends Type
         $this->user->email = "{$this->user->username}@flarum-gdpr.local";
         $this->user->is_email_confirmed = false;
         $this->user->setPasswordAttribute(Str::random(40));
-        $this->user->preferences = [];
+        $this->user->setPreferencesAttribute([]);
 
         $this->user->save();
     }

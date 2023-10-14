@@ -32,7 +32,7 @@ class ProcessErasureTest extends TestCase
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
             'group_user' => [
                 ['user_id' => 3, 'group_id' => 4],
@@ -183,10 +183,9 @@ class ProcessErasureTest extends TestCase
             ])
         );
 
-        //$this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
 
         $json = json_decode($response->getBody()->getContents(), true);
-        $this->assertEquals('test', $json['errors'][0]['detail']);
 
         $this->assertEquals('processed', $json['data']['attributes']['status']);
         $this->assertEquals('anonymization', $json['data']['attributes']['processedMode']);
@@ -196,9 +195,9 @@ class ProcessErasureTest extends TestCase
         $this->assertNotNull($user);
         $this->assertTrue(Str::length($user->username) === 40);
         $this->assertEquals("{$user->username}@flarum-gdpr.local", $user->email);
-        $this->assertFalse($user->is_email_confirmed);
-        $this->assertEmpty($user->preferences);
-
-        // TODO: Check avatar is null also
+        $this->assertEquals(0, $user->is_email_confirmed);
+        $this->assertNull($user->joined_at);
+        $this->assertEmpty($user->last_seen_at);
+        $this->assertNull($user->avatar_url);
     }
 }
