@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
-use Illuminate\Support\Str;
 
 class ProcessErasureTest extends TestCase
 {
