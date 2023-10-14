@@ -29,7 +29,7 @@ class User extends Type
 
     public function anonymize(): void
     {
-        $columns = $this->user->getConnection()->getSchemaBuilder()->getColumnListing($this->user->getTable());
+        $columns = $this->getTableColumns($this->user);
 
         $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences'];
 

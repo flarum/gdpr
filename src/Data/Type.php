@@ -12,6 +12,7 @@
 namespace Blomstra\Gdpr\Data;
 
 use Blomstra\Gdpr\Contracts\DataType;
+use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -39,5 +40,10 @@ abstract class Type implements DataType
     public function getDisk(?string $name): Filesystem
     {
         return $this->factory->disk($name);
+    }
+
+    public function getTableColumns(AbstractModel $model): array
+    {
+        return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
     }
 }
