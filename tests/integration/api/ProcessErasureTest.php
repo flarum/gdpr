@@ -194,7 +194,7 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals('anonymization', $json['data']['attributes']['processedMode']);
         $this->assertEquals('I have processed this request', $json['data']['attributes']['processorComment']);
 
-        $user = User::where('id', 5)->with('groups')->first();;
+        $user = User::where('id', 5)->with('groups')->first();
         $this->assertNotNull($user);
         $this->assertEquals('Anonymous#2', $user->username);
         $this->assertEquals("{$user->username}@flarum-gdpr.local", $user->email);
