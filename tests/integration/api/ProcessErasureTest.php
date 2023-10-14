@@ -23,6 +23,7 @@ class ProcessErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->extension('blomstra-gdpr');
 
         $this->setting('mail_driver', 'log');
 
@@ -48,8 +49,6 @@ class ProcessErasureTest extends TestCase
                 ['id' => 2, 'user_id' => 5, 'verification_token' => '123abc', 'status' => 'user_confirmed', 'reason' => 'I also want to be forgotten', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now()],
             ],
         ]);
-
-        $this->extension('blomstra-gdpr');
     }
 
     /**

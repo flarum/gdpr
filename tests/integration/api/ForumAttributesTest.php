@@ -24,6 +24,7 @@ class ForumAttributesTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->extension('blomstra-gdpr');
 
         $this->prepareDatabase([
             'users' => [
@@ -37,8 +38,6 @@ class ForumAttributesTest extends TestCase
                 ['permission' => 'processErasure', 'group_id' => 4],
             ],
         ]);
-
-        $this->extension('blomstra-gdpr');
     }
 
     /**

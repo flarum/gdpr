@@ -23,6 +23,7 @@ class RequestErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->extension('blomstra-gdpr');
 
         $this->setting('mail_driver', 'log');
         $this->setting('forum_title', 'Flarum Test');
@@ -39,8 +40,6 @@ class RequestErasureTest extends TestCase
                 ['permission' => 'processErasure', 'group_id' => 4],
             ],
         ]);
-
-        $this->extension('blomstra-gdpr');
     }
 
     public function tearDown(): void

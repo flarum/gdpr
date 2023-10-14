@@ -16,6 +16,7 @@ use Blomstra\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
+use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,15 +31,19 @@ class CancelErasureController extends AbstractDeleteController
     {
         $actor = RequestUtil::getActor($request);
 
+        if ($actor->isGuest()) {
+            throw new NotAuthenticatedException();
+        }
+
         $id = Arr::get($request->getQueryParams(), 'id');
-        $erasureRequest = ErasureRequest::where('id', $id)->firstOrFail();
+        $erasureRequest = ErasureRequest::query()->where('id', $id)->firstOrFail();
 
         $isSelf = $actor->id === $erasureRequest->user_id;
         $appropriateStatus = $erasureRequest->status === 'awaiting_user_confirmation' || $erasureRequest->status === 'user_confirmed';
-        if (!$isSelf || !$appropriateStatus) {
+        if (!$isSelf && $actor->cannot('processErasure') || !$appropriateStatus) {
             throw new PermissionDeniedException();
         }
 
-        $this->notifications->sync(new ErasureRequestCancelledBlueprint($erasureRequest), [$actor]);
+        $this->notifications->sync(new ErasureRequestCancelledBlueprint($erasureRequest), [$erasureRequest->user]);
     }
 }

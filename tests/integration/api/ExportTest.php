@@ -29,6 +29,7 @@ class ExportTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->extension('blomstra-gdpr');
 
         $this->setting('mail_driver', 'log');
         $this->setting('forum_title', 'Flarum Test');
@@ -38,8 +39,6 @@ class ExportTest extends TestCase
                 $this->normalUser(),
             ],
         ]);
-
-        $this->extension('blomstra-gdpr');
 
         $this->makeExportRequest();
     }
