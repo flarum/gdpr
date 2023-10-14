@@ -16,6 +16,7 @@ use Blomstra\Gdpr\Jobs\ErasureJob;
 use Blomstra\Gdpr\Jobs\GdprJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Support\Arr;
@@ -39,10 +40,19 @@ class ProcessErasureController extends AbstractShowController
 
         $id = Arr::get($request->getQueryParams(), 'id');
 
+        $mode = Arr::get($request->getParsedBody(), 'meta.mode');
+
+        // TODO: check the provided mode is enabled.
+
         $erasureRequest = ErasureRequest::findOrFail($id);
 
+        // if the request is not confirmed, or already processed we should not proceed, but throw an error
+        if ($erasureRequest->status !== 'user_confirmed' || $erasureRequest->user_confirmed_at === null) {
+            throw new ValidationException(['user' => 'Erasure request is not confirmed.']);
+        }
+
         $erasureRequest->status = 'processed';
-        $erasureRequest->processed_mode = Arr::get($request->getParsedBody(), 'meta.mode');
+        $erasureRequest->processed_mode = $mode;
         $erasureRequest->processed_at = Carbon::now();
         $erasureRequest->processed_by = $actor->id;
         $erasureRequest->processor_comment = Arr::get($request->getParsedBody(), 'data.attributes.processor_comment');

@@ -25,6 +25,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Mail\Message;
+use RuntimeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureJob extends GdprJob
@@ -68,6 +69,10 @@ class ErasureJob extends GdprJob
         $email = $user->email;
 
         $mode = $this->erasureRequest->processed_mode;
+
+        if (!$mode) {
+            throw new RuntimeException('Erasure request has no mode set.');
+        }
 
         $events->dispatch(new Erasing(
             $this->erasureRequest
