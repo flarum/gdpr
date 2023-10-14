@@ -16,6 +16,7 @@ use Blomstra\Gdpr\Events\Erased;
 use Blomstra\Gdpr\Events\Erasing;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Blomstra\Gdpr\Notifications\ErasureCompletedBlueprint;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -25,6 +26,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Mail\Message;
+use RuntimeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureJob extends GdprJob
@@ -68,6 +70,17 @@ class ErasureJob extends GdprJob
         $email = $user->email;
 
         $mode = $this->erasureRequest->processed_mode;
+
+        if (!$mode) {
+            throw new RuntimeException('Erasure request has no mode set.');
+        }
+
+        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === 'anonymization') {
+            throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
+        }
+        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === 'deletion') {
+            throw new ValidationException(['mode' => 'Deletion is not enabled.']);
+        }
 
         $events->dispatch(new Erasing(
             $this->erasureRequest

@@ -58,6 +58,9 @@ return [
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
     (new Extend\Settings())
+        ->default('blomstra-gdpr.allow-anonymization', true)
+        ->default('blomstra-gdpr.allow-deletion', true)
+        ->default('blomstra-gdpr.default-erasure', 'deletion')
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
 
@@ -75,11 +78,6 @@ return [
 
     (new Extend\Filesystem())
         ->disk('gdpr-export', ExportDiskConfig::class),
-
-    (new Extend\Settings())
-        ->default('blomstra-gdpr.allow-anonymization', true)
-        ->default('blomstra-gdpr.allow-deletion', true)
-        ->default('blomstra-gdpr.default-erasure', 'deletion'),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('fof-oauth', [
