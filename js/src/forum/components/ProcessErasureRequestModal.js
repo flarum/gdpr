@@ -34,10 +34,20 @@ export default class ProcessErasureRequestModal extends Modal {
   fields() {
     const items = new ItemList();
 
+    const erasureRequest = this.attrs.request;
+
     items.add(
       'text',
       <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.attrs.request.user()) })}</p>
     );
+
+    erasureRequest.reason() &&
+      items.add(
+        'reason',
+        <p className="helpText">
+          <code>{erasureRequest.reason()}</code>
+        </p>
+      );
 
     items.add(
       'comments',
