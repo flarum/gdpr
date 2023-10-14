@@ -11,6 +11,7 @@
 
 namespace Blomstra\Gdpr\Data;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use PhpZip\ZipFile;
@@ -41,11 +42,12 @@ class User extends Type
             $this->user->{$column} = null;
         }
 
-        $this->user->username = Str::random(40);
+        $this->user->username = Str::random(16);
         $this->user->email = "{$this->user->username}@flarum-gdpr.local";
         $this->user->is_email_confirmed = false;
         $this->user->setPasswordAttribute(Str::random(40));
         $this->user->setPreferencesAttribute([]);
+        $this->user->joined_at = Carbon::now();
 
         $this->user->save();
     }

@@ -193,10 +193,9 @@ class ProcessErasureTest extends TestCase
 
         $user = User::find(5);
         $this->assertNotNull($user);
-        $this->assertTrue(Str::length($user->username) === 40);
+        $this->assertTrue(Str::length($user->username) === 16);
         $this->assertEquals("{$user->username}@flarum-gdpr.local", $user->email);
         $this->assertEquals(0, $user->is_email_confirmed);
-        $this->assertNull($user->joined_at);
         $this->assertEmpty($user->last_seen_at);
         $this->assertNull($user->avatar_url);
     }

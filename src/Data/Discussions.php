@@ -48,7 +48,6 @@ class Discussions extends Type
 
     public function delete(): void
     {
-        // Be careful here, do we really want to delete a whole discussion? TODO: discuss...
-        Discussion::query()->where('user_id', $this->user->id)->delete();
+        // Nothing to do
     }
 }
