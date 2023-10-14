@@ -18,7 +18,6 @@ use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
-use Flarum\User\Exception\NotAuthenticatedException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
