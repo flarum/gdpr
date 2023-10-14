@@ -7,6 +7,7 @@ export default class ErasureRequest extends Model {
     userConfirmedAt(): Date | null | undefined;
     processedAt(): Date | null | undefined;
     processorComment(): string;
+    processedMode(): string;
     user(): false | User;
     processedBy(): false | User;
 }
