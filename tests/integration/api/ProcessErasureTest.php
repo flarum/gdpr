@@ -200,4 +200,56 @@ class ProcessErasureTest extends TestCase
         $this->assertEmpty($user->last_seen_at);
         $this->assertNull($user->avatar_url);
     }
+
+    /**
+     * @test
+     */
+    public function authorized_user_cannot_process_confirmed_erasure_request_in_anonymization_mode_if_not_allowed()
+    {
+        $this->setting('blomstra-gdpr.allow-anonymization', false);
+
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/2', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                        ],
+                    ],
+                    'meta' => [
+                        'mode' => 'anonymization',
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function authorized_user_cannot_process_confirmed_erasure_request_in_deletion_mode_if_not_allowed()
+    {
+        $this->setting('blomstra-gdpr.allow-deletion', false);
+
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/2', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                        ],
+                    ],
+                    'meta' => [
+                        'mode' => 'deletion',
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
+    }
 }

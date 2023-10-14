@@ -18,6 +18,7 @@ use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -28,7 +29,7 @@ class ProcessErasureController extends AbstractShowController
 {
     public $serializer = RequestErasureSerializer::class;
 
-    public function __construct(protected Queue $queue)
+    public function __construct(protected Queue $queue, protected SettingsRepositoryInterface $settings)
     {
     }
 
@@ -42,7 +43,12 @@ class ProcessErasureController extends AbstractShowController
 
         $mode = Arr::get($request->getParsedBody(), 'meta.mode');
 
-        // TODO: check the provided mode is enabled.
+        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === 'anonymization') {
+            throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
+        }
+        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === 'deletion') {
+            throw new ValidationException(['mode' => 'Deletion is not enabled.']);
+        }
 
         $erasureRequest = ErasureRequest::findOrFail($id);
 

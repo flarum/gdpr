@@ -22,12 +22,12 @@ use Flarum\User\User;
 
 return [
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js'),
+        ->js(__DIR__ . '/js/dist/admin.js'),
 
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__ . '/js/dist/forum.js'),
 
-    new Extend\Locales(__DIR__.'/resources/locale'),
+    new Extend\Locales(__DIR__ . '/resources/locale'),
 
     (new Extend\Routes('forum'))
         ->get('/gdpr/export/{file}', 'gdpr.export', Http\Controller\ExportController::class)
@@ -58,11 +58,14 @@ return [
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
     (new Extend\Settings())
+        ->default('blomstra-gdpr.allow-anonymization', true)
+        ->default('blomstra-gdpr.allow-deletion', true)
+        ->default('blomstra-gdpr.default-erasure', 'deletion')
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
 
     (new Extend\View())
-        ->namespace('gdpr', __DIR__.'/resources/views'),
+        ->namespace('gdpr', __DIR__ . '/resources/views'),
 
     (new Extend\Console())
         ->command(Console\DestroyExportsCommand::class)
@@ -75,11 +78,6 @@ return [
 
     (new Extend\Filesystem())
         ->disk('gdpr-export', ExportDiskConfig::class),
-
-    (new Extend\Settings())
-        ->default('blomstra-gdpr.allow-anonymization', true)
-        ->default('blomstra-gdpr.allow-deletion', true)
-        ->default('blomstra-gdpr.default-erasure', 'deletion'),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('fof-oauth', [
