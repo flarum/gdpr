@@ -32,7 +32,7 @@ class User extends Type
     {
         $columns = $this->getTableColumns($this->user);
 
-        $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences'];
+        $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences', 'joined_at'];
 
         foreach ($columns as $column) {
             if (in_array($column, $remove)) {

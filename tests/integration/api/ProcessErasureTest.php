@@ -250,4 +250,80 @@ class ProcessErasureTest extends TestCase
 
         $this->assertEquals(422, $response->getStatusCode());
     }
+
+    /**
+     * @test
+     */
+    public function user_is_anonymized_when_nicknames_is_enabled()
+    {
+        $this->extension('flarum-nicknames');
+        $this->app();
+
+        User::unguard();
+        User::find(5)->update(['nickname' => 'Custom-nickname']);
+        User::reguard();
+
+        $this->assertEquals('Custom-nickname', User::find(5)->nickname);
+
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/2', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                        ],
+                    ],
+                    'meta' => [
+                        'mode' => 'anonymization',
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $user = User::find(5);
+        $this->assertNotNull($user);
+        $this->assertEquals('Anonymous#2', $user->username);
+        $this->assertNull($user->nickname);
+    }
+
+    /**
+     * @test
+     */
+    public function user_bio_is_anonimized()
+    {
+        $this->extension('fof-user-bio');
+        $this->app();
+
+        User::unguard();
+        User::find(5)->update(['bio' => 'Custom bio']);
+        User::reguard();
+
+        $this->assertEquals('Custom bio', User::find(5)->bio);
+
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/2', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                        ],
+                    ],
+                    'meta' => [
+                        'mode' => 'anonymization',
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $user = User::find(5);
+        $this->assertNotNull($user);
+        $this->assertEquals('Anonymous#2', $user->username);
+        $this->assertNull($user->bio);
+    }
 }
