@@ -100,14 +100,14 @@ class ErasureJob extends GdprJob
     private function deletion(User $user, DataProcessor $processor): void
     {
         foreach ($processor->types() as $type) {
-            (new $type($user, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->delete();
+            (new $type($user, $this->erasureRequest, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->delete();
         }
     }
 
     private function anonymization(User $user, DataProcessor $processor): void
     {
         foreach ($processor->types() as $type) {
-            (new $type($user, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->anonymize();
+            (new $type($user, $this->erasureRequest, $this->filesystemFactory, $this->settings, $this->url, $this->translator))->anonymize();
         }
     }
 

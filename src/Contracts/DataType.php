@@ -11,6 +11,7 @@
 
 namespace Blomstra\Gdpr\Contracts;
 
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -20,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface DataType
 {
-    public function __construct(User $user, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
+    public function __construct(User $user, ?ErasureRequest $erasureRequest, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
 
     public static function dataType(): string;
 

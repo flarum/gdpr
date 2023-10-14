@@ -12,6 +12,7 @@
 namespace Blomstra\Gdpr\Data;
 
 use Blomstra\Gdpr\Contracts\DataType;
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -25,6 +26,7 @@ abstract class Type implements DataType
 {
     public function __construct(
         protected User $user,
+        protected ?ErasureRequest $erasureRequest,
         protected Factory $factory,
         protected SettingsRepositoryInterface $settings,
         protected UrlGenerator $url,

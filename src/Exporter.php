@@ -57,7 +57,7 @@ class Exporter
 
         foreach ($this->processor->types() as $type) {
             /** @var DataType $segment */
-            $segment = new $type($user, $this->factory, $this->settings, $this->url, $this->translator);
+            $segment = new $type($user, null, $this->factory, $this->settings, $this->url, $this->translator);
 
             $segment->export($zip);
         }
