@@ -33,8 +33,12 @@ class ProcessErasureTest extends TestCase
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
+            'groups' => [
+                ['id' => 5, 'name_singular' => 'customgroup', 'name_plural' => 'customgroups'],
+            ],
             'group_user' => [
                 ['user_id' => 3, 'group_id' => 4],
+                ['user_id' => 5, 'group_id' => 5],
             ],
             'group_permission' => [
                 ['permission' => 'processErasure', 'group_id' => 4],
@@ -190,13 +194,14 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals('anonymization', $json['data']['attributes']['processedMode']);
         $this->assertEquals('I have processed this request', $json['data']['attributes']['processorComment']);
 
-        $user = User::find(5);
+        $user = User::where('id', 5)->with('groups')->first();;
         $this->assertNotNull($user);
         $this->assertEquals('Anonymous#2', $user->username);
         $this->assertEquals("{$user->username}@flarum-gdpr.local", $user->email);
         $this->assertEquals(0, $user->is_email_confirmed);
         $this->assertEmpty($user->last_seen_at);
         $this->assertNull($user->avatar_url);
+        $this->assertEmpty($user->groups);
     }
 
     /**

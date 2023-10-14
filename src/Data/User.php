@@ -48,6 +48,7 @@ class User extends Type
         $this->user->setPasswordAttribute(Str::random(40));
         $this->user->setPreferencesAttribute([]);
         $this->user->joined_at = Carbon::now();
+        $this->user->groups()->sync([]);
 
         $this->user->save();
     }
