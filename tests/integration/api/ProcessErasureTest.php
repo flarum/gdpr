@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\tests\integration\api;
 
 use Carbon\Carbon;
@@ -81,7 +90,7 @@ class ProcessErasureTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I am trying to process this request',
@@ -105,7 +114,7 @@ class ProcessErasureTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/1', [
                 'authenticatedAs' => 3,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I am trying to process this request',
@@ -129,11 +138,11 @@ class ProcessErasureTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
                 'authenticatedAs' => 3,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
-                        ]
+                        ],
                     ],
                     'meta' => [
                         'mode' => 'deletion',
@@ -161,11 +170,11 @@ class ProcessErasureTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
                 'authenticatedAs' => 3,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
-                        ]
+                        ],
                     ],
                     'meta' => [
                         'mode' => 'anonymization',
