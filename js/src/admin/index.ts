@@ -1,4 +1,5 @@
 import app from 'flarum/admin/app';
+import extendUserListPage from './extendUserListPage';
 
 export { default as extend } from './extend';
 
@@ -8,16 +9,19 @@ app.initializers.add('blomstra-gdpr', () => {
     .registerSetting({
       setting: 'blomstra-gdpr.allow-anonymization',
       label: app.translator.trans('blomstra-gdpr.admin.settings.allow_anonymization'),
+      help: app.translator.trans('blomstra-gdpr.admin.settings.allow_anonymization_help'),
       type: 'boolean',
     })
     .registerSetting({
       setting: 'blomstra-gdpr.allow-deletion',
       label: app.translator.trans('blomstra-gdpr.admin.settings.allow_deletion'),
+      help: app.translator.trans('blomstra-gdpr.admin.settings.allow_deletion_help'),
       type: 'boolean',
     })
     .registerSetting({
       setting: 'blomstra-gdpr.default-erasure',
       label: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure'),
+      help: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_help'),
       type: 'select',
       options: {
         anonymization: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_options.anonymization'),
@@ -31,5 +35,15 @@ app.initializers.add('blomstra-gdpr', () => {
         permission: 'processErasure',
       },
       'moderate'
+    )
+    .registerPermission(
+      {
+        icon: 'fas fa-file-export',
+        label: app.translator.trans('blomstra-gdpr.admin.permissions.process_export_for_others'),
+        permission: 'moderateExport',
+      },
+      'moderate'
     );
+
+  extendUserListPage();
 });

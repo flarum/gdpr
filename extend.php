@@ -15,6 +15,7 @@ use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\ShowUserController;
+use Flarum\Api\Serializer\CurrentUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
@@ -34,6 +35,7 @@ return [
         ->get('/gdpr/erasure/confirm/{token}', 'gdpr.erasure.confirm', Http\Controller\ConfirmErasureController::class),
 
     (new Extend\Routes('api'))
+        ->remove('users.delete')
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
         ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
         ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)
@@ -57,10 +59,15 @@ return [
     (new Extend\ApiSerializer(UserSerializer::class))
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
+    (new Extend\ApiSerializer(CurrentUserSerializer::class))
+        ->attribute('canModerateExports', function (CurrentUserSerializer $serializer) {
+            return $serializer->getActor()->can('moderateExports');
+        }),
+
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)
         ->default('blomstra-gdpr.allow-deletion', true)
-        ->default('blomstra-gdpr.default-erasure', 'deletion')
+        ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
 

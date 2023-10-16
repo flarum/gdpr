@@ -9,13 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Events;
+use Flarum\Database\Migration;
 
-use Flarum\User\User;
-
-class Exporting
-{
-    public function __construct(public User $user, public User $actor)
-    {
-    }
-}
+return Migration::addColumns(
+    'gdpr_exports',
+    [
+        'actor_id' => ['integer', 'unsigned' => true, 'nullable' => true],
+    ]
+);

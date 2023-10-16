@@ -14,10 +14,12 @@ namespace Blomstra\Gdpr\Models;
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int    $id
  * @property int    $user_id
+ * @property int    $actor_id
  * @property string $file
  * @property Carbon $created_at
  * @property Carbon $destroys_at
@@ -39,10 +41,11 @@ class Export extends AbstractModel
             ->first();
     }
 
-    public static function exported(User $user, string $tmp): self
+    public static function exported(User $user, string $tmp, User $actor): self
     {
-        return tap(new self(), function ($export) use ($user, $tmp) {
+        return tap(new self(), function ($export) use ($user, $tmp, $actor) {
             $export->user_id = $user->id;
+            $export->actor_id = $actor->id;
             $export->file = $tmp;
             $export->created_at = Carbon::now();
             $export->destroys_at = Carbon::now()->addDay();
@@ -50,7 +53,12 @@ class Export extends AbstractModel
         });
     }
 
-    public function user()
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function actor(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

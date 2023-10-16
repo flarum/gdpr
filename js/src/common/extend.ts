@@ -9,5 +9,6 @@ export default [
     .add('exports', Export),
 
   new Extend.Model(User) //
+    .attribute<boolean>('canModerateExports')
     .hasOne<ErasureRequest>('erasureRequest'),
 ];

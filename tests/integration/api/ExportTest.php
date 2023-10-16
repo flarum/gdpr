@@ -12,19 +12,18 @@
 namespace Blomstra\Gdpr\tests\integration\api;
 
 use Blomstra\Gdpr\Models\Export;
+use Flarum\Database\Eloquent\Collection;
 use Flarum\Foundation\Paths;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use PhpZip\ZipFile;
+use Psr\Http\Message\ResponseInterface;
 
 class ExportTest extends TestCase
 {
     use RetrievesAuthorizedUsers;
-
-    protected $response;
-    protected $export;
 
     public function setUp(): void
     {
@@ -37,25 +36,52 @@ class ExportTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
+                ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
             ],
+            'group_user' => [
+                ['user_id' => 3, 'group_id' => 4],
+            ],
+            'group_permission' => [
+                ['permission' => 'moderateExport', 'group_id' => 4],
+            ],
+            'gdpr_exports'  => [],
+            'notifications' => [],
         ]);
-
-        $this->makeExportRequest();
     }
 
-    protected function makeExportRequest(): void
+    protected function makeExportRequest(int $actorId = 2, int $userId = 2): ResponseInterface
     {
-        $this->response = $this->send(
+        return $this->send(
             $this->request(
                 'POST',
                 '/api/gdpr/export',
                 [
-                    'authenticatedAs' => 2,
+                    'authenticatedAs' => $actorId,
+                    'json'            => [
+                        'data' => [
+                            'attributes' => [
+                                'userId' => $userId,
+                            ],
+                        ],
+                    ],
                 ]
             )->withAttribute('bypassCsrfToken', true)
         );
+    }
 
-        $this->export = Export::query()->where('user_id', 2)->first();
+    protected function getNotificationsForExport(Export $export): Collection
+    {
+        return Notification::query()
+            ->where('type', 'gdprExportAvailable')
+            ->where('subject_id', $export->id)
+            ->get();
+    }
+
+    protected function getExportRecordFor(int $userId): ?Export
+    {
+        return Export::query()
+            ->where('user_id', $userId)
+            ->first();
     }
 
     /**
@@ -81,18 +107,86 @@ class ExportTest extends TestCase
     /**
      * @test
      */
-    public function users_can_request_export_data()
+    public function users_can_request_export_own_data()
     {
-        $this->assertEquals(201, $this->response->getStatusCode());
+        $response = $this->makeExportRequest();
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
+
+        $this->assertEquals(2, $export->user_id);
+        $this->assertEquals(2, $export->actor_id);
     }
 
     /**
      * @test
      */
-    public function notification_is_created_after_requesting_export_data()
+    public function users_cannot_request_export_other_users_data()
     {
-        $notification = Notification::query()->where('user_id', 2)->where('type', 'gdprExportAvailable')->first();
-        $this->assertNotNull($notification);
+        $response = $this->makeExportRequest(2, 3);
+
+        $this->assertEquals(403, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(3);
+        $this->assertNull($export);
+
+        $export = $this->getExportRecordFor(2);
+        $this->assertNull($export);
+    }
+
+    /**
+     * @test
+     */
+    public function moderators_can_request_export_other_users_data()
+    {
+        // Perform an activity as the user, so that an access token is generated for them
+
+        $response = $this->send(
+            $this->request(
+                'get',
+                '/api/users/2',
+                [
+                    'authenticatedAs' => 2,
+
+                ]
+            )
+        );
+
+        $response = $this->makeExportRequest(3, 2);
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
+
+        $this->assertEquals(2, $export->user_id);
+        $this->assertEquals(3, $export->actor_id);
+
+        $this->notification_is_created_after_requesting_export_data(3, 2);
+
+        $this->zip_file_contains_expected_files(3, 2);
+    }
+
+    /**
+     * @test
+     */
+    public function notification_is_created_after_requesting_export_data(int $actorId = 2, int $userId = 2)
+    {
+        $response = $this->makeExportRequest(2);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
+
+        $notifications = $this->getNotificationsForExport($export);
+        $this->assertCount(1, $notifications);
+
+        $this->assertEquals($userId, $notifications[0]->from_user_id);
+
+        if ($actorId === $userId) {
+            $this->assertEquals(2, $notifications[0]->user_id);
+        } else {
+            $this->assertEquals(3, $notifications[0]->user_id);
+        }
     }
 
     /**
@@ -100,10 +194,17 @@ class ExportTest extends TestCase
      */
     public function export_is_created_after_requesting_export_data()
     {
-        $user = User::query()->where('id', 2)->first();
-        $fileName = $this->export->file;
+        $response = $this->makeExportRequest(2);
+        $this->assertEquals(201, $response->getStatusCode());
 
-        $this->assertEquals(2, $this->export->user_id);
+        $user = User::query()->where('id', 2)->first();
+        $export = $this->getExportRecordFor(2);
+
+        $this->assertEquals(2, $export->user_id);
+
+        $fileName = $export->file;
+
+        $this->assertEquals(2, $export->user_id);
         $this->assertStringStartsWith("gdpr-export-{$user->username}", $fileName);
     }
 
@@ -112,8 +213,12 @@ class ExportTest extends TestCase
      */
     public function export_file_exists_in_storage()
     {
+        $response = $this->makeExportRequest(2);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $this->assertFileExists($paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$this->export->id);
+        $this->assertFileExists($paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id);
     }
 
     /**
@@ -121,7 +226,12 @@ class ExportTest extends TestCase
      */
     public function authenticated_user_can_retrieve_export_file_via_controller()
     {
-        $fileName = $this->export->file;
+        $response = $this->makeExportRequest(2);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
+
+        $fileName = $export->file;
         $response = $this->send(
             $this->request(
                 'GET',
@@ -140,7 +250,12 @@ class ExportTest extends TestCase
      */
     public function unauthenticated_user_can_retrieve_export_file_via_controller()
     {
-        $fileName = $this->export->file;
+        $response = $this->makeExportRequest(2);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(2);
+
+        $fileName = $export->file;
         $response = $this->send(
             $this->request(
                 'GET',
@@ -156,10 +271,17 @@ class ExportTest extends TestCase
     /**
      * @test
      */
-    public function zip_file_contains_expected_files()
+    public function zip_file_contains_expected_files(int $actorId = 2, int $userId = 2)
     {
+        $response = $this->makeExportRequest($actorId, $userId);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $user = User::find($userId);
+
+        $export = $this->getExportRecordFor(2);
+
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$this->export->id;
+        $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id;
 
         $zip = new ZipFile();
         $zip->openFile($zipFilePath);
@@ -167,7 +289,7 @@ class ExportTest extends TestCase
         $actualFiles = $zip->getListFiles();
 
         // Expected files without dynamic keys
-        $expectedFilesStatic = ['user.json', 'Flarum Test-normal.txt'];
+        $expectedFilesStatic = ['user.json', "Flarum Test-{$user->username}.txt"];
 
         // Check static expected files are present
         foreach ($expectedFilesStatic as $expectedFile) {

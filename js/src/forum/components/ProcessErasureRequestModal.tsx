@@ -1,18 +1,32 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import ErasureRequest from 'src/common/models/ErasureRequest';
+import User from 'flarum/common/models/User';
 
-export default class ProcessErasureRequestModal extends Modal {
-  oninit(vnode) {
+interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
+  request: ErasureRequest | undefined;
+  user: User | undefined;
+}
+
+export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequestModalAttrs> {
+  comments: Stream<string>;
+  loadingAnonymization: boolean = false;
+  loadingDeletion: boolean = false;
+  request!: ErasureRequest;
+
+  oninit(vnode: Mithril.Vnode<ProcessErasureRequestModalAttrs>) {
     super.oninit(vnode);
 
-    this.comments = Stream('');
+    this.request =
+      this.attrs.request || app.store.createRecord<ErasureRequest>('user-erasure-requests', { relationships: { user: this.attrs.user } });
 
-    this.loading = {};
+    this.comments = Stream('');
   }
 
   className() {
@@ -32,16 +46,16 @@ export default class ProcessErasureRequestModal extends Modal {
   }
 
   fields() {
-    const items = new ItemList();
+    const items = new ItemList<Mithril.Children>();
 
     const erasureRequest = this.attrs.request;
 
     items.add(
       'text',
-      <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.attrs.request.user()) })}</p>
+      <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
     );
 
-    erasureRequest.reason() &&
+    erasureRequest?.reason() &&
       items.add(
         'reason',
         <p className="helpText">
@@ -55,7 +69,7 @@ export default class ProcessErasureRequestModal extends Modal {
         <textarea
           className="FormControl"
           value={this.comments()}
-          oninput={(e) => this.comments(e.target.value)}
+          bidi={this.comments}
           placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.process_erasure.comments_label'))}
         ></textarea>
       </div>
@@ -68,9 +82,8 @@ export default class ProcessErasureRequestModal extends Modal {
           {Button.component(
             {
               className: 'Button Button--primary Button--block',
-              type: 'submit',
-              loading: this.loading.anonymization,
-              onclick: (e) => this.onsubmit(e, 'anonymization'),
+              loading: this.loadingAnonymization,
+              onclick: () => this.process('anonymization'),
             },
             app.translator.trans('blomstra-gdpr.forum.process_erasure.anonymization_button')
           )}
@@ -85,9 +98,8 @@ export default class ProcessErasureRequestModal extends Modal {
           {Button.component(
             {
               className: 'Button Button--danger Button--block',
-              type: 'submit',
-              loading: this.loading.deletion,
-              onclick: (e) => this.onsubmit(e, 'deletion'),
+              loading: this.loadingDeletion,
+              onclick: () => this.process('deletion'),
             },
             app.translator.trans('blomstra-gdpr.forum.process_erasure.deletion_button')
           )}
@@ -98,33 +110,38 @@ export default class ProcessErasureRequestModal extends Modal {
     return items;
   }
 
-  onsubmit(e, mode) {
-    e.preventDefault();
-
+  process(mode: string) {
     if (
       !confirm(
         app.translator.trans('blomstra-gdpr.forum.process_erasure.confirm', {
-          name: extractText(username(this.attrs.request.user())),
-          mode: extractText(mode),
-        })
+          name: extractText(username(this.request.user())),
+          mode,
+        }) as string
       )
     ) {
       return;
     }
 
-    this.loading[MediaSource] = true;
+    if (mode === 'anonymization') {
+      this.loadingAnonymization = true;
+    } else {
+      this.loadingDeletion = true;
+    }
+
     m.redraw();
 
-    this.attrs.request
+    this.request
       .save({ processor_comment: this.comments() }, { meta: { mode } })
       .then((erasureRequest) => {
         app.store.remove(erasureRequest);
-        this.loading[MediaSource] = false;
+        this.loadingAnonymization = false;
+        this.loadingDeletion = false;
         m.redraw();
         this.hide();
       })
       .catch(() => {
-        this.loading[MediaSource] = false;
+        this.loadingAnonymization = false;
+        this.loadingDeletion = false;
         m.redraw();
       });
   }

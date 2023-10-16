@@ -6,7 +6,7 @@ import FieldSet from 'flarum/common/components/FieldSet';
 import type Mithril from 'mithril';
 import Button from 'flarum/common/components/Button';
 import RequestErasureModal from '../components/RequestErasureModal';
-import RequestDataModal from '../components/RequestDataModal';
+import RequestDataExportModal from '../../common/components/RequestDataExportModal';
 
 export default function extendUserSettingsPage() {
   extend(SettingsPage.prototype, 'settingsItems', function (items: ItemList<Mithril.Children>) {
@@ -46,7 +46,11 @@ export default function extendUserSettingsPage() {
     items.add(
       'gdprExport',
       <div className="gdprExport-container">
-        <Button className="Button Button-gdprExport" icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataModal)}>
+        <Button
+          className="Button Button-gdprExport"
+          icon="fas fa-file-export"
+          onclick={() => app.modal.show(RequestDataExportModal, { user: this.user })}
+        >
           {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
         </Button>
         <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.export_data_help')}</p>

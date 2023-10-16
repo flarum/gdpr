@@ -41,7 +41,7 @@ class Exporter
         $this->filesystem = $factory->disk('gdpr-export');
     }
 
-    public function export(User $user): Export
+    public function export(User $user, User $actor): Export
     {
         $tmpDir = $this->getTempDir();
 
@@ -65,7 +65,7 @@ class Exporter
         $zip->saveAsFile($file);
         $zip->close();
 
-        $export = Export::exported($user, basename($file));
+        $export = Export::exported($user, basename($file), $actor);
 
         if ($this->filesystem->exists($export->id)) {
             $this->filesystem->delete($export->id);
