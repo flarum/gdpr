@@ -1,12 +1,24 @@
 /// <reference types="flarum/@types/translator-icu-rich" />
-export default class ProcessErasureRequestModal extends Modal<import("flarum/common/components/Modal").IInternalModalAttrs, undefined> {
-    constructor();
-    oninit(vnode: any): void;
-    comments: any;
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import ItemList from 'flarum/common/utils/ItemList';
+import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import ErasureRequest from 'src/common/models/ErasureRequest';
+import User from 'flarum/common/models/User';
+interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
+    request: ErasureRequest | undefined;
+    user: User | undefined;
+}
+export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequestModalAttrs> {
+    comments: Stream<string>;
+    loadingAnonymization: boolean;
+    loadingDeletion: boolean;
+    request: ErasureRequest;
+    oninit(vnode: Mithril.Vnode<ProcessErasureRequestModalAttrs>): void;
+    className(): string;
     title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     content(): JSX.Element;
-    fields(): ItemList<any>;
-    onsubmit(e: any, mode: any): void;
+    fields(): ItemList<Mithril.Children>;
+    process(mode: string): void;
 }
-import Modal from "flarum/common/components/Modal";
-import ItemList from "flarum/common/utils/ItemList";
+export {};
