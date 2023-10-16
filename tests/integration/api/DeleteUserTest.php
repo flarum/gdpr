@@ -27,6 +27,8 @@ class DeleteUserTest extends TestCase
                 $this->normalUser(),
             ],
         ]);
+
+        $this->extension('blomstra-gdpr');
     }
 
     /**
@@ -44,6 +46,6 @@ class DeleteUserTest extends TestCase
             )
         );
 
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals(405, $response->getStatusCode());
     }
 }
