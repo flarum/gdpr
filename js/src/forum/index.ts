@@ -4,6 +4,7 @@ import ExportAvailableNotification from './components/ExportAvailableNotificatio
 import extendUserSettingsPage from './extenders/extendUserSettingsPage';
 import extendHeaderSecondary from './extenders/extendHeaderSecondary';
 import extendPage from './extenders/extendPage';
+import extendUserControls from './extenders/extendUserControls';
 
 export { default as extend } from './extend';
 
@@ -15,4 +16,5 @@ app.initializers.add('blomstra-gdpr', () => {
   extendUserSettingsPage();
   extendHeaderSecondary();
   extendPage();
+  extendUserControls();
 });
