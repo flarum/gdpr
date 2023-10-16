@@ -20,7 +20,6 @@ with a unique, temporary link.
 If your forum runs multiple queues, ie `low` and `high`, you may specify which queue jobs for this extension are run on in your skeleton's `extend.php` file:
 
 ```php
-
 Blomstra\Gdpr\Jobs\GdprJob::$onQueue = 'low';
 
 return [
@@ -30,9 +29,11 @@ return [
 
 ### For developers
 
-You can easily register a new Data type by implementing the Contract `Blomstra\Gdpr\Contracts\DataType`
-and then using the extender `Blomstra\Gdpr\Extend\UserData`:
+You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Blomstra\Gdpr\Extend\UserData` extender.
 
+#### Registering a new Data Type:
+
+Your data type class should implement the `Blomstra\Gdpr\Contracts\DataType`:
 ```php
 <?php
 
@@ -48,6 +49,28 @@ return [
 The implementation you create needs a export method, it will receive a ZipArchive resource.
 You can use that to add any strings or actual files to the archive. Make sure to properly
 name the file and always prefix it with your extension slug (blomstra-something-filename).
+
+#### Removing a Data Type:
+If for any reason you want to exclude a certain DataType from the export:
+```php
+use Blomstra\Gdpr\Extend\UserData;
+
+return [
+    (new UserData())
+        ->removeType(Your\Own\DataType::class)
+];
+```
+
+#### Exclude specific columns from the user table during export:
+```php
+use Blomstra\Gdpr\Extend\UserData;
+
+return [
+    (new UserData())
+        ->removeUserColumn('column_name') // For a single column
+        ->removeUserColumns(['column1', 'column2']) // For multiple columns
+];
+```
 
 ### FAQ & Recommendations
 
