@@ -58,9 +58,9 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
         body: {
           data: {
             attributes: {
-                userId: this.user.id(),
-              }
-          }
+              userId: this.user.id(),
+            },
+          },
         },
       })
       .then(this.hide.bind(this), this.loaded.bind(this));
