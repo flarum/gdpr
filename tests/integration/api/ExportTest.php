@@ -44,7 +44,7 @@ class ExportTest extends TestCase
             'group_permission' => [
                 ['permission' => 'moderateExport', 'group_id' => 4],
             ],
-            'gdpr_exports' => [],
+            'gdpr_exports'  => [],
             'notifications' => [],
         ]);
     }
@@ -57,13 +57,13 @@ class ExportTest extends TestCase
                 '/api/gdpr/export',
                 [
                     'authenticatedAs' => $actorId,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
-                                'userId' => $userId
-                            ]
-                        ]
-                    ]
+                                'userId' => $userId,
+                            ],
+                        ],
+                    ],
                 ]
             )->withAttribute('bypassCsrfToken', true)
         );
@@ -148,11 +148,11 @@ class ExportTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 2,
-                    
+
                 ]
             )
         );
-        
+
         $response = $this->makeExportRequest(3, 2);
 
         $this->assertEquals(201, $response->getStatusCode());
@@ -174,7 +174,7 @@ class ExportTest extends TestCase
     {
         $response = $this->makeExportRequest(2);
         $this->assertEquals(201, $response->getStatusCode());
-        
+
         $export = $this->getExportRecordFor(2);
 
         $notifications = $this->getNotificationsForExport($export);
@@ -218,7 +218,7 @@ class ExportTest extends TestCase
 
         $export = $this->getExportRecordFor(2);
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $this->assertFileExists($paths->storage . DIRECTORY_SEPARATOR . 'gdpr-exports' . DIRECTORY_SEPARATOR . $export->id);
+        $this->assertFileExists($paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id);
     }
 
     /**
@@ -235,7 +235,7 @@ class ExportTest extends TestCase
         $response = $this->send(
             $this->request(
                 'GET',
-                '/gdpr/export/' . $fileName,
+                '/gdpr/export/'.$fileName,
                 ['authenticatedAs' => 2]
             )->withAttribute('bypassCsrfToken', true)
         );
@@ -259,7 +259,7 @@ class ExportTest extends TestCase
         $response = $this->send(
             $this->request(
                 'GET',
-                '/gdpr/export/' . $fileName,
+                '/gdpr/export/'.$fileName,
             )->withAttribute('bypassCsrfToken', true)
         );
 
@@ -281,7 +281,7 @@ class ExportTest extends TestCase
         $export = $this->getExportRecordFor(2);
 
         $paths = $this->app()->getContainer()->make(Paths::class);
-        $zipFilePath = $paths->storage . DIRECTORY_SEPARATOR . 'gdpr-exports' . DIRECTORY_SEPARATOR . $export->id;
+        $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id;
 
         $zip = new ZipFile();
         $zip->openFile($zipFilePath);

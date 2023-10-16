@@ -13,7 +13,6 @@ namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Jobs\ExportJob;
 use Blomstra\Gdpr\Jobs\GdprJob;
-use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
