@@ -34,6 +34,11 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         return $this->export->user;
     }
 
+    public function getActor(): ?User
+    {
+        return $this->export->actor;
+    }
+
     public function getSubject(): Export
     {
         return $this->export;

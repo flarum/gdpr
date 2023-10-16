@@ -22,26 +22,26 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class ExportJob extends GdprJob
 {
-    public function __construct(private User $user)
+    public function __construct(private User $user, private User $actor)
     {
     }
 
     public function handle(Exporter $exporter, NotificationSyncer $notifications, Dispatcher $events)
     {
-        $events->dispatch(new Exporting($this->user));
+        $events->dispatch(new Exporting($this->user, $this->actor));
 
-        $export = $exporter->export($this->user);
+        $export = $exporter->export($this->user, $this->actor);
 
         $this->notify($export, $notifications);
 
-        $events->dispatch(new Exported($this->user));
+        $events->dispatch(new Exported($this->user, $this->actor));
     }
 
     public function notify(Export $export, NotificationSyncer $notifications)
     {
         $notifications->sync(
             new ExportAvailableBlueprint($export),
-            [$export->user]
+            [$this->actor]
         );
     }
 }

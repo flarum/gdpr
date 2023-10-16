@@ -2,13 +2,29 @@ blomstra-gdpr:
     admin:
         permissions:
             process_erasure: Process erasure requests
+            process_export_for_others: Request and receive data exports for other users
         settings:
-            allow_anonymization: Allow anonymization for erasure requests?
-            allow_deletion: Allow deletion for erasure requests?
+            allow_anonymization: Allow anonymization for erasure requests
+            allow_anonymization_help: Should anonymization be allowed for erasure requests?
+            allow_deletion: Allow deletion for erasure requests
+            allow_deletion_help: Should deletion be allowed for erasure requests?
             default_erasure: Default action for erasure requests
+            default_erasure_help: What should the default action be for erasure requests?
             default_erasure_options:
                 anonymization: Anonymization
                 deletion: Deletion
+        userlist:
+            columns:
+                gdpr_actions:
+                    title: GDPR Actions
+                    export: Export data for {username}
+
+    lib:
+        request_data:
+            title: Request data for {username}
+            text: >
+                A zip archive will be prepared for you. Once it's ready, you'll recieve a notification with a download link. The link will remain active for one day.
+            request_button: Request archive
 
     email:
         confirm_erasure:
@@ -43,7 +59,7 @@ blomstra-gdpr:
             body: |
                 Hey {display_name}!
 
-                You requested an export of your data. This export has been successfully been generated and is now available:
+                You requested an export of the account data for {username}. This export has successfully been generated and is now available:
 
                 {url}
 
@@ -64,11 +80,7 @@ blomstra-gdpr:
             export_data_help: "Requesting data export will provide you with a downloadable copy of all the information associated with your account. This includes posts, comments, and profile details."
             request_erasure_button: Erase Account
             request_erasure_help: "Requesting erasure will permanently delete your account and all associated data. This action is irreversible. Before proceeding, ensure you have saved any content you wish to keep."
-        request_data:
-            title: Request your data
-            text: >
-                A zip archive will be prepared for you. Once it's ready, you'll recieve a notification with a download link. The link will remain active for one day.
-            request_button: Request archive
+        
 
         process_erasure:
             confirm: Are you sure you want to erase {name}'s account under {mode} mode?
@@ -92,5 +104,5 @@ blomstra-gdpr:
             cancel_button: Cancel request
             request_button: Request erasure
         notification:
-            export-ready: "Your data export is ready to download."
+            export-ready: "Your data export for {username} is now ready to download."
         export_file: Export of user data for {username} ({email}) prepared at {date} from {forumTitle} ({url})

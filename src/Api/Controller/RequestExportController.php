@@ -13,9 +13,12 @@ namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Jobs\ExportJob;
 use Blomstra\Gdpr\Jobs\GdprJob;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
+use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,8 +38,14 @@ class RequestExportController implements RequestHandlerInterface
             throw new NotAuthenticatedException();
         }
 
+        $user = User::query()->where('id', Arr::get($request->getParsedBody(), 'data.attributes.userId'))->firstOrFail();
+
+        if ($actor->isNot($user)) {
+            $actor->assertCan('moderateExport');
+        }
+
         $this->queue->push(
-            job: new ExportJob($actor),
+            job: new ExportJob($user, $actor),
             queue: GdprJob::$onQueue
         );
 
