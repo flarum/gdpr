@@ -24,7 +24,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
     super.oninit(vnode);
 
     this.request =
-      this.attrs.request || app.store.createRecord<ErasureRequest>('user-erasure-requests', { relationships: { user: this.attrs.user } });
+      this.attrs.request || app.store.createRecord<ErasureRequest>('user-erasure-requests', { relationships: { user: this.attrs.user?.id() } });
 
     this.comments = Stream('');
   }
@@ -131,7 +131,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
     m.redraw();
 
     this.request
-      .save({ processor_comment: this.comments() }, { meta: { mode } })
+      .save({ processor_comment: this.comments(), meta: { mode } })
       .then((erasureRequest) => {
         app.store.remove(erasureRequest);
         this.loadingAnonymization = false;
