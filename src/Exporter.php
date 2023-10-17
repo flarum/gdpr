@@ -97,7 +97,7 @@ class Exporter
     public function destroy(Export $export)
     {
         $this->filesystem->delete($export->id);
-        
+
         Notification::query()
             ->where('type', 'gdprExportAvailable')
             ->where('subject_id', $export->id)
