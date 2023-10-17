@@ -97,10 +97,10 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I am trying to process this request',
-                        ],
-                        'meta' => [
-                            'mode' => ErasureRequest::MODE_DELETION,
-                        ],
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_DELETION,
+                            ],
+                        ]
                     ],
                 ],
             ])
@@ -121,10 +121,10 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I am trying to process this request',
-                        ],
-                        'meta' => [
-                            'mode' => ErasureRequest::MODE_DELETION,
-                        ],
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_DELETION,
+                            ],
+                        ]
                     ],
                 ],
             ])
@@ -145,11 +145,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_DELETION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_DELETION,
-                    ],
+                    ]
                 ],
             ])
         );
@@ -177,11 +177,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                    ],
+                    ]
                 ],
             ])
         );
@@ -218,11 +218,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                    ],
+                    ]
                 ],
             ])
         );
@@ -244,11 +244,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_DELETION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_DELETION,
-                    ],
+                    ]
                 ],
             ])
         );
@@ -277,11 +277,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                    ],
+                    ]
                 ],
             ])
         );
@@ -315,11 +315,11 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
+                            'meta' => [
+                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                            ],
                         ],
-                    ],
-                    'meta' => [
-                        'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                    ],
+                    ]
                 ],
             ])
         );

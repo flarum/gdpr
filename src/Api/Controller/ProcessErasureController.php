@@ -41,7 +41,7 @@ class ProcessErasureController extends AbstractShowController
 
         $id = Arr::get($request->getQueryParams(), 'id');
 
-        $mode = Arr::get($request->getParsedBody(), 'meta.mode');
+        $mode = Arr::get($request->getParsedBody(), 'data.attributes.meta.mode');
 
         if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);

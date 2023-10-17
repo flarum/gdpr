@@ -80,11 +80,11 @@ class RequestErasureTest extends TestCase
                         'data' => [
                             'attributes' => [
                                 'reason' => 'I want to be forgotten',
-                            ],
-                        ],
-                        'meta' => [
-                            'password' => 'wrong-password',
-                        ],
+                                'meta' => [
+                                    'password' => 'wrong-password',
+                                ],
+                            ]
+                        ]
                     ],
                 ]
             )->withAttribute('bypassCsrfToken', true)
@@ -113,11 +113,11 @@ class RequestErasureTest extends TestCase
                         'data' => [
                             'attributes' => [
                                 'reason' => 'I want to be forgotten',
-                            ],
-                        ],
-                        'meta' => [
-                            'password' => 'too-obscure',
-                        ],
+                                'meta' => [
+                                    'password' => 'too-obscure',
+                                ],
+                            ]
+                        ]
                     ],
                 ]
             )->withAttribute('bypassCsrfToken', true)
@@ -164,11 +164,11 @@ class RequestErasureTest extends TestCase
                     'json'            => [
                         'data' => [
                             'attributes' => [
+                            'meta' => [
+                                'password' => 'too-obscure',
                             ],
-                        ],
-                        'meta' => [
-                            'password' => 'too-obscure',
-                        ],
+                            ]
+                        ]
                     ],
                 ]
             )->withAttribute('bypassCsrfToken', true)
