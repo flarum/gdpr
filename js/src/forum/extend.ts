@@ -7,6 +7,5 @@ export default [
   ...extend,
 
   new Extend.Routes() //
-    .add('erasure-requests', '/erasure-requests', ErasureRequestsPage)
-    .add('gdpr.export', '/gdpr/export/:file', ''),
+    .add('erasure-requests', '/erasure-requests', ErasureRequestsPage),
 ];
