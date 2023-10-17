@@ -15,6 +15,7 @@ use Blomstra\Gdpr\Contracts\DataType;
 use Blomstra\Gdpr\Models\Export;
 use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
+use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -96,6 +97,11 @@ class Exporter
     public function destroy(Export $export)
     {
         $this->filesystem->delete($export->id);
+        
+        Notification::query()
+            ->where('type', 'gdprExportAvailable')
+            ->where('subject_id', $export->id)
+            ->update(['is_deleted' => true]);
 
         $export->delete();
     }
