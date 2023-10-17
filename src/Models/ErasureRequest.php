@@ -39,6 +39,7 @@ class ErasureRequest extends AbstractModel
     const STATUS_USER_CONFIRMED = 'user_confirmed';
     const STATUS_CANCELLED = 'cancelled';
     const STATUS_PROCESSED = 'processed';
+    const STATUS_MANUAL = 'manual';
 
     const MODE_ANONYMIZATION = 'anonymization';
     const MODE_DELETION = 'deletion';

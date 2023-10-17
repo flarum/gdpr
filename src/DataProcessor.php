@@ -43,6 +43,9 @@ final class DataProcessor
         self::$removeUserColumns = array_merge(self::$removeUserColumns, $columns);
     }
 
+    /**
+     * @return \Blomstra\Gdpr\Contracts\DataType[]
+     */
     public function types(): array
     {
         return self::$types;

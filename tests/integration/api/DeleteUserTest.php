@@ -11,8 +11,10 @@
 
 namespace Blomstra\Gdpr\tests\integration\api;
 
+use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
 
 class DeleteUserTest extends TestCase
 {
@@ -34,7 +36,7 @@ class DeleteUserTest extends TestCase
     /**
      * @test
      */
-    public function delete_user_is_unavailable()
+    public function delete_user_endpoint_is_processed_by_this_extension()
     {
         $response = $this->send(
             $this->request(
@@ -46,6 +48,11 @@ class DeleteUserTest extends TestCase
             )
         );
 
-        $this->assertEquals(405, $response->getStatusCode());
+        $this->assertEquals(204, $response->getStatusCode());
+
+        $user = User::query()->where('id', 2)->with('erasureRequest')->first();
+        $this->assertNotNull($user);
+        $this->assertEquals("Anonymous{$user->erasureRequest->id}", $user->username);
+        $this->assertEquals(ErasureRequest::STATUS_MANUAL, $user->erasureRequest->status);
     }
 }

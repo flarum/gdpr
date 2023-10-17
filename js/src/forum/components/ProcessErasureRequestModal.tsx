@@ -7,11 +7,9 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import ErasureRequest from 'src/common/models/ErasureRequest';
-import User from 'flarum/common/models/User';
 
 interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
-  request: ErasureRequest | undefined;
-  user: User | undefined;
+  request: ErasureRequest;
 }
 
 export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequestModalAttrs> {
@@ -23,8 +21,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   oninit(vnode: Mithril.Vnode<ProcessErasureRequestModalAttrs>) {
     super.oninit(vnode);
 
-    this.request =
-      this.attrs.request || app.store.createRecord<ErasureRequest>('user-erasure-requests', { relationships: { user: this.attrs.user?.id() } });
+    this.request = this.attrs.request;
 
     this.comments = Stream('');
   }

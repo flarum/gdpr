@@ -66,6 +66,13 @@ blomstra-gdpr:
                 This export will remain available until {destroys_at}.
 
     forum:
+        delete_user:
+            title: Erase {username}'s account
+            text: |
+                Are you sure you want to erase {username}'s account?
+
+                This action is irreversible. This erasure will be processed according to the current default erasure settings.
+            delete_button: Erase
         erasure_requests:
             empty_text: No pending account erasure requests
             item_text: "{name} requested account erasure"

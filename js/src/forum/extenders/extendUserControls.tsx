@@ -6,7 +6,7 @@ import User from 'flarum/common/models/User';
 import Button from 'flarum/common/components/Button';
 import RequestDataExportModal from '../../common/components/RequestDataExportModal';
 import type Mithril from 'mithril';
-import ProcessErasureRequestModal from '../components/ProcessErasureRequestModal';
+import DeleteUserModal from '../components/DeleteUserModal';
 
 export default function extendUserControls() {
   extend(UserControls, 'moderationControls', function (items: ItemList<Mithril.Children>, user: User) {
@@ -26,8 +26,8 @@ export default function extendUserControls() {
     if (user.canDelete()) {
       items.add(
         'gdpr-erase',
-        <Button icon="fas fa-times" onclick={() => app.modal.show(ProcessErasureRequestModal, { user })}>
-          {app.translator.trans('core.forum.user_controls.delete_button')}
+        <Button icon="fas fa-eraser" onclick={() => app.modal.show(DeleteUserModal, { user })}>
+          {app.translator.trans('blomstra-gdpr.forum.delete_user.delete_button')}
         </Button>
       );
     }
