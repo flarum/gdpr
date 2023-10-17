@@ -196,7 +196,7 @@ class ProcessErasureTest extends TestCase
 
         $user = User::where('id', 5)->with('groups')->first();
         $this->assertNotNull($user);
-        $this->assertEquals('Anonymous#2', $user->username);
+        $this->assertEquals('Anonymous2', $user->username);
         $this->assertEquals("{$user->username}@flarum-gdpr.local", $user->email);
         $this->assertEquals(0, $user->is_email_confirmed);
         $this->assertEmpty($user->last_seen_at);
@@ -290,7 +290,7 @@ class ProcessErasureTest extends TestCase
 
         $user = User::find(5);
         $this->assertNotNull($user);
-        $this->assertEquals('Anonymous#2', $user->username);
+        $this->assertEquals('Anonymous2', $user->username);
         $this->assertNull($user->nickname);
     }
 
@@ -328,7 +328,7 @@ class ProcessErasureTest extends TestCase
 
         $user = User::find(5);
         $this->assertNotNull($user);
-        $this->assertEquals('Anonymous#2', $user->username);
+        $this->assertEquals('Anonymous2', $user->username);
         $this->assertNull($user->bio);
     }
 }
