@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Api\Controller;
 
 use Blomstra\Gdpr\Jobs\ErasureJob;
@@ -19,7 +28,7 @@ class DeleteUserController extends AbstractDeleteController
     public function __construct(protected UserRepository $users, protected SettingsRepositoryInterface $settings, protected Queue $queue)
     {
     }
-    
+
     public function delete(ServerRequestInterface $request): void
     {
         $actor = RequestUtil::getActor($request);
