@@ -4,10 +4,8 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import ErasureRequest from 'src/common/models/ErasureRequest';
-import User from 'flarum/common/models/User';
 interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
-    request: ErasureRequest | undefined;
-    user: User | undefined;
+    request: ErasureRequest;
 }
 export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequestModalAttrs> {
     comments: Stream<string>;
