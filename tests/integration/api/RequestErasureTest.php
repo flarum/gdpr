@@ -80,7 +80,7 @@ class RequestErasureTest extends TestCase
                         'data' => [
                             'attributes' => [
                                 'reason' => 'I want to be forgotten',
-                                
+
                             ],
                             'meta'   => [
                                 'password' => 'wrong-password',
@@ -114,7 +114,7 @@ class RequestErasureTest extends TestCase
                         'data' => [
                             'attributes' => [
                                 'reason' => 'I want to be forgotten',
-                                
+
                             ],
                         ],
                         'meta'   => [
@@ -166,8 +166,8 @@ class RequestErasureTest extends TestCase
                     'json'            => [
                         'data' => [
                             'attributes' => [
-                                
-                            ]
+
+                            ],
                         ],
                         'meta' => [
                             'password' => 'too-obscure',
