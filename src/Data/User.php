@@ -42,8 +42,8 @@ class User extends Type
             $this->user->{$column} = null;
         }
 
-        $this->user->username = "Anonymous{$this->erasureRequest->id}";
-        $this->user->email = "{$this->user->username}@flarum-gdpr.local";
+        $this->user->rename("Anonymous{$this->erasureRequest->id}");
+        $this->user->changeEmail("{$this->user->username}@flarum-gdpr.local");
         $this->user->is_email_confirmed = false;
         $this->user->setPasswordAttribute(Str::random(40));
         $this->user->setPreferencesAttribute([]);
