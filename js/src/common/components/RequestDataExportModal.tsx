@@ -4,6 +4,7 @@ import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import User from 'flarum/common/models/User';
 import type Mithril from 'mithril';
+import avatar from 'flarum/common/helpers/avatar';
 
 interface RequestDataExportModalAttrs extends IInternalModalAttrs {
   user: User;
@@ -32,6 +33,9 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
     return (
       <div className="Modal-body">
         <div className="Form Form--centered">
+          <div className="User">
+            {avatar(this.user)}
+          </div>
           <p className="helpText">{app.translator.trans('blomstra-gdpr.lib.request_data.text')}</p>
           <div className="Form-group">
             <Button
