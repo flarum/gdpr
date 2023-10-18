@@ -12,9 +12,11 @@ composer require blomstra/gdpr:@beta
 
 ### Use
 
-The user has a new button in their settings - account section called "Export Data". Upon clicking this button a modal
-will appear showing that user data can be exported. Once the export has been generated the user is notified through email
-with a unique, temporary link.
+All forum users now have a `Personal Data` section within their account settings page:
+
+![image](https://github.com/blomstra/flarum-ext-gdpr/assets/16573496/4e469956-709f-4ba3-a5fe-d3fcb0401b73)
+
+From here, users may self-service export their data from the forum, or start an erasure request. Erasure requests are queued up for admins/moderators to process. Any unprocessed requests that are still pending after 30 days will be processed automatically using the configured default method (Deletion or Anonymization).
 
 #### Specifying which queue to use
 If your forum runs multiple queues, ie `low` and `high`, you may specify which queue jobs for this extension are run on in your skeleton's `extend.php` file:
