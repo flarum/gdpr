@@ -139,7 +139,7 @@ class ProcessErasureTest extends TestCase
     public function authorized_user_can_process_confirmed_erasure_request_in_deletion_mode()
     {
         $this->setting('blomstra-gdpr.allow-deletion', true);
-        
+
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
                 'authenticatedAs' => 3,
