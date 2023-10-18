@@ -26,7 +26,8 @@ return [
         ->js(__DIR__.'/js/dist/admin.js'),
 
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->css(__DIR__.'/resources/less/forum.less'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -67,7 +68,7 @@ return [
 
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)
-        ->default('blomstra-gdpr.allow-deletion', true)
+        ->default('blomstra-gdpr.allow-deletion', false)
         ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
