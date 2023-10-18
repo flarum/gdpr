@@ -7,6 +7,7 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import ErasureRequest from 'src/common/models/ErasureRequest';
+import UserCard from 'flarum/forum/components/UserCard';
 
 interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
   request: ErasureRequest;
@@ -27,7 +28,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   }
 
   className() {
-    return 'ProcessErasureRequestModal Modal--small';
+    return 'ProcessErasureRequestModal Modal--medium';
   }
 
   title() {
@@ -49,7 +50,10 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
 
     items.add(
       'text',
-      <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
+      <div>
+        <UserCard className="UserCard--popover UserCard--gdpr" user={this.request.user()} />
+        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
+      </div>
     );
 
     erasureRequest?.reason() &&
