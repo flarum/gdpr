@@ -33,9 +33,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
     return (
       <div className="Modal-body">
         <div className="Form Form--centered">
-          <div className="User">
-            {avatar(this.user)}
-          </div>
+          <div className="User">{avatar(this.user)}</div>
           <p className="helpText">{app.translator.trans('blomstra-gdpr.lib.request_data.text')}</p>
           <div className="Form-group">
             <Button
