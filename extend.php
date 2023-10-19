@@ -79,8 +79,8 @@ return [
     (new Extend\Console())
         ->command(Console\DestroyExportsCommand::class)
         ->command(Console\ProcessEraseRequests::class)
-        ->schedule(Console\ProcessEraseRequests::class, new Console\DailySchedule())
-        ->schedule(Console\DestroyExportsCommand::class, new Console\DailySchedule()),
+        ->schedule(Console\ProcessEraseRequests::class, Console\DailySchedule::class)
+        ->schedule(Console\DestroyExportsCommand::class, Console\DailySchedule::class),
 
     (new Extend\ServiceProvider())
         ->register(Providers\GdprProvider::class),
@@ -89,7 +89,7 @@ return [
         ->disk('gdpr-export', ExportDiskConfig::class),
 
     (new Extend\Conditional())
-        ->whenExtensionEnabled('fof-oauth', [
+        ->whenExtensionEnabled('fof-oauth', fn () => [
             (new Extend\ApiSerializer(ForumSerializer::class))
                 ->attribute('passwordlessSignUp', function (ForumSerializer $serializer) {
                     return !$serializer->getActor()->isGuest() && $serializer->getActor()->loginProviders()->count() > 0;
