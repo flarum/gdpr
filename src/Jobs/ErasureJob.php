@@ -61,7 +61,7 @@ class ErasureJob extends GdprJob
         /** @var User */
         $user = User::find($this->erasureRequest->user_id);
 
-        if (!$user) {
+        if (!$user->exists) {
             return;
         }
 

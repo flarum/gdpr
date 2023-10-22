@@ -19,6 +19,11 @@ class RequestErasureSerializer extends AbstractSerializer
 {
     protected $type = 'user-erasure-requests';
 
+    /**
+     * @param \Blomstra\Gdpr\Models\ErasureRequest $erasure_request
+     *
+     * @return array
+     */
     protected function getDefaultAttributes($erasure_request)
     {
         return [

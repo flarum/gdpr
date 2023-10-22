@@ -11,10 +11,10 @@
 
 namespace Blomstra\Gdpr\Models;
 
+use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\User\User;
-use Illuminate\Support\Carbon;
 
 /**
  * @property int         $id
