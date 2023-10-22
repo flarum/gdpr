@@ -25,6 +25,7 @@ class AddForumAttributes
         $actor = $serializer->getActor();
 
         if ($actor->isAdmin()) {
+            /** @var string[] $types */
             $types = $this->processor->types();
             $attributes['gdpr-data-types'] = array_combine(
                 $types,

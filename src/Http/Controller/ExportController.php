@@ -33,7 +33,7 @@ class ExportController implements RequestHandlerInterface
 
         $file = Arr::get($request->getQueryParams(), 'file');
 
-        if (!$actor || !$file) {
+        if ($actor->isGuest() || !$file) {
             throw new UnauthorizedException();
         }
 

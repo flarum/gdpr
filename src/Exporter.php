@@ -68,11 +68,11 @@ class Exporter
 
         $export = Export::exported($user, basename($file), $actor);
 
-        if ($this->filesystem->exists($export->id)) {
-            $this->filesystem->delete($export->id);
+        if ($this->filesystem->exists((string) $export->id)) {
+            $this->filesystem->delete((string) $export->id);
         }
 
-        $this->filesystem->writeStream($export->id, $handle = fopen($file, 'r'));
+        $this->filesystem->writeStream((string) $export->id, $handle = fopen($file, 'r'));
 
         fclose($handle);
 
@@ -84,11 +84,11 @@ class Exporter
     public function getZip(Export $export)
     {
         return new Response(
-            $this->filesystem->readStream($export->id),
+            $this->filesystem->readStream((string) $export->id),
             200,
             [
                 'Content-Type'        => 'application/zip',
-                'Content-Length'      => $this->filesystem->size($export->id),
+                'Content-Length'      => $this->filesystem->size((string) $export->id),
                 'Content-Disposition' => 'attachment; filename="gdpr-data-'.$export->user->username.'-'.$export->created_at->toIso8601String().'.zip"',
             ]
         );
@@ -96,7 +96,7 @@ class Exporter
 
     public function destroy(Export $export)
     {
-        $this->filesystem->delete($export->id);
+        $this->filesystem->delete((string) $export->id);
 
         Notification::query()
             ->where('type', 'gdprExportAvailable')
