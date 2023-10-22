@@ -16,7 +16,6 @@ use Blomstra\Gdpr\Models\Export;
 use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -32,10 +31,6 @@ class ExportController implements RequestHandlerInterface
         $actor = RequestUtil::getActor($request);
 
         $file = Arr::get($request->getQueryParams(), 'file');
-
-        if ($actor->isGuest() || !$file) {
-            throw new UnauthorizedException();
-        }
 
         $export = Export::byFile($file);
 
