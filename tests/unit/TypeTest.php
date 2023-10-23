@@ -1,19 +1,28 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\tests\unit;
 
 use Blomstra\Gdpr\Data\Type;
+use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Database\AbstractModel;
+use Flarum\Http\UrlGenerator;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Testing\unit\TestCase;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
-use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\Http\UrlGenerator;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Blomstra\Gdpr\Models\ErasureRequest;
-use Flarum\Database\AbstractModel;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use PhpZip\ZipFile;
 use Mockery as m;
+use PhpZip\ZipFile;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TypeTest extends TestCase
 {
@@ -32,7 +41,7 @@ class TypeTest extends TestCase
 
         // Mock the factory to return a specific disk when called
         $diskName = 'mockedDisk';
-        $mockedDisk = m::mock('overload:' . Filesystem::class);
+        $mockedDisk = m::mock('overload:'.Filesystem::class);
         $factory->shouldReceive('disk')->with($diskName)->andReturn($mockedDisk);
 
         // Given
@@ -47,6 +56,7 @@ class TypeTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider specialCharactersProvider
      */
     public function it_does_not_escape_unicode_characters_when_encoding_for_export($input, $expected)
@@ -86,7 +96,6 @@ class TypeTest extends TestCase
             ['好', '"content": "好"'],
         ];
     }
-
 
     /**
      * @test
