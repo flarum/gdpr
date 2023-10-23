@@ -18,6 +18,8 @@ use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use PhpZip\ZipFile;
 use Psr\Http\Message\ResponseInterface;
 
@@ -47,6 +49,13 @@ class ExportTest extends TestCase
             'gdpr_exports'  => [],
             'notifications' => [],
         ]);
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->getStorageFilesystem()->delete($this->getStorageFilesystem()->allFiles());
     }
 
     protected function makeExportRequest(int $actorId = 2, int $userId = 2): ResponseInterface
@@ -82,6 +91,11 @@ class ExportTest extends TestCase
         return Export::query()
             ->where('user_id', $userId)
             ->first();
+    }
+
+    protected function getStorageFilesystem(): Filesystem
+    {
+        return $this->app()->getContainer()->make(Factory::class)->disk('gdpr-export');
     }
 
     /**
@@ -217,8 +231,8 @@ class ExportTest extends TestCase
         $this->assertEquals(201, $response->getStatusCode());
 
         $export = $this->getExportRecordFor(2);
-        $paths = $this->app()->getContainer()->make(Paths::class);
-        $this->assertFileExists($paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id);
+
+        $this->assertTrue($this->getStorageFilesystem()->exists("export-{$export->id}.zip"), 'Export file does not exist in storage.');
     }
 
     /**
@@ -280,11 +294,8 @@ class ExportTest extends TestCase
 
         $export = $this->getExportRecordFor(2);
 
-        $paths = $this->app()->getContainer()->make(Paths::class);
-        $zipFilePath = $paths->storage.DIRECTORY_SEPARATOR.'gdpr-exports'.DIRECTORY_SEPARATOR.$export->id;
-
         $zip = new ZipFile();
-        $zip->openFile($zipFilePath);
+        $zip->openFromString($this->getStorageFilesystem()->get("export-{$export->id}.zip"));
 
         $actualFiles = $zip->getListFiles();
 
