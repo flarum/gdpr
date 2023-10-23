@@ -39,11 +39,18 @@ blomstra-gdpr:
                 {erasure_confirm_url}
 
         erasure_completed:
-            subject: Account erasure completed
-            body: |
-                Hey {display_name}!
+            deletion:
+                subject: Account deletion completed
+                body: |
+                    Hey {display_name}!
 
-                This is an automatic, final notification that your account has been erased.
+                    This is an automatic, final notification that your account has been deleted.
+            amonymization:
+                subject: Account anonymization completed
+                body: |
+                    Hey {display_name}!
+
+                    This is an automatic, final notification that your account has been anonymized.
 
         erasure_cancelled:
             subject: Account erasure request cancelled

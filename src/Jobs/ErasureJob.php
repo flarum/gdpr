@@ -88,7 +88,7 @@ class ErasureJob extends GdprJob
 
         $this->{$mode}($user, $processor);
 
-        $this->sendUserConfirmation($username, $email, $mailer, $translator);
+        $this->sendUserConfirmation($mode, $username, $email, $mailer, $translator);
 
         $events->dispatch(new Erased(
             $username,
@@ -111,9 +111,9 @@ class ErasureJob extends GdprJob
         }
     }
 
-    private function sendUserConfirmation(string $username, string $email, Mailer $mailer, TranslatorInterface $translator): void
+    private function sendUserConfirmation(string $mode, string $username, string $email, Mailer $mailer, TranslatorInterface $translator): void
     {
-        $blueprint = new ErasureCompletedBlueprint($this->erasureRequest, $username);
+        $blueprint = new ErasureCompletedBlueprint($this->erasureRequest, $username, $mode);
 
         $mailer->send(
             $blueprint->getEmailView(),

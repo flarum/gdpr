@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 {
-    public function __construct(private ErasureRequest $request, private $username)
+    public function __construct(private ErasureRequest $request, private string $username, private string $mode)
     {
     }
 
@@ -34,10 +34,16 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return $this->request;
     }
 
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
     public function getData(): array
     {
         return [
             'username' => $this->username,
+            'mode' => $this->mode,
         ];
     }
 
@@ -58,6 +64,6 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans('blomstra-gdpr.email.erasure_completed.subject');
+        return $translator->trans("blomstra-gdpr.email.erasure_completed.{$this->getMode()}.subject");
     }
 }
