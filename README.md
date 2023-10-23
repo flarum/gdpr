@@ -2,6 +2,11 @@
 
 This extension allows users increasing control over their data.
 
+### Requirements
+
+- `flarum/core` - `v1.8.3` or higher
+- `PHP` - `8.0` or higher
+
 ### Installation or update
 
 Install manually with composer:
@@ -31,7 +36,7 @@ return [
 
 ### For developers
 
-You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Blomstra\Gdpr\Extend\UserData` extender.
+You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Blomstra\Gdpr\Extend\UserData` extender. Ensure that you wrap the GDPR extender in a conditional extend, so that forum owners can choose if they want to enable GDPR functionality or not. This functionality requires `flarum/core` `v1.8.3` or higher, so that should be set as your extension's minimum requirement.
 
 #### Registering a new Data Type:
 
@@ -40,11 +45,16 @@ Your data type class should implement the `Blomstra\Gdpr\Contracts\DataType`:
 <?php
 
 use Blomstra\Gdpr\Extend\UserData;
-use Your\Own\DataType;
+use Flarum\Extend;
 
 return [
-    (new UserData())
-        ->addType(DataType::class)
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
+            (new UserData())
+                ->addType(Your\Own\DataType::class),
+
+            ... other conditional extenders as required ...
+        ]),
 ];
 ```
 
@@ -56,10 +66,16 @@ name the file and always prefix it with your extension slug (blomstra-something-
 If for any reason you want to exclude a certain DataType from the export:
 ```php
 use Blomstra\Gdpr\Extend\UserData;
+use Flarum\Extend;
 
 return [
-    (new UserData())
-        ->removeType(Your\Own\DataType::class)
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
+            (new UserData())
+                ->removeType(Your\Own\DataType::class),
+
+            ... other conditional extenders as required ...
+        ]),
 ];
 ```
 
@@ -68,9 +84,14 @@ return [
 use Blomstra\Gdpr\Extend\UserData;
 
 return [
-    (new UserData())
-        ->removeUserColumn('column_name') // For a single column
-        ->removeUserColumns(['column1', 'column2']) // For multiple columns
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
+            (new UserData())
+                ->removeUserColumn('column_name') // For a single column
+                ->removeUserColumns(['column1', 'column2']), // For multiple columns
+
+            ... other conditional extenders as required ...
+        ]),
 ];
 ```
 
