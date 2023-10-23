@@ -13,7 +13,6 @@ namespace Blomstra\Gdpr\tests\integration\api;
 
 use Blomstra\Gdpr\Models\Export;
 use Flarum\Database\Eloquent\Collection;
-use Flarum\Foundation\Paths;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
