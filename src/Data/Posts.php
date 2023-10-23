@@ -27,10 +27,7 @@ class Posts extends Type
             ->each(function (Post $post) use ($zip) {
                 $zip->addFromString(
                     "posts/post-{$post->id}.json",
-                    json_encode(
-                        $this->sanitize($post),
-                        JSON_PRETTY_PRINT
-                    )
+                    $this->encodeForExport($this->sanitize($post))
                 );
             });
     }

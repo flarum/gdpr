@@ -26,10 +26,7 @@ class Discussions extends Type
             ->each(function (Discussion $discussion) use ($zip) {
                 $zip->addFromString(
                     "discussions/discussion-{$discussion->id}.json",
-                    json_encode(
-                        $this->sanitize($discussion),
-                        JSON_PRETTY_PRINT
-                    )
+                    $this->encodeForExport($this->sanitize($discussion))
                 );
             });
     }

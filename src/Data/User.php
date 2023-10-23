@@ -24,7 +24,9 @@ class User extends Type
 
         $zip->addFromString(
             'user.json',
-            json_encode(Arr::except($this->user->toArray(), $remove), JSON_PRETTY_PRINT)
+            $this->encodeForExport(
+                Arr::except($this->user->toArray(), $remove)
+            )
         );
     }
 
