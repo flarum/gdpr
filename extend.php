@@ -70,8 +70,8 @@ return [
         ->default('blomstra-gdpr.allow-anonymization', true)
         ->default('blomstra-gdpr.allow-deletion', false)
         ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
-        ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization')
-        ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion'),
+        ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization', 'boolVal')
+        ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion', 'boolVal'),
 
     (new Extend\View())
         ->namespace('gdpr', __DIR__.'/resources/views'),

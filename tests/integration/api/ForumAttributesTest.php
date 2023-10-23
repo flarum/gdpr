@@ -43,6 +43,35 @@ class ForumAttributesTest extends TestCase
     /**
      * @test
      */
+    public function erasure_methods_are_serialized_and_with_the_correct_type()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/api',
+                [
+                    'authenticatedAs' => null,
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertArrayHasKey('erasureAnonymizationAllowed', $json['data']['attributes']);
+        $this->assertArrayHasKey('erasureDeletionAllowed', $json['data']['attributes']);
+
+        $this->assertIsBool($json['data']['attributes']['erasureAnonymizationAllowed']);
+        $this->assertIsBool($json['data']['attributes']['erasureDeletionAllowed']);
+
+        $this->assertTrue($json['data']['attributes']['erasureAnonymizationAllowed']);
+        $this->assertFalse($json['data']['attributes']['erasureDeletionAllowed']);
+    }
+
+    /**
+     * @test
+     */
     public function normal_users_do_not_see_gdpr_data()
     {
         $response = $this->send(
