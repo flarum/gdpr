@@ -24,12 +24,6 @@ class AddForumAttributes
     {
         $actor = $serializer->getActor();
 
-        if ($actor->isAdmin()) {
-            /** @var string[] $types */
-            $types = $this->processor->types();
-            $attributes['gdpr-data-types'] = array_keys($types);
-        }
-
         $attributes['canProcessErasureRequests'] = $actor->can('processErasure');
 
         if ($attributes['canProcessErasureRequests']) {
