@@ -23,12 +23,12 @@ class DataProcessorTest extends TestCase
 
         // Resetting the types and removeUserColumns properties before each test
         DataProcessor::setTypes([
-            ['class' => Data\Forum::class, 'extension' => null],
-            ['class' => Data\Assets::class, 'extension' => null],
-            ['class' => Data\Posts::class, 'extension' => null],
-            ['class' => Data\Tokens::class, 'extension' => null],
-            ['class' => Data\Discussions::class, 'extension' => null],
-            ['class' => Data\User::class, 'extension' => null],
+            Data\Forum::class       => null,
+            Data\Assets::class      => null,
+            Data\Posts::class       => null,
+            Data\Tokens::class      => null,
+            Data\Discussions::class => null,
+            Data\User::class        => null,
         ]);
         DataProcessor::removeUserColumns([]);
     }
@@ -95,5 +95,22 @@ class DataProcessorTest extends TestCase
 
         // Then
         $this->assertEquals($newColumns, $processor->removableUserColumns());
+    }
+
+    /**
+     * @test
+     */
+    public function user_class_is_always_the_last_entry()
+    {
+        // Given
+        $newType = 'TestData\TypeExample';
+        $processor = new DataProcessor();
+
+        // When
+        DataProcessor::addType($newType);
+
+        // Then
+        $types = $processor->types();
+        $this->assertEquals(Data\User::class, array_key_last($types));
     }
 }

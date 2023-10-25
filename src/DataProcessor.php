@@ -11,6 +11,8 @@
 
 namespace Blomstra\Gdpr;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class DataProcessor.
  *
@@ -43,7 +45,12 @@ final class DataProcessor
      */
     public static function addType(string $class, ?string $extensionId = null)
     {
-        self::$types[$class] = $extensionId;
+        // Separate the User entry and the rest of the array
+        $withoutUser = Arr::except(self::$types, [Data\User::class]);
+        $userEntry = [Data\User::class => self::$types[Data\User::class]];
+
+        // Add the new class to the array without the User entry, then append the User entry back
+        self::$types = $withoutUser + [$class => $extensionId] + $userEntry;
     }
 
     /**
