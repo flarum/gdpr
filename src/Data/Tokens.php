@@ -30,6 +30,11 @@ class Tokens extends Type
         PasswordToken::class,
     ];
 
+    public static function exportDescription(): string
+    {
+        return 'Exports all tokens the user has created. Data restricted to creation date and token type.';
+    }
+
     public function export(ZipFile $zip): void
     {
         foreach ($this->classes as $class) {
@@ -47,9 +52,19 @@ class Tokens extends Type
         }
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return self::deleteDescription();
+    }
+
     public function anonymize(): void
     {
         $this->delete();
+    }
+
+    public static function deleteDescription(): string
+    {
+        return 'Deletes all tokens the user has created.';
     }
 
     public function delete(): void

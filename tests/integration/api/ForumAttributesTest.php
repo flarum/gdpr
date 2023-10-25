@@ -11,11 +11,8 @@
 
 namespace Blomstra\Gdpr\tests\integration\api;
 
-use Blomstra\Gdpr\Data\Forum;
-use Blomstra\Gdpr\Data\User;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use Illuminate\Support\Arr;
 
 class ForumAttributesTest extends TestCase
 {
@@ -111,13 +108,6 @@ class ForumAttributesTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
 
         $json = json_decode($response->getBody()->getContents(), true);
-
-        $this->assertArrayHasKey('gdpr-data-types', $json['data']['attributes']);
-
-        $types = Arr::get($json, 'data.attributes.gdpr-data-types');
-
-        $this->assertEquals('Forum', $types[Forum::class]);
-        $this->assertEquals('User', $types[User::class]);
 
         $this->assertTrue($json['data']['attributes']['canProcessErasureRequests']);
         $this->assertArrayHasKey('erasureRequestCount', $json['data']['attributes']);

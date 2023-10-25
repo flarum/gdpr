@@ -23,7 +23,8 @@ use Flarum\User\User;
 
 return [
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js'),
+        ->js(__DIR__.'/js/dist/admin.js')
+        ->css(__DIR__.'/resources/less/admin.less'),
 
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
@@ -42,7 +43,8 @@ return [
         ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
         ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)
         ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\ProcessErasureController::class)
-        ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\CancelErasureController::class),
+        ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\CancelErasureController::class)
+        ->get('/gdpr/datatypes', 'gdpr.datatypes.index', Api\Controller\ListDataTypesController::class),
 
     (new Extend\Notification())
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])

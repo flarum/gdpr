@@ -1,5 +1,25 @@
 blomstra-gdpr:
     admin:
+        gdpr_page:
+            heading: GDPR Data
+            description: Status of various GDPR interactions
+            data_types:
+                title: Data Types
+                help_text: |
+                    These are the currently registered data types. Each type is listed along with it's associated export, anonymization, and deletion actions. If an extension handles any data which falls under GDPR regulations, it should register it's data types with <code>blomstra/gdpr</code>.
+                    Data stored in the <code>user</code> table is handled seperately, see user table data below.
+                type: Type
+                export_description: Export Action
+                anonymize_description: Anonymize Action
+                delete_description: Delete Action
+                extension: Extension
+            user_table_data:
+                title: User Table Data
+                help_text: |
+                    On the most part, any columns added to the <code>user</code> table will be handled automatically, both for exporting data and for erasure.
+                    However, there are some special cases, which are listed below.
+        nav:
+            gdpr_button: GDPR
         permissions:
             process_erasure: Process erasure requests
             process_export_for_others: Request and receive data exports for other users

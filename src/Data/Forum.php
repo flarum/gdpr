@@ -16,6 +16,11 @@ use PhpZip\ZipFile;
 
 class Forum extends Type
 {
+    public static function exportDescription(): string
+    {
+        return 'Exports the forum title, url, username, email and the current date.';
+    }
+
     public function export(ZipFile $zip): void
     {
         $forumTitle = $this->settings->get('forum_title');
@@ -37,9 +42,19 @@ class Forum extends Type
         $zip->setArchiveComment($comment);
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return self::NO_ACTION_TAKEN;
+    }
+
     public function anonymize(): void
     {
         // Nothing to do
+    }
+
+    public static function deleteDescription(): string
+    {
+        return self::NO_ACTION_TAKEN;
     }
 
     public function delete(): void
