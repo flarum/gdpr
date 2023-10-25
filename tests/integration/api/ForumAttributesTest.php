@@ -11,11 +11,8 @@
 
 namespace Blomstra\Gdpr\tests\integration\api;
 
-use Blomstra\Gdpr\Data\Forum;
-use Blomstra\Gdpr\Data\User;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use Illuminate\Support\Arr;
 
 class ForumAttributesTest extends TestCase
 {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Tests\integration\Api;
 
 use Blomstra\Gdpr\Data\Forum;
@@ -9,7 +18,7 @@ use Flarum\Testing\integration\TestCase;
 class ListDataTypesControllerTest extends TestCase
 {
     use RetrievesAuthorizedUsers;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -17,8 +26,8 @@ class ListDataTypesControllerTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-            ]
-            ]);
+            ],
+        ]);
 
         $this->extension('blomstra-gdpr');
     }
@@ -45,7 +54,7 @@ class ListDataTypesControllerTest extends TestCase
         );
 
         $this->assertEquals(200, $response->getStatusCode());
-        
+
         $body = json_decode($response->getBody()->getContents(), true);
 
         $this->assertCount(6, $body['data']);

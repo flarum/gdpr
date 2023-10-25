@@ -29,11 +29,11 @@ class DataTypeSerializer extends AbstractSerializer
         $datatype = $model->class;
 
         return [
-            'type' => $datatype::dataType(),
+            'type'                       => $datatype::dataType(),
             'exportDescription'          => $datatype::exportDescription(),
-            'anonymizeDescription' => $datatype::anonymizeDescription(),
-            'deleteDescription'    => $datatype::deleteDescription(),
-            'extension'            => $model->extension,
+            'anonymizeDescription'       => $datatype::anonymizeDescription(),
+            'deleteDescription'          => $datatype::deleteDescription(),
+            'extension'                  => $model->extension,
         ];
     }
 
