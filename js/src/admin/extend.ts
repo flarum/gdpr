@@ -3,8 +3,8 @@ import Extend from 'flarum/common/extenders';
 import GdprPage from './GdprPage';
 
 export default [
-    ...extend,
+  ...extend,
 
-    new Extend.Routes() //
-        .add('gdpr', '/gdpr', GdprPage),
+  new Extend.Routes() //
+    .add('gdpr', '/gdpr', GdprPage),
 ];
