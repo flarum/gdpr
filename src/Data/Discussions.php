@@ -17,6 +17,11 @@ use PhpZip\ZipFile;
 
 class Discussions extends Type
 {
+    public static function exportDescription(): string
+    {
+        return 'Exports all discussions the user has started. Data restricted to title and creation date.';
+    }
+    
     public function export(ZipFile $zip): void
     {
         Discussion::query()
@@ -38,9 +43,19 @@ class Discussions extends Type
         ]);
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return self::NO_ACTION_TAKEN;
+    }
+
     public function anonymize(): void
     {
         // Nothing to do
+    }
+
+    public static function deleteDescription(): string
+    {
+        return self::NO_ACTION_TAKEN;
     }
 
     public function delete(): void

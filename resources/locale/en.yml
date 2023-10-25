@@ -1,5 +1,7 @@
 blomstra-gdpr:
     admin:
+        nav:
+            gdpr_button: GDPR
         permissions:
             process_erasure: Process erasure requests
             process_export_for_others: Request and receive data exports for other users

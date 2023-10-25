@@ -11,46 +11,86 @@
 
 namespace Blomstra\Gdpr;
 
+/**
+ * Class DataProcessor
+ *
+ * Handles the data types and user column removal for the GDPR extension.
+ */
 final class DataProcessor
 {
+    /**
+     * @var array<string, null|string> Associative array with data type class as key and extension ID as value.
+     */
     private static $types = [
-        Data\Forum::class,
-        Data\Assets::class, Data\Posts::class,
-        Data\Tokens::class, Data\Discussions::class,
-        // Ought to be last at all times.
-        Data\User::class,
+        Data\Forum::class => null,
+        Data\Assets::class => null,
+        Data\Posts::class => null,
+        Data\Tokens::class => null,
+        Data\Discussions::class => null,
+        Data\User::class => null, // Ought to be last at all times.
     ];
 
+    /**
+     * @var string[] List of user columns to be removed.
+     */
     private static array $removeUserColumns = [];
 
-    public static function addType(string $type)
+    /**
+     * Add a data type to the list.
+     *
+     * @param string      $class       The class name of the data type.
+     * @param string|null $extensionId The ID of the extension adding the data type.
+     */
+    public static function addType(string $class, ?string $extensionId = null)
     {
-        self::$types[] = $type;
+        self::$types[$class] = $extensionId;
     }
 
-    public static function removeType(string $type)
+    /**
+     * Remove a data type from the list.
+     *
+     * @param string $class The class name of the data type to remove.
+     */
+    public static function removeType(string $class)
     {
-        self::$types = array_values(array_diff(self::$types, [$type]));
+        unset(self::$types[$class]);
     }
 
+    /**
+     * Set the entire list of data types.
+     *
+     * @param array<string, null|string> $types Associative array with data type class as key and extension ID as value.
+     */
     public static function setTypes(array $types)
     {
         self::$types = $types;
     }
 
+    /**
+     * Add columns to the list of user columns to be removed.
+     *
+     * @param string[] $columns List of column names.
+     */
     public static function removeUserColumns(array $columns)
     {
         self::$removeUserColumns = array_merge(self::$removeUserColumns, $columns);
     }
 
     /**
-     * @return \Blomstra\Gdpr\Contracts\DataType[]
+     * Retrieve the list of data types.
+     *
+     * @return array<string, null|string> Associative array with data type class as key and extension ID as value.
      */
     public function types(): array
     {
         return self::$types;
     }
 
+    /**
+     * Retrieve the list of user columns to be removed.
+     *
+     * @return string[] List of column names.
+     */
     public function removableUserColumns(): array
     {
         return self::$removeUserColumns;

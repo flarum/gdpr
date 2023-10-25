@@ -17,6 +17,11 @@ use PhpZip\ZipFile;
 
 class Posts extends Type
 {
+    public static function exportDescription(): string
+    {
+        return 'Exports all posts the user has made. Data restricted to content, creation date, IP address and discussion ID.';
+    }
+    
     public function export(ZipFile $zip): void
     {
         Post::query()
@@ -40,11 +45,21 @@ class Posts extends Type
         ]);
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return 'Removes the IP address from all posts the user has made.';
+    }
+
     public function anonymize(): void
     {
         Post::query()
             ->where('user_id', $this->user->id)
             ->update(['ip_address' => null]);
+    }
+
+    public static function deleteDescription(): string
+    {
+        return 'Deletes all posts the user has made.';
     }
 
     public function delete(): void

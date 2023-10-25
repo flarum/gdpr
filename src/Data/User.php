@@ -18,6 +18,11 @@ use PhpZip\ZipFile;
 
 class User extends Type
 {
+    public static function exportDescription(): string
+    {
+        return 'Exports data from the user table. All columns except id, password.';
+    }
+    
     public function export(ZipFile $zip): void
     {
         $remove = ['id', 'password', 'groups'];
@@ -28,6 +33,11 @@ class User extends Type
                 Arr::except($this->user->toArray(), $remove)
             )
         );
+    }
+
+    public static function anonymizeDescription(): string
+    {
+        return 'Sets all columns on the user table to null. Non-nullable columns are set to their default values or special values. Password is changed, preferences set to default and all groups are removed.';
     }
 
     public function anonymize(): void
@@ -53,6 +63,11 @@ class User extends Type
         $this->user->groups()->sync([]);
 
         $this->user->save();
+    }
+
+    public static function deleteDescription(): string
+    {
+        return 'Deletes the user from the database.';
     }
 
     public function delete(): void

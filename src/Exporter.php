@@ -56,7 +56,7 @@ class Exporter
             }
         }
 
-        foreach ($this->processor->types() as $type) {
+        foreach ($this->processor->types() as $type => $extension) {
             /** @var DataType $segment */
             $segment = new $type($user, null, $this->factory, $this->settings, $this->url, $this->translator);
 

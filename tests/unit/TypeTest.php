@@ -162,14 +162,29 @@ class TestableType extends Type
         return $this->encodeForExport($data);
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return '';
+    }
+
     public function anonymize(): void
     {
+    }
+
+    public static function deleteDescription(): string
+    {
+        return '';
     }
 
     public function delete(): void
     {
     }
 
+    public static function exportDescription(): string
+    {
+        return '';
+    }
+    
     public function export(ZipFile $zip): void
     {
     }

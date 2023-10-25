@@ -116,8 +116,8 @@ class ForumAttributesTest extends TestCase
 
         $types = Arr::get($json, 'data.attributes.gdpr-data-types');
 
-        $this->assertEquals('Forum', $types[Forum::class]);
-        $this->assertEquals('User', $types[User::class]);
+        $this->assertContains(Forum::class, $types);
+        $this->assertContains(User::class, $types);
 
         $this->assertTrue($json['data']['attributes']['canProcessErasureRequests']);
         $this->assertArrayHasKey('erasureRequestCount', $json['data']['attributes']);

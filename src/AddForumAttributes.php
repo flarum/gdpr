@@ -27,12 +27,7 @@ class AddForumAttributes
         if ($actor->isAdmin()) {
             /** @var string[] $types */
             $types = $this->processor->types();
-            $attributes['gdpr-data-types'] = array_combine(
-                $types,
-                array_map(function ($type) {
-                    return $type::dataType();
-                }, $types)
-            );
+            $attributes['gdpr-data-types'] = array_keys($types);
         }
 
         $attributes['canProcessErasureRequests'] = $actor->can('processErasure');

@@ -23,10 +23,12 @@ class DataProcessorTest extends TestCase
 
         // Resetting the types and removeUserColumns properties before each test
         DataProcessor::setTypes([
-            Data\Forum::class,
-            Data\Assets::class, Data\Posts::class,
-            Data\Tokens::class, Data\Discussions::class,
-            Data\User::class,
+            ['class' => Data\Forum::class, 'extension' => null],
+            ['class' => Data\Assets::class, 'extension' => null],
+            ['class' => Data\Posts::class, 'extension' => null],
+            ['class' => Data\Tokens::class, 'extension' => null],
+            ['class' => Data\Discussions::class, 'extension' => null],
+            ['class' => Data\User::class, 'extension' => null],
         ]);
         DataProcessor::removeUserColumns([]);
     }
@@ -44,7 +46,7 @@ class DataProcessorTest extends TestCase
         DataProcessor::addType($newType);
 
         // Then
-        $this->assertContains($newType, $processor->types());
+        $this->assertArrayHasKey($newType, $processor->types());
     }
 
     /**

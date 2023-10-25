@@ -32,8 +32,7 @@ class ExtenderTest extends TestCase
 
         $types = $this->getDataProcessor()->types();
 
-        $this->assertContains(MyNewDataType::class, $types);
-        $this->assertEquals('my-new-data-type', $types[count($types) - 1]::dataType());
+        $this->assertArrayHasKey(MyNewDataType::class, $types);
     }
 
     /**
@@ -50,17 +49,17 @@ class ExtenderTest extends TestCase
 
         $types = $this->getDataProcessor()->types();
 
-        $this->assertNotContains(Forum::class, $types);
+        $this->assertArrayNotHasKey(Forum::class, $types);
     }
 
     /**
      * @test
      */
-    public function custom_user_column_can_be_added()
+    public function custom_user_column_can_be_removed()
     {
         $this->extend(
             (new UserData())
-                ->removeUserColumn('custom_column')
+                ->removeUserColumns('custom_column')
         );
 
         $this->app();
@@ -68,6 +67,24 @@ class ExtenderTest extends TestCase
         $columns = $this->getDataProcessor()->removableUserColumns();
 
         $this->assertContains('custom_column', $columns);
+    }
+
+    /**
+     * @test
+     */
+    public function custom_user_columns_can_be_removed()
+    {
+        $this->extend(
+            (new UserData())
+                ->removeUserColumns(['custom_column', 'another_column'])
+        );
+
+        $this->app();
+
+        $columns = $this->getDataProcessor()->removableUserColumns();
+
+        $this->assertContains('custom_column', $columns);
+        $this->assertContains('another_column', $columns);
     }
 
     /**

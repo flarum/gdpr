@@ -25,9 +25,46 @@ interface DataType
 
     public static function dataType(): string;
 
+    /**
+     * Description of what this data type contains.
+     *
+     * @return non-empty-string
+     */
+    public static function exportDescription(): string;
+
+    /**
+     * Logic to add the data to the zip file.
+     *
+     * @param ZipFile $zip
+     * @return void
+     */
     public function export(ZipFile $zip): void;
 
+    /**
+     * Description of what happens to the data when it is anonymized.
+     *
+     * @return non-empty-string
+     */
+    public static function anonymizeDescription(): string;
+
+    /**
+     * Logic to anonymize the data.
+     *
+     * @return void
+     */
     public function anonymize(): void;
 
+    /**
+     * Description of what happens to the data when it is deleted.
+     *
+     * @return non-empty-string
+     */
+    public static function deleteDescription(): string;
+
+    /**
+     * Logic to delete the data.
+     *
+     * @return void
+     */
     public function delete(): void;
 }

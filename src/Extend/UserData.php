@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of blomstra/flarum-gdpr
- *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
- */
-
 namespace Blomstra\Gdpr\Extend;
 
 use Blomstra\Gdpr\DataProcessor;
@@ -25,20 +16,18 @@ class UserData implements ExtenderInterface
     public function extend(Container $container, Extension $extension = null)
     {
         foreach ($this->types as $type) {
-            DataProcessor::addType($type);
+            DataProcessor::addType($type, $extension?->getId());
         }
 
         foreach ($this->removeTypes as $type) {
             DataProcessor::removeType($type);
         }
 
-        if (!empty($this->removeUserColumns)) {
-            DataProcessor::removeUserColumns($this->removeUserColumns);
-        }
+        DataProcessor::removeUserColumns($this->removeUserColumns);
     }
 
     /**
-     * Register a new data type and methods.
+     * Register a new data type.
      *
      * Must be a class that implements Blomstra\Gdpr\Contracts\DataType.
      *
@@ -68,30 +57,15 @@ class UserData implements ExtenderInterface
     }
 
     /**
-     * Removes a user table column from exports.
+     * Removes one or multiple user table columns from exports.
      *
-     * @param string $column
-     *
-     * @return self
-     */
-    public function removeUserColumn(string $column): self
-    {
-        $columns = (array) $column;
-
-        $this->removeUserColumns = array_merge($this->removeUserColumns, $columns);
-
-        return $this;
-    }
-
-    /**
-     * Removes multiple user table columns from exports.
-     *
-     * @param array $columns
+     * @param string|string[] $columns
      *
      * @return self
      */
-    public function removeUserColumns(array $columns): self
+    public function removeUserColumns($columns): self
     {
+        $columns = (array) $columns;
         $this->removeUserColumns = array_merge($this->removeUserColumns, $columns);
 
         return $this;

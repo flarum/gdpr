@@ -21,6 +21,11 @@ class Assets extends Type
         return 'Avatar';
     }
 
+    public static function exportDescription(): string
+    {
+        return "Retrieves the user's avatar from the filesystem and includes it in the export.";
+    }
+
     public function export(ZipFile $zip): void
     {
         if ($this->user->avatar_url) {
@@ -40,10 +45,19 @@ class Assets extends Type
         }
     }
 
+    public static function anonymizeDescription(): string
+    {
+        return self::deleteDescription();
+    }
     public function anonymize(): void
     {
         // Anonymization isn't really possible with avatars, just delete 'em.
         $this->delete();
+    }
+
+    public static function deleteDescription(): string
+    {
+        return "Deletes the user's avatar from the filesystem.";
     }
 
     public function delete(): void
