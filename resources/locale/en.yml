@@ -5,9 +5,9 @@ blomstra-gdpr:
             process_export_for_others: Request and receive data exports for other users
         settings:
             allow_anonymization: Allow anonymization for erasure requests
-            allow_anonymization_help: Should anonymization be allowed for erasure requests?
+            allow_anonymization_help: The default option, and recommended for most communities. Under this mode, posts/comments will be preserved as much as possible as allowed by GDPR, but any user identifiable information is removed.
             allow_deletion: Allow deletion for erasure requests
-            allow_deletion_help: Should deletion be allowed for erasure requests?
+            allow_deletion_help: A much stricter option. Under this mode, all posts/comments will be deleted, and the user will be removed from the database. Use with caution.
             default_erasure: Default action for erasure requests
             default_erasure_help: What should the default action be for erasure requests?
             default_erasure_options:
@@ -45,7 +45,7 @@ blomstra-gdpr:
                     Hey {display_name}!
 
                     This is an automatic, final notification that your account has been deleted.
-            amonymization:
+            anonymization:
                 subject: Account anonymization completed
                 body: |
                     Hey {display_name}!
