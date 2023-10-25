@@ -49,6 +49,7 @@ class Assets extends Type
     {
         return self::deleteDescription();
     }
+
     public function anonymize(): void
     {
         // Anonymization isn't really possible with avatars, just delete 'em.

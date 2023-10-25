@@ -22,7 +22,7 @@ class User extends Type
     {
         return 'Exports data from the user table. All columns except id, password.';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         $remove = ['id', 'password', 'groups'];

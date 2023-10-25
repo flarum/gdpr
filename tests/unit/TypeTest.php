@@ -184,7 +184,7 @@ class TestableType extends Type
     {
         return '';
     }
-    
+
     public function export(ZipFile $zip): void
     {
     }

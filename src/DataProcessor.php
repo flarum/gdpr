@@ -12,7 +12,7 @@
 namespace Blomstra\Gdpr;
 
 /**
- * Class DataProcessor
+ * Class DataProcessor.
  *
  * Handles the data types and user column removal for the GDPR extension.
  */
@@ -22,12 +22,12 @@ final class DataProcessor
      * @var array<string, null|string> Associative array with data type class as key and extension ID as value.
      */
     private static $types = [
-        Data\Forum::class => null,
-        Data\Assets::class => null,
-        Data\Posts::class => null,
-        Data\Tokens::class => null,
+        Data\Forum::class       => null,
+        Data\Assets::class      => null,
+        Data\Posts::class       => null,
+        Data\Tokens::class      => null,
         Data\Discussions::class => null,
-        Data\User::class => null, // Ought to be last at all times.
+        Data\User::class        => null, // Ought to be last at all times.
     ];
 
     /**

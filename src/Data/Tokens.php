@@ -34,7 +34,7 @@ class Tokens extends Type
     {
         return 'Exports all tokens the user has created. Data restricted to creation date and token type.';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         foreach ($this->classes as $class) {

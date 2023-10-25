@@ -21,7 +21,7 @@ class Posts extends Type
     {
         return 'Exports all posts the user has made. Data restricted to content, creation date, IP address and discussion ID.';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         Post::query()

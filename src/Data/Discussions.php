@@ -21,7 +21,7 @@ class Discussions extends Type
     {
         return 'Exports all discussions the user has started. Data restricted to title and creation date.';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         Discussion::query()

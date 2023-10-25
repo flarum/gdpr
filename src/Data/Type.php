@@ -25,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 abstract class Type implements DataType
 {
     const NO_ACTION_TAKEN = 'No action taken';
-    
+
     public function __construct(
         protected User $user,
         protected ?ErasureRequest $erasureRequest,

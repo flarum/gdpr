@@ -36,6 +36,7 @@ interface DataType
      * Logic to add the data to the zip file.
      *
      * @param ZipFile $zip
+     *
      * @return void
      */
     public function export(ZipFile $zip): void;

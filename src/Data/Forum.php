@@ -20,7 +20,7 @@ class Forum extends Type
     {
         return 'Exports the forum title, url, username, email and the current date.';
     }
-    
+
     public function export(ZipFile $zip): void
     {
         $forumTitle = $this->settings->get('forum_title');
