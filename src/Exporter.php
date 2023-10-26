@@ -19,16 +19,12 @@ use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Laminas\Diactoros\Response;
 use PhpZip\ZipFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Exporter
 {
     protected string $storagePath;
-    protected array $types;
-    protected Filesystem $filesystem;
 
     public function __construct(
         Paths $paths,
@@ -36,10 +32,10 @@ class Exporter
         protected DataProcessor $processor,
         protected Factory $factory,
         protected UrlGenerator $url,
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
+        protected StorageManager $storageManager
     ) {
         $this->storagePath = $paths->storage;
-        $this->filesystem = $factory->disk('gdpr-export');
     }
 
     public function export(User $user, User $actor): Export
@@ -68,35 +64,16 @@ class Exporter
 
         $export = Export::exported($user, basename($file), $actor);
 
-        if ($this->filesystem->exists($this->storageFilename($export))) {
-            $this->filesystem->delete($this->storageFilename($export));
-        }
-
-        $this->filesystem->writeStream($this->storageFilename($export), $handle = fopen($file, 'r'));
-
-        fclose($handle);
+        $this->storageManager->storeExport($export, $file);
 
         unlink($file);
 
         return $export;
     }
 
-    public function getZip(Export $export)
-    {
-        return new Response(
-            $this->filesystem->readStream($this->storageFilename($export)),
-            200,
-            [
-                'Content-Type'        => 'application/zip',
-                'Content-Length'      => $this->filesystem->size($this->storageFilename($export)),
-                'Content-Disposition' => 'attachment; filename="gdpr-data-'.$export->user->username.'-'.$export->created_at->toIso8601String().'.zip"',
-            ]
-        );
-    }
-
     public function destroy(Export $export)
     {
-        $this->filesystem->delete($this->storageFilename($export));
+        $this->storageManager->deleteStoredExport($export);
 
         Notification::query()
             ->where('type', 'gdprExportAvailable')
@@ -114,10 +91,5 @@ class Exporter
         }
 
         return $tmpDir;
-    }
-
-    private function storageFilename(Export $export): string
-    {
-        return "export-{$export->id}.zip";
     }
 }
