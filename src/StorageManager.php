@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr;
 
 use Blomstra\Gdpr\Models\Export;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class StorageManager
 {
@@ -20,6 +29,7 @@ class StorageManager
      *
      * @param Export $export
      * @param string $filePath
+     *
      * @return void
      */
     public function storeExport(Export $export, string $filePath): void
@@ -36,6 +46,7 @@ class StorageManager
 
     /**
      * @param Export $export
+     *
      * @return resource|null The path resource or null on failure.
      */
     public function getStoredExport(Export $export)
@@ -47,7 +58,8 @@ class StorageManager
      * Returns the size of the stored export in bytes.
      *
      * @param Export $export
-     * @return integer
+     *
+     * @return int
      */
     public function getStoredExportSize(Export $export): int
     {
@@ -58,6 +70,7 @@ class StorageManager
      * Deletes the stored export from the disk.
      *
      * @param Export $export
+     *
      * @return void
      */
     public function deleteStoredExport(Export $export): void
@@ -69,6 +82,7 @@ class StorageManager
      * Returns the filename for this export file.
      *
      * @param Export $export
+     *
      * @return string
      */
     private function storageFilename(Export $export): string
