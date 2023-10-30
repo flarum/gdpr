@@ -64,7 +64,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/' . ErasureRequest::MODE_ANONYMIZATION,
+                '/api/users/2/'.ErasureRequest::MODE_ANONYMIZATION,
                 [
                     'authenticatedAs' => 1,
                 ]
@@ -87,7 +87,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/' . ErasureRequest::MODE_DELETION,
+                '/api/users/2/'.ErasureRequest::MODE_DELETION,
                 [
                     'authenticatedAs' => 1,
                 ]
@@ -97,7 +97,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
 
         $data = json_decode($response->getBody()->getContents(), true);
-        
+
         $this->assertEquals('validation_error', $data['errors'][0]['code']);
         $this->assertEquals('/data/attributes/mode', $data['errors'][0]['source']['pointer']);
     }
@@ -108,11 +108,11 @@ class DeleteUserTest extends TestCase
     public function delete_user_endpoint_can_be_called_with_deletion_mode_enabled()
     {
         $this->setting('blomstra-gdpr.allow-deletion', true);
-        
+
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/' . ErasureRequest::MODE_DELETION,
+                '/api/users/2/'.ErasureRequest::MODE_DELETION,
                 [
                     'authenticatedAs' => 1,
                 ]

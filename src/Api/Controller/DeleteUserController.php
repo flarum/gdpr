@@ -41,7 +41,6 @@ class DeleteUserController extends AbstractDeleteController
 
         $actor->assertCan('delete', $user);
 
-
         ErasureRequest::unguard();
 
         $erasureRequest = ErasureRequest::firstOrNew([
