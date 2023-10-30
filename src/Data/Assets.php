@@ -12,7 +12,6 @@
 namespace Blomstra\Gdpr\Data;
 
 use Illuminate\Support\Str;
-use PhpZip\ZipFile;
 
 class Assets extends Type
 {
@@ -21,13 +20,10 @@ class Assets extends Type
         return 'Avatar';
     }
 
-    public static function exportDescription(): string
+    public function export(): ?array
     {
-        return "Retrieves the user's avatar from the filesystem and includes it in the export.";
-    }
+        $dataExport = [];
 
-    public function export(ZipFile $zip): void
-    {
         if ($this->user->avatar_url) {
             $fileName = $this->getAvatarFileName();
             $fileType = Str::afterLast($fileName, '.');
@@ -37,12 +33,11 @@ class Assets extends Type
             if ($filesystem->exists($fileName)) {
                 $file = $filesystem->get($fileName);
 
-                $zip->addFromString(
-                    "avatar.$fileType",
-                    $file
-                );
+                $dataExport[] = ["avatars/avatar-{$this->user->id}.{$fileType}" => $file];
             }
         }
+
+        return $dataExport;
     }
 
     public static function anonymizeDescription(): string
@@ -54,11 +49,6 @@ class Assets extends Type
     {
         // Anonymization isn't really possible with avatars, just delete 'em.
         $this->delete();
-    }
-
-    public static function deleteDescription(): string
-    {
-        return "Deletes the user's avatar from the filesystem.";
     }
 
     public function delete(): void

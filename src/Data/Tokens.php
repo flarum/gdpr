@@ -18,7 +18,6 @@ use Flarum\User\LoginProvider;
 use Flarum\User\PasswordToken;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use PhpZip\ZipFile;
 
 class Tokens extends Type
 {
@@ -30,26 +29,23 @@ class Tokens extends Type
         PasswordToken::class,
     ];
 
-    public static function exportDescription(): string
+    public function export(): ?array
     {
-        return 'Exports all tokens the user has created. Data restricted to creation date and token type.';
-    }
+        $exportData = [];
 
-    public function export(ZipFile $zip): void
-    {
         foreach ($this->classes as $class) {
             $baseName = Str::afterLast($class, '\\');
 
             $class::query()
                 ->where('user_id', $this->user->id)
-                ->each(function ($token) use ($zip, $baseName) {
+                ->each(function ($token) use ($baseName, &$exportData) {
                     $id = $token->getKey();
-                    $zip->addFromString(
-                        "tokens/token-$baseName-$id.json",
-                        json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']), JSON_PRETTY_PRINT)
-                    );
+
+                    $exportData[] = ["tokens/token-$baseName-$id.json" => json_encode(Arr::except($token->toArray(), ['user_id', 'token', 'key']), JSON_PRETTY_PRINT)];
                 });
         }
+
+        return $exportData;
     }
 
     public static function anonymizeDescription(): string
@@ -60,11 +56,6 @@ class Tokens extends Type
     public function anonymize(): void
     {
         $this->delete();
-    }
-
-    public static function deleteDescription(): string
-    {
-        return 'Deletes all tokens the user has created.';
     }
 
     public function delete(): void

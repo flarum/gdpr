@@ -13,28 +13,23 @@ namespace Blomstra\Gdpr\Data;
 
 use Flarum\Post\Post;
 use Illuminate\Support\Arr;
-use PhpZip\ZipFile;
 
 class Posts extends Type
 {
-    public static function exportDescription(): string
+    public function export(): ?array
     {
-        return 'Exports all posts the user has made. Data restricted to content, creation date, IP address and discussion ID.';
-    }
+        $exportData = [];
 
-    public function export(ZipFile $zip): void
-    {
         Post::query()
             ->where('user_id', $this->user->id)
             ->where('type', 'comment')
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
-            ->each(function (Post $post) use ($zip) {
-                $zip->addFromString(
-                    "posts/post-{$post->id}.json",
-                    $this->encodeForExport($this->sanitize($post))
-                );
+            ->each(function (Post $post) use (&$exportData) {
+                $exportData[] = ["posts/post-{$post->id}.json" => $this->encodeForExport($this->sanitize($post))];
             });
+
+        return $exportData;
     }
 
     protected function sanitize(Post $post): array
@@ -45,21 +40,11 @@ class Posts extends Type
         ]);
     }
 
-    public static function anonymizeDescription(): string
-    {
-        return 'Removes the IP address from all posts the user has made.';
-    }
-
     public function anonymize(): void
     {
         Post::query()
             ->where('user_id', $this->user->id)
             ->update(['ip_address' => null]);
-    }
-
-    public static function deleteDescription(): string
-    {
-        return 'Deletes all posts the user has made.';
     }
 
     public function delete(): void

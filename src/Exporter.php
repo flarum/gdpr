@@ -19,7 +19,6 @@ use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
-use PhpZip\ZipFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Exporter
@@ -33,7 +32,8 @@ class Exporter
         protected Factory $factory,
         protected UrlGenerator $url,
         protected TranslatorInterface $translator,
-        protected StorageManager $storageManager
+        protected StorageManager $storageManager,
+        protected ZipManager $zipManager
     ) {
         $this->storagePath = $paths->storage;
     }
@@ -42,9 +42,7 @@ class Exporter
     {
         $tmpDir = $this->getTempDir();
 
-        $file = tempnam($tmpDir, 'gdpr-export-'.$user->username);
-
-        $zip = new ZipFile();
+        $file = tempnam($tmpDir, 'data-export-'.$user->username);
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {
@@ -56,11 +54,25 @@ class Exporter
             /** @var DataType $segment */
             $segment = new $type($user, null, $this->factory, $this->settings, $this->url, $this->translator);
 
-            $segment->export($zip);
+            $data = $segment->export();
+
+            // Check if the array is an indexed array of associative arrays
+            if (is_array($data) && array_values($data) === $data) {
+                // Handling list of associative arrays
+                foreach ($data as $subArray) {
+                    foreach ($subArray as $filename => $content) {
+                        $this->zipManager->addData($filename, $content);
+                    }
+                }
+            } else {
+                // Handling single associative array
+                foreach ($data as $filename => $content) {
+                    $this->zipManager->addData($filename, $content);
+                }
+            }
         }
 
-        $zip->saveAsFile($file);
-        $zip->close();
+        $this->zipManager->save($file);
 
         $export = Export::exported($user, basename($file), $actor);
 

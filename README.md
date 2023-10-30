@@ -94,6 +94,13 @@ return [
         ]),
 ];
 ```
+### Flarum extensions
+
+These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
+
+- `fof/drafts`, since `1.2.8`
+- `fof/upload`, since `1.4.3`
+- `ianm/follow-users`, since `1.4.0`
 
 ### FAQ & Recommendations
 

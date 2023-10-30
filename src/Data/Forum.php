@@ -11,17 +11,12 @@
 
 namespace Blomstra\Gdpr\Data;
 
+use Blomstra\Gdpr\ZipManager;
 use Carbon\Carbon;
-use PhpZip\ZipFile;
 
 class Forum extends Type
 {
-    public static function exportDescription(): string
-    {
-        return 'Exports the forum title, url, username, email and the current date.';
-    }
-
-    public function export(ZipFile $zip): void
+    public function export(): ?array
     {
         $forumTitle = $this->settings->get('forum_title');
         $url = $this->url->to('forum')->base();
@@ -34,17 +29,9 @@ class Forum extends Type
             '{date}'       => Carbon::now()->toDateTimeString(),
         ]);
 
-        $zip->addFromString(
-            "{$forumTitle}-{$this->user->username}.txt",
-            $comment
-        );
+        resolve(ZipManager::class)->setComment($comment);
 
-        $zip->setArchiveComment($comment);
-    }
-
-    public static function anonymizeDescription(): string
-    {
-        return self::NO_ACTION_TAKEN;
+        return ["{$forumTitle}-{$this->user->username}.txt" => $comment];
     }
 
     public function anonymize(): void
@@ -52,13 +39,18 @@ class Forum extends Type
         // Nothing to do
     }
 
-    public static function deleteDescription(): string
+    public static function anonymizeDescription(): string
     {
-        return self::NO_ACTION_TAKEN;
+        return self::deleteDescription();
     }
 
     public function delete(): void
     {
         // Nothing to do
+    }
+
+    public static function deleteDescription(): string
+    {
+        return static::staticTranslator()->trans('blomstra-gdpr.lib.data.no_action');
     }
 }

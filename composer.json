@@ -43,7 +43,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "GDPR",
+            "title": "GDPR Data Management",
             "category": "feature",
             "icon": {
                 "image": "resources/logo.svg",
@@ -61,7 +61,7 @@
                 "backendTesting": true,
                 "jsCommon": true
             }
-        }
+        } 
     },
     "autoload-dev": {
         "psr-4": {

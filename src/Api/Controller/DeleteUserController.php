@@ -16,6 +16,7 @@ use Blomstra\Gdpr\Jobs\GdprJob;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Api\Controller\AbstractDeleteController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\UserRepository;
@@ -33,10 +34,13 @@ class DeleteUserController extends AbstractDeleteController
     {
         $actor = RequestUtil::getActor($request);
         $user = $this->users->findOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
+        $mode = Arr::get($request->getQueryParams(), 'mode', $this->settings->get('blomstra-gdpr.default-erasure'));
+
+        if (!in_array($mode, [ErasureRequest::MODE_ANONYMIZATION, ErasureRequest::MODE_DELETION])) {
+            throw new ValidationException(['mode' => "Invalid erasure mode: {$mode}"]);
+        }
 
         $actor->assertCan('delete', $user);
-
-        $mode = $this->settings->get('blomstra-gdpr.default-erasure');
 
         ErasureRequest::unguard();
 

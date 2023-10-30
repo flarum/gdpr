@@ -218,7 +218,7 @@ class ExportTest extends TestCase
         $fileName = $export->file;
 
         $this->assertEquals(2, $export->user_id);
-        $this->assertStringStartsWith("gdpr-export-{$user->username}", $fileName);
+        $this->assertStringStartsWith("data-export-{$user->username}", $fileName);
     }
 
     /**

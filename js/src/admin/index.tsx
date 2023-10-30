@@ -1,12 +1,24 @@
 import app from 'flarum/admin/app';
 import extendUserListPage from './extendUserListPage';
 import extendAdminNav from './extendAdminNav';
+import LinkButton from 'flarum/common/components/LinkButton';
 
 export { default as extend } from './extend';
 
 app.initializers.add('blomstra-gdpr', () => {
   app.extensionData
     .for('blomstra-gdpr')
+    .registerSetting(function () {
+      return (
+        <div className="Form-group">
+          <h3>{app.translator.trans('blomstra-gdpr.admin.settings.gdpr_page.title')}</h3>
+          <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.settings.gdpr_page.help_text')}</p>
+          <LinkButton href={app.route('gdpr')} icon="fas fa-user-shield" className="Button">
+            {app.translator.trans('blomstra-gdpr.admin.nav.gdpr_button')}
+          </LinkButton>
+        </div>
+      );
+    })
     .registerSetting({
       setting: 'blomstra-gdpr.allow-anonymization',
       label: app.translator.trans('blomstra-gdpr.admin.settings.allow_anonymization'),
@@ -28,6 +40,12 @@ app.initializers.add('blomstra-gdpr', () => {
         anonymization: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_options.anonymization'),
         deletion: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_options.deletion'),
       },
+    })
+    .registerSetting({
+      setting: 'blomstra-gdpr.default-anonymous-username',
+      type: 'string',
+      label: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username'),
+      help: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username_help'),
     })
     .registerPermission(
       {
