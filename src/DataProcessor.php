@@ -121,12 +121,12 @@ final class DataProcessor
         $columnDetails = [];
 
         foreach ($columns as $column) {
-            $doctrineColumn = $connection->getDoctrineColumn($prefix . $table, $column);
+            $doctrineColumn = $connection->getDoctrineColumn($prefix.$table, $column);
 
             $columnDetails[$column] = [
-                'type' => $doctrineColumn->getType()->getName(),
-                'length' => $doctrineColumn->getLength(),
-                'default' => $doctrineColumn->getDefault(),
+                'type'     => $doctrineColumn->getType()->getName(),
+                'length'   => $doctrineColumn->getLength(),
+                'default'  => $doctrineColumn->getDefault(),
                 'nullable' => !$doctrineColumn->getNotnull(),
             ];
         }
