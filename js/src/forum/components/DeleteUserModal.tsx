@@ -11,6 +11,8 @@ interface DeleteUserModalAttrs extends IInternalModalAttrs {
 
 export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
   user!: User;
+  loadingAnonymization: boolean = false;
+  loadingDeletion: boolean = false;
 
   oninit(vnode: Mithril.Vnode<DeleteUserModalAttrs>) {
     super.oninit(vnode);
@@ -40,19 +42,43 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
           <div className="Form-group">
             <Button
               className="Button Button--primary Button--block"
-              onclick={() => this.requestErasure()}
+              onclick={() => this.defaultErasure()}
               loading={this.loading}
               disabled={this.loading}
             >
-              {app.translator.trans('blomstra-gdpr.forum.delete_user.delete_button')}
+              {app.translator.trans('blomstra-gdpr.forum.delete_user.modal_delete_button')}
             </Button>
           </div>
+          {app.forum.attribute('erasureAnonymizationAllowed') && app.forum.attribute('erasureDeletionAllowed') && (
+            <div>
+              <div className="Form-group">
+                <Button
+                  className="Button Button--block"
+                  onclick={() => this.specificErasure('anonymization')}
+                  loading={this.loadingAnonymization}
+                  disabled={this.loadingAnonymization}
+                >
+                  {app.translator.trans('blomstra-gdpr.forum.process_erasure.anonymization_button')}
+                </Button>
+              </div>
+              <div className="Form-group">
+                <Button
+                  className="Button Button--danger Button--block"
+                  onclick={() => this.specificErasure('deletion')}
+                  loading={this.loadingDeletion}
+                  disabled={this.loadingDeletion}
+                >
+                  {app.translator.trans('blomstra-gdpr.forum.process_erasure.deletion_button')}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
-  requestErasure() {
+  defaultErasure() {
     this.loading = true;
 
     this.user.delete().then(
@@ -63,5 +89,28 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
       },
       () => {}
     );
+  }
+
+  specificErasure(mode: string) {
+    if (mode === 'anonymization') {
+      this.loadingAnonymization = true;
+    } else {
+      this.loadingDeletion = true;
+    }
+
+    app
+      .request({
+        method: 'DELETE',
+        url: app.forum.attribute('apiUrl') + '/users/' + this.user.id() + '/' + mode,
+      })
+      .then(
+        () => {
+          this.hide();
+          this.loadingAnonymization = false;
+          this.loadingDeletion = false;
+          m.redraw();
+        },
+        () => []
+      );
   }
 }

@@ -39,6 +39,7 @@ return [
     (new Extend\Routes('api'))
         ->remove('users.delete')
         ->delete('/users/{id}', 'users.delete', Api\Controller\DeleteUserController::class)
+        ->delete('/users/{id}/{mode}', 'users.delete.mode', Api\Controller\DeleteUserController::class)
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
         ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
         ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)

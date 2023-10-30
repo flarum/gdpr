@@ -2,7 +2,7 @@ blomstra-gdpr:
     admin:
         gdpr_page:
             heading: GDPR Data Overview
-            description: Status of various GDPR interactions
+            description: Status of various GDPR actions and integrations
             data_types:
                 title: Data Types
                 help_text: |
@@ -23,7 +23,7 @@ blomstra-gdpr:
                     On the most part, any columns added to the <code>user</code> table will be handled automatically, both for exporting data and for erasure.
                     However, there are some special cases, which are listed below.
         nav:
-            gdpr_button: GDPR
+            gdpr_button: GDPR Integrations
         permissions:
             process_erasure: Process erasure requests
             process_export_for_others: Request and receive data exports for other users
@@ -127,7 +127,8 @@ blomstra-gdpr:
             text: |
                 Are you sure you want to erase {username}'s account?
 
-                This action is irreversible. This erasure will be processed according to the current default erasure settings.
+                This action is irreversible.
+            modal_delete_button: Erase using default action
             delete_button: Erase
         erasure_requests:
             empty_text: No pending account erasure requests
