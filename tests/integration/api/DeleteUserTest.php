@@ -124,4 +124,28 @@ class DeleteUserTest extends TestCase
         $user = User::query()->where('id', 2)->first();
         $this->assertNull($user);
     }
+
+    /**
+     * @test
+     */
+    public function invalid_erasure_mode_throws_validation_error()
+    {
+        $response = $this->send(
+            $this->request(
+                'DELETE',
+                '/api/users/2/invalid-mode',
+                [
+                    'authenticatedAs' => 1,
+                ]
+            )
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertEquals('validation_error', $data['errors'][0]['code']);
+        $this->assertEquals('/data/attributes/mode', $data['errors'][0]['source']['pointer']);
+        $this->assertStringContainsString('invalid-mode', $data['errors'][0]['detail']);
+    }
 }
