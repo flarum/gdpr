@@ -37,7 +37,7 @@ class DeleteUserController extends AbstractDeleteController
         $mode = Arr::get($request->getQueryParams(), 'mode', $this->settings->get('blomstra-gdpr.default-erasure'));
 
         if (!in_array($mode, [ErasureRequest::MODE_ANONYMIZATION, ErasureRequest::MODE_DELETION])) {
-            throw new ValidationException(["mode" => "Invalid erasure mode: {$mode}"]);
+            throw new ValidationException(['mode' => "Invalid erasure mode: {$mode}"]);
         }
 
         $actor->assertCan('delete', $user);
