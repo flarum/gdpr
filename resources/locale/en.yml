@@ -28,6 +28,8 @@ blomstra-gdpr:
             allow_anonymization_help: The default option, and recommended for most communities. Under this mode, posts/comments will be preserved as much as possible as allowed by GDPR, but any user identifiable information is removed.
             allow_deletion: Allow deletion for erasure requests
             allow_deletion_help: A much stricter option. Under this mode, all posts/comments will be deleted, and the user will be removed from the database. Use with caution.
+            default_anonymous_username: Default username for anonymized users
+            default_anonymous_username_help: When a user is anonymized, their username will be replaced with this value, plus the ID of the anonymization request, for example <code>Anonymous123</code>.
             default_erasure: Default action for erasure requests
             default_erasure_help: What should the default action be for erasure requests?
             default_erasure_options:
