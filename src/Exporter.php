@@ -42,7 +42,7 @@ class Exporter
     {
         $tmpDir = $this->getTempDir();
 
-        $file = tempnam($tmpDir, 'data-export-' . $user->username);
+        $file = tempnam($tmpDir, 'data-export-'.$user->username);
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {
@@ -53,9 +53,9 @@ class Exporter
         foreach ($this->processor->types() as $type => $extension) {
             /** @var DataType $segment */
             $segment = new $type($user, null, $this->factory, $this->settings, $this->url, $this->translator);
-    
+
             $data = $segment->export();
-    
+
             // Check if the array is an indexed array of associative arrays
             if (is_array($data) && array_values($data) === $data) {
                 // Handling list of associative arrays
@@ -97,7 +97,7 @@ class Exporter
 
     private function getTempDir(): string
     {
-        $tmpDir = $this->storagePath . DIRECTORY_SEPARATOR . 'tmp';
+        $tmpDir = $this->storagePath.DIRECTORY_SEPARATOR.'tmp';
         if (!is_dir($tmpDir)) {
             mkdir($tmpDir, 0777, true);
         }

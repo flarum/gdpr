@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr;
 
 use PhpZip\ZipFile;
@@ -17,7 +26,7 @@ class ZipManager
      * Add data to the ZIP file.
      *
      * @param string $filename The name of the file inside the ZIP.
-     * @param string $data The actual data/content of the file.
+     * @param string $data     The actual data/content of the file.
      */
     public function addData(string $filename, string $data): void
     {

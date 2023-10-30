@@ -19,7 +19,7 @@ class Discussions extends Type
     public function export(): ?array
     {
         $exportData = [];
-        
+
         Discussion::query()
             ->where('user_id', $this->user->id)
             ->whereVisibleTo($this->user)

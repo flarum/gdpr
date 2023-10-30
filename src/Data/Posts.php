@@ -19,7 +19,7 @@ class Posts extends Type
     public function export(): ?array
     {
         $exportData = [];
-        
+
         Post::query()
             ->where('user_id', $this->user->id)
             ->where('type', 'comment')

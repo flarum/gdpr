@@ -23,7 +23,7 @@ class Assets extends Type
     public function export(): ?array
     {
         $dataExport = [];
-        
+
         if ($this->user->avatar_url) {
             $fileName = $this->getAvatarFileName();
             $fileType = Str::afterLast($fileName, '.');

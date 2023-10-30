@@ -31,7 +31,6 @@ class Forum extends Type
 
         resolve(ZipManager::class)->setComment($comment);
 
-
         return ["{$forumTitle}-{$this->user->username}.txt" => $comment];
     }
 

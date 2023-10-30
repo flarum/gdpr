@@ -21,7 +21,6 @@ use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery as m;
-use PhpZip\ZipFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TypeTest extends TestCase

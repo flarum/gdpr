@@ -32,7 +32,7 @@ class Tokens extends Type
     public function export(): ?array
     {
         $exportData = [];
-        
+
         foreach ($this->classes as $class) {
             $baseName = Str::afterLast($class, '\\');
 
