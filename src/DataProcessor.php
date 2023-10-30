@@ -11,6 +11,7 @@
 
 namespace Blomstra\Gdpr;
 
+use Flarum\User\User;
 use Illuminate\Support\Arr;
 
 /**
@@ -36,6 +37,11 @@ final class DataProcessor
      * @var string[] List of user columns to be removed.
      */
     private static array $removeUserColumns = [];
+
+    /**
+     * @var ColumnAction[]
+     */
+    private static $columnActions = [];
 
     /**
      * Add a data type to the list.
@@ -101,5 +107,43 @@ final class DataProcessor
     public function removableUserColumns(): array
     {
         return self::$removeUserColumns;
+    }
+
+    public function allUserColumns(): array
+    {
+        $user = new User();
+        $connection = $user->getConnection();
+        $table = $user->getTable();
+        $prefix = $connection->getTablePrefix();
+
+        // Get column listings for the user table
+        $columns = $connection->getSchemaBuilder()->getColumnListing($table);
+        $columnDetails = [];
+
+        foreach ($columns as $column) {
+            $doctrineColumn = $connection->getDoctrineColumn($prefix . $table, $column);
+
+            $columnDetails[$column] = [
+                'type' => $doctrineColumn->getType()->getName(),
+                'length' => $doctrineColumn->getLength(),
+                'default' => $doctrineColumn->getDefault(),
+                'nullable' => !$doctrineColumn->getNotnull(),
+            ];
+        }
+
+        return $columnDetails;
+    }
+
+    public static function addColumnAction(ColumnAction $action): void
+    {
+        self::$columnActions[$action->getColumn()] = $action;
+    }
+
+    /**
+     * @return ColumnAction[]
+     */
+    public function getColumnActions(): array
+    {
+        return self::$columnActions;
     }
 }
