@@ -6,6 +6,7 @@ import type Mithril from 'mithril';
 import DataType from './models/DataType';
 import Tooltip from 'flarum/common/components/Tooltip';
 import ExtensionLink from './components/ExtensionLink';
+import LinkButton from 'flarum/common/components/LinkButton';
 
 export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> extends AdminPage<CustomAttrs> {
   gdprDataTypes: DataType[] = [];
@@ -41,6 +42,12 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
 
     return (
       <div className="GdprPage">
+        <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.heading')}</h3>
+        <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.help_text')}</p>
+        <LinkButton className="Button" href={app.route('extension', { id: 'blomstra-gdpr' })}>
+          {app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.extension_settings_button')}
+        </LinkButton>
+        <hr />
         <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.title')}</h3>
         <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.help_text')}</p>
 
@@ -71,6 +78,7 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
             </>
           ))}
         </div>
+        <hr />
         <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.user_table_data.title')}</h3>
         <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
         <div className="GdprUserColumnData">Not yet implemented</div>

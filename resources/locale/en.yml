@@ -1,7 +1,7 @@
 blomstra-gdpr:
     admin:
         gdpr_page:
-            heading: GDPR Data
+            heading: GDPR Data Overview
             description: Status of various GDPR interactions
             data_types:
                 title: Data Types
@@ -13,6 +13,10 @@ blomstra-gdpr:
                 anonymize_description: Anonymize Action
                 delete_description: Delete Action
                 extension: Extension
+            settings:
+                heading: GDPR Settings
+                help_text: Looking for GDPR settings? They're found on the extension page.
+                extension_settings_button: GDPR Settings
             user_table_data:
                 title: User Table Data
                 help_text: |
@@ -35,6 +39,9 @@ blomstra-gdpr:
             default_erasure_options:
                 anonymization: Anonymization
                 deletion: Deletion
+            gdpr_page:
+                title: Data Integration and actions
+                help_text: Before deciding on which actions to use on your forum, it is vital to understand which data is integrated, and how it is handled for both anonymization and deletion. Vist the GDPR overview to understand how data is handled, and which optional extensions have registered their data to be handled by this extension.
         userlist:
             columns:
                 gdpr_actions:
