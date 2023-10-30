@@ -27,7 +27,7 @@ interface DataType
     /**
      * Description of what this data type contains.
      *
-     * @return non-empty-string
+     * @return string
      */
     public static function exportDescription(): string;
 
@@ -45,7 +45,7 @@ interface DataType
     /**
      * Description of what happens to the data when it is anonymized.
      *
-     * @return non-empty-string
+     * @return string
      */
     public static function anonymizeDescription(): string;
 
@@ -59,7 +59,7 @@ interface DataType
     /**
      * Description of what happens to the data when it is deleted.
      *
-     * @return non-empty-string
+     * @return string
      */
     public static function deleteDescription(): string;
 
