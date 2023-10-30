@@ -7,10 +7,13 @@ interface DeleteUserModalAttrs extends IInternalModalAttrs {
 }
 export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
     user: User;
+    loadingAnonymization: boolean;
+    loadingDeletion: boolean;
     oninit(vnode: Mithril.Vnode<DeleteUserModalAttrs>): void;
     className(): string;
     title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     content(): JSX.Element;
-    requestErasure(): void;
+    defaultErasure(): void;
+    specificErasure(mode: string): void;
 }
 export {};
