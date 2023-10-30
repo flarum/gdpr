@@ -40,10 +40,30 @@ blomstra-gdpr:
                     export: Export data for {username}
 
     lib:
+        data:
+            avatar:
+                delete_description: Deletes the user's avatar from the filesystem.
+                export_description: Retrieves the user's avatar from the filesystem and includes it in the export.
+            discussions:
+                export_description: Exports all discussions the user has started. Data restricted to title and creation date.
+            forum:
+                export_description: Exports the forum title, url, username, email and the current date.
+            no_action: No action taken.
+            posts:
+                anonymize_description: Removes the IP address from all posts the user has made.
+                delete_description: Deletes all posts the user has made.
+                export_description: Exports all posts the user has made. Data restricted to content, creation date, IP address and discussion ID.
+            tokens:
+                delete_description: Deletes all tokens the user has created.
+                export_description: Exports all tokens the user has created. Data restricted to creation date and token type.
+            user:
+                anonymize_description: Sets all columns on the user table to null. Non-nullable columns are set to their default values or special values. Password is changed, preferences set to default and all groups are removed.
+                delete_description: Deletes the user from the database.
+                export_description: Exports data from the user table. All columns except id, password.
         request_data:
             title: Request data for {username}
             text: >
-                A zip archive will be prepared for you. Once it's ready, you'll recieve a notification with a download link. The link will remain active for one day.
+                A zip archive will be prepared for you. Once it's ready, you'll receive a notification with a download link. The link will remain active for one day.
             request_button: Request archive
 
     email:

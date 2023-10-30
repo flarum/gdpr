@@ -16,7 +16,6 @@ use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
-use PhpZip\ZipFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface DataType
@@ -33,13 +32,15 @@ interface DataType
     public static function exportDescription(): string;
 
     /**
-     * Logic to add the data to the zip file.
+     * Data to be added to the zipfile.
      *
-     * @param ZipFile $zip
+     * @return array<string, string>|array<array<string, string>>|null
      *
-     * @return void
+     * - array<string, string>: Represents a single data set, e.g., ['filename.json' => '{...data...}']
+     * - array<array<string, string>>: Represents multiple data sets, e.g., [['filename1.json' => '{...data1...}'], ['filename2.json' => '{...data2...}']]
+     * - null: No data available for export.
      */
-    public function export(ZipFile $zip): void;
+    public function export(): ?array;
 
     /**
      * Description of what happens to the data when it is anonymized.

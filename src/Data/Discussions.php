@@ -13,27 +13,22 @@ namespace Blomstra\Gdpr\Data;
 
 use Flarum\Discussion\Discussion;
 use Illuminate\Support\Arr;
-use PhpZip\ZipFile;
 
 class Discussions extends Type
 {
-    public static function exportDescription(): string
+    public function export(): ?array
     {
-        return 'Exports all discussions the user has started. Data restricted to title and creation date.';
-    }
-
-    public function export(ZipFile $zip): void
-    {
+        $exportData = [];
+        
         Discussion::query()
             ->where('user_id', $this->user->id)
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
-            ->each(function (Discussion $discussion) use ($zip) {
-                $zip->addFromString(
-                    "discussions/discussion-{$discussion->id}.json",
-                    $this->encodeForExport($this->sanitize($discussion))
-                );
+            ->each(function (Discussion $discussion) use (&$exportData) {
+                $exportData[] = ["discussions/discussion-{$discussion->id}.json" => $this->encodeForExport($this->sanitize($discussion))];
             });
+
+        return $exportData;
     }
 
     protected function sanitize(Discussion $discussion): array
@@ -45,7 +40,7 @@ class Discussions extends Type
 
     public static function anonymizeDescription(): string
     {
-        return self::NO_ACTION_TAKEN;
+        return self::deleteDescription();
     }
 
     public function anonymize(): void
@@ -55,7 +50,7 @@ class Discussions extends Type
 
     public static function deleteDescription(): string
     {
-        return self::NO_ACTION_TAKEN;
+        return static::staticTranslator()->trans('blomstra-gdpr.lib.data.no_action');
     }
 
     public function delete(): void
