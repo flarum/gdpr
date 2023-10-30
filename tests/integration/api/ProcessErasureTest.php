@@ -209,6 +209,36 @@ class ProcessErasureTest extends TestCase
     /**
      * @test
      */
+    public function anonymization_with_custom_username_works()
+    {
+        $this->setting('blomstra-gdpr.default-anonymous-username', 'Custom');
+
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/2', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                            'meta'              => [
+                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $user = User::where('id', 5)->with('groups')->first();
+        $this->assertNotNull($user);
+        $this->assertEquals('Custom2', $user->username);
+    }
+
+    /**
+     * @test
+     */
     public function authorized_user_cannot_process_confirmed_erasure_request_in_anonymization_mode_if_not_allowed()
     {
         $this->setting('blomstra-gdpr.allow-anonymization', false);

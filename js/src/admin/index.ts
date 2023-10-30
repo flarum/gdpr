@@ -29,6 +29,12 @@ app.initializers.add('blomstra-gdpr', () => {
         deletion: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_options.deletion'),
       },
     })
+    .registerSetting({
+      setting: 'blomstra-gdpr.default-anonymous-username',
+      type: 'string',
+      label: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username'),
+      help: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username_help'),
+    })
     .registerPermission(
       {
         icon: 'fas fa-user-minus',

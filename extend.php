@@ -71,6 +71,7 @@ return [
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)
         ->default('blomstra-gdpr.allow-deletion', false)
+        ->default('blomstra-gdpr.default-anonymous-username', 'Anonymous')
         ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
         ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization', 'boolVal')
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion', 'boolVal'),
