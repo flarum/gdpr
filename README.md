@@ -98,9 +98,11 @@ return [
 
 These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
 
-- `fof/drafts`, since `1.2.8`
-- `fof/upload`, since `1.4.3`
-- `ianm/follow-users`, since `1.4.0`
+- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.0`
+- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.8`
+- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`
+- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.4.4`
+- [Follow Users](https://github.com/imorland/follow-users), since `1.4.1`
 
 ### FAQ & Recommendations
 
