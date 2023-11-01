@@ -99,6 +99,7 @@ return [
 These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
 
 - [2FA](https://github.com/imorland/flarum-ext-twofactor), since `1.0.9`
+- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `1.0.0`
 - [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.0`
 - [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.8`
 - [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`

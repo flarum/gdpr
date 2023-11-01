@@ -38,6 +38,7 @@ class ExportTest extends TestCase
             'users' => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 4, 'username' => 'anon', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'anon@machine.local', 'is_email_confirmed' => 0, 'anonymized' => 1],
             ],
             'group_user' => [
                 ['user_id' => 3, 'group_id' => 4],
@@ -322,5 +323,21 @@ class ExportTest extends TestCase
         }
 
         $zip->close();
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_export_data_for_already_anonymized_user()
+    {
+        $response = $this->makeExportRequest(1, 4);
+
+        $this->assertEquals(403, $response->getStatusCode());
+
+        $export = $this->getExportRecordFor(4);
+        $this->assertNull($export);
+
+        $export = $this->getExportRecordFor(1);
+        $this->assertNull($export);
     }
 }

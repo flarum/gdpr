@@ -19,7 +19,7 @@ class User extends Type
 {
     public function export(): ?array
     {
-        $remove = ['id', 'password', 'groups'];
+        $remove = ['id', 'password', 'groups', 'anonymized'];
 
         return ['user.json' => $this->encodeForExport(
             Arr::except($this->user->toArray(), $remove)
@@ -30,7 +30,7 @@ class User extends Type
     {
         $columns = $this->getTableColumns($this->user);
 
-        $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences', 'joined_at'];
+        $remove = ['id', 'username', 'password', 'email', 'is_email_confirmed', 'preferences', 'joined_at', 'anonymized', 'discussion_count', 'comment_count'];
 
         foreach ($columns as $column) {
             if (in_array($column, $remove)) {
@@ -47,6 +47,7 @@ class User extends Type
         $this->user->setPasswordAttribute(Str::random(40));
         $this->user->setPreferencesAttribute([]);
         $this->user->joined_at = Carbon::now();
+        $this->user->anonymized = true;
         $this->user->groups()->sync([]);
 
         $this->user->save();

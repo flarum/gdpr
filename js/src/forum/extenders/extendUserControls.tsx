@@ -10,7 +10,7 @@ import DeleteUserModal from '../components/DeleteUserModal';
 
 export default function extendUserControls() {
   extend(UserControls, 'moderationControls', function (items: ItemList<Mithril.Children>, user: User) {
-    if (app.session.user?.canModerateExports()) {
+    if (user.canModerateExports()) {
       items.add(
         'gdpr-export',
         <Button icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user })}>

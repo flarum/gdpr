@@ -62,6 +62,15 @@ app.initializers.add('blomstra-gdpr', () => {
         permission: 'moderateExport',
       },
       'moderate'
+    )
+    .registerPermission(
+      {
+        icon: 'fas fa-eye',
+        label: app.translator.trans('blomstra-gdpr.admin.permissions.see_anonymized_user_badges'),
+        permission: 'seeAnonymizedUserBadges',
+        allowGuest: true,
+      },
+      'view'
     );
 
   extendUserListPage();

@@ -40,7 +40,7 @@ class RequestExportController implements RequestHandlerInterface
         $user = User::query()->where('id', Arr::get($request->getParsedBody(), 'data.attributes.userId'))->firstOrFail();
 
         if ($actor->isNot($user)) {
-            $actor->assertCan('moderateExport');
+            $actor->assertCan('exportFor', $user);
         }
 
         $this->queue->push(

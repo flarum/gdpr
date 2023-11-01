@@ -22,6 +22,7 @@ class Discussions extends Type
 
         Discussion::query()
             ->where('user_id', $this->user->id)
+            ->where('is_private', false) // We don't export discussions marked as private, extensions which handle the private flag must export as neccessary
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
             ->each(function (Discussion $discussion) use (&$exportData) {

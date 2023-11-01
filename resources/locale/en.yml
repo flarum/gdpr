@@ -27,6 +27,7 @@ blomstra-gdpr:
         permissions:
             process_erasure: Process erasure requests
             process_export_for_others: Request and receive data exports for other users
+            see_anonymized_user_badges: See anonymized user badges
         settings:
             allow_anonymization: Allow anonymization for erasure requests
             allow_anonymization_help: The default option, and recommended for most communities. Under this mode, posts/comments will be preserved as much as possible as allowed by GDPR, but any user identifiable information is removed.
@@ -122,6 +123,8 @@ blomstra-gdpr:
                 This export will remain available until {destroys_at}.
 
     forum:
+        badges:
+            anonymized_user: Anonymized User
         delete_user:
             title: Erase {username}'s account
             text: |
