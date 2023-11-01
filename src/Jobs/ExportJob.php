@@ -27,7 +27,7 @@ class ExportJob extends GdprJob
     }
 
     public function handle(Exporter $exporter, NotificationSyncer $notifications, Dispatcher $events)
-    {        
+    {
         $events->dispatch(new Exporting($this->user, $this->actor));
 
         $export = $exporter->export($this->user, $this->actor);

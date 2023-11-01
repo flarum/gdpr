@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blomstra\Gdpr\Access;
 
 use Flarum\User\Access\AbstractPolicy;
@@ -8,7 +17,7 @@ use Flarum\User\User;
 class UserPolicy extends AbstractPolicy
 {
     protected $reservedAbilities = [
-        'delete'
+        'delete',
     ];
 
     public function can(User $actor, $ability, User $user)
@@ -24,11 +33,11 @@ class UserPolicy extends AbstractPolicy
         if ($user->anonymized) {
             return $this->deny();
         }
-        
+
         if ($actor->id === $user->id) {
             return $this->allow();
         }
-        
+
         return $actor->hasPermission('moderateExport');
     }
 }
