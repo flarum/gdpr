@@ -19,15 +19,11 @@ export default class ExtensionLink extends Component<ExtensionLinkAttrs> {
 
     return (
       <Tooltip text={extension.extra['flarum-extension'].title}>
-        <LinkButton
-
-          href={app.route('extension', { id: extension.id })}
-        >
+        <LinkButton href={app.route('extension', { id: extension.id })}>
           <span className="ExtensionIcon ExtensionIcon--gdpr" style={extension.icon}>
-              {!!extension.icon && icon(extension.icon.name)}
-            </span>
+            {!!extension.icon && icon(extension.icon.name)}
+          </span>
         </LinkButton>
-        
       </Tooltip>
     );
   }
