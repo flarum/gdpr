@@ -93,7 +93,8 @@ class ErasureJob extends GdprJob
         $events->dispatch(new Erased(
             $username,
             $email,
-            $mode
+            $mode,
+            $user
         ));
     }
 

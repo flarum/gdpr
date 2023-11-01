@@ -11,12 +11,15 @@
 
 namespace Blomstra\Gdpr\Events;
 
+use Flarum\User\User;
+
 class Erased
 {
     public function __construct(
         public string $username,
         public string $email,
-        public string $mode
+        public string $mode,
+        public User $user
     ) {
     }
 }
