@@ -37,12 +37,14 @@ export default function extendUserListPage() {
   UserListPage.prototype.gdprActions = function (user: User): ItemList<Mithril.Children> {
     const items = new ItemList<Mithril.Children>();
 
-    items.add(
-      'export-data',
-      <Tooltip text={app.translator.trans('blomstra-gdpr.admin.userlist.columns.gdpr_actions.export', { username: username(user) })}>
-        <Button className="Button Button--icon" icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user: user })} />
-      </Tooltip>
-    );
+    if (user.canModerateExports()) {
+      items.add(
+        'export-data',
+        <Tooltip text={app.translator.trans('blomstra-gdpr.admin.userlist.columns.gdpr_actions.export', { username: username(user) })}>
+          <Button className="Button Button--icon" icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user: user })} />
+        </Tooltip>
+      );
+    }
 
     return items;
   };

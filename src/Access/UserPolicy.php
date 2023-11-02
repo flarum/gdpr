@@ -34,10 +34,6 @@ class UserPolicy extends AbstractPolicy
             return $this->deny();
         }
 
-        if ($actor->id === $user->id) {
-            return $this->allow();
-        }
-
         return $actor->hasPermission('moderateExport');
     }
 }
