@@ -121,3 +121,9 @@ These are the known extensions which offer GDPR data integration with this exten
 - Blomstra provides managed Flarum hosting.
 - https://blomstra.net
 - https://blomstra.community/t/ext-gdpr
+
+### Credit
+
+This extension was made possible with the kind & generous support of:
+
+[![Glowing Blue Logo](https://glowingblue.com/static/images/gb_logo.4569f97f37c9.svg)](https://glowingblue.com)
