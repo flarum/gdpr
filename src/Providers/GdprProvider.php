@@ -15,13 +15,13 @@ use Flarum\Foundation\AbstractServiceProvider;
 
 class GdprProvider extends AbstractServiceProvider
 {
-     public function register()
+    public function register()
     {
         /**
          * By default, we now deny any action on an anonymized user, ie `$actor->can('someAction', $user)` will return `deny`.
-         * 
+         *
          * If you want to allow some specific actions still, they must be added to the reservedAbilities array. These will still be subject to the regular permission checks.
-         * 
+         *
          * @example
          * ```php
          * $this->container->extend('gdpr.user.reservedAbilities', function ($reservedAbilities) {

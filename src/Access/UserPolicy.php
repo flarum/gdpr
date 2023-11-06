@@ -25,7 +25,7 @@ class UserPolicy extends AbstractPolicy
     {
         $this->reservedAbilities = resolve('gdpr.user.reservedAbilities');
     }
-    
+
     public function can(User $actor, $ability, User $user)
     {
         // if $user is anonymized, deny all abilities except those in $reservedAbilities
