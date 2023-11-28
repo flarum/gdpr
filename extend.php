@@ -15,7 +15,7 @@ use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
 use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Blomstra\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\ShowUserController;
-use Flarum\Api\Serializer\CurrentUserSerializer;
+use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
@@ -45,7 +45,8 @@ return [
         ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)
         ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\ProcessErasureController::class)
         ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\CancelErasureController::class)
-        ->get('/gdpr/datatypes', 'gdpr.datatypes.index', Api\Controller\ListDataTypesController::class),
+        ->get('/gdpr/datatypes', 'gdpr.datatypes.index', Api\Controller\ListDataTypesController::class)
+        ->get('/gdpr/datatypes/user-columns', 'gdpr.datatypes.user-columns', Api\Controller\ListUserColumnsDataController::class),
 
     (new Extend\Notification())
         ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
@@ -53,6 +54,7 @@ return [
         ->type(Notifications\ErasureRequestCancelledBlueprint::class, RequestErasureSerializer::class, ['alert', 'email']),
 
     (new Extend\Model(User::class))
+        ->cast('anonymized', 'boolean')
         ->hasOne('erasureRequest', ErasureRequest::class),
 
     (new Extend\ApiController(ShowUserController::class))
@@ -61,13 +63,14 @@ return [
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(AddForumAttributes::class),
 
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->hasOne('erasureRequest', RequestErasureSerializer::class),
+    (new Extend\ApiSerializer(BasicUserSerializer::class))
+        ->attributes(Api\AddBasicUserAttributes::class),
 
-    (new Extend\ApiSerializer(CurrentUserSerializer::class))
-        ->attribute('canModerateExports', function (CurrentUserSerializer $serializer) {
-            return $serializer->getActor()->can('moderateExports');
-        }),
+    (new Extend\ApiSerializer(UserSerializer::class))
+        ->attribute('canModerateExports', function (UserSerializer $serializer, User $user) {
+            return $serializer->getActor()->can('exportFor', $user);
+        })
+        ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)
@@ -91,6 +94,9 @@ return [
 
     (new Extend\Filesystem())
         ->disk('gdpr-export', ExportDiskConfig::class),
+
+    (new Extend\Policy())
+        ->modelPolicy(User::class, Access\UserPolicy::class),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('fof-oauth', fn () => [

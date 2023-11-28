@@ -23,6 +23,7 @@ class Posts extends Type
         Post::query()
             ->where('user_id', $this->user->id)
             ->where('type', 'comment')
+            ->where('is_private', false) // We don't export posts marked as private, extensions which handle the private flag must export as neccessary
             ->whereVisibleTo($this->user)
             ->orderBy('created_at', 'asc')
             ->each(function (Post $post) use (&$exportData) {

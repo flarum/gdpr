@@ -98,9 +98,14 @@ return [
 
 These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
 
-- `fof/drafts`, since `1.2.8`
-- `fof/upload`, since `1.4.3`
-- `ianm/follow-users`, since `1.4.0`
+- [2FA](https://github.com/imorland/flarum-ext-twofactor), since `1.0.9`
+- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `1.0.0`
+- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.0`
+- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.8`
+- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`
+- [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `1.3.0`
+- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.4.4`
+- [Follow Users](https://github.com/imorland/follow-users), since `1.4.1`
 
 ### FAQ & Recommendations
 
@@ -116,3 +121,9 @@ These are the known extensions which offer GDPR data integration with this exten
 - Blomstra provides managed Flarum hosting.
 - https://blomstra.net
 - https://blomstra.community/t/ext-gdpr
+
+### Credit
+
+This extension was made possible with the kind & generous support of:
+
+[![Glowing Blue Logo](https://glowingblue.com/static/images/gb_logo.4569f97f37c9.svg)](https://glowingblue.com)

@@ -10,5 +10,6 @@ export default [
 
   new Extend.Model(User) //
     .attribute<boolean>('canModerateExports')
+    .attribute<boolean>('anonymized')
     .hasOne<ErasureRequest>('erasureRequest'),
 ];

@@ -3,6 +3,7 @@ import { Extension } from 'flarum/admin/AdminApplication';
 import app from 'flarum/admin/app';
 import Component from 'flarum/common/Component';
 import Tooltip from 'flarum/common/components/Tooltip';
+import icon from 'flarum/common/helpers/icon';
 
 export interface ExtensionLinkAttrs {
   extension: Extension | null;
@@ -16,18 +17,13 @@ export default class ExtensionLink extends Component<ExtensionLinkAttrs> {
       return null;
     }
 
-    const iconName = extension.icon?.name;
-    const backgroundColor = extension.icon?.backgroundColor || 'transparent';
-    const foregroundColor = extension.icon?.color || '#000';
-
     return (
       <Tooltip text={extension.extra['flarum-extension'].title}>
-        <LinkButton
-          className="Button Button--icon"
-          icon={iconName}
-          href={app.route('extension', { id: extension.id })}
-          style={{ backgroundColor: backgroundColor, color: foregroundColor }}
-        />
+        <LinkButton href={app.route('extension', { id: extension.id })}>
+          <span className="ExtensionIcon ExtensionIcon--gdpr" style={extension.icon}>
+            {!!extension.icon && icon(extension.icon.name)}
+          </span>
+        </LinkButton>
       </Tooltip>
     );
   }
