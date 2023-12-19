@@ -64,7 +64,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/'.ErasureRequest::MODE_ANONYMIZATION,
+                '/api/users/2/gdpr/'.ErasureRequest::MODE_ANONYMIZATION,
                 [
                     'authenticatedAs' => 1,
                 ]
@@ -87,7 +87,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/'.ErasureRequest::MODE_DELETION,
+                '/api/users/2/gdpr/'.ErasureRequest::MODE_DELETION,
                 [
                     'authenticatedAs' => 1,
                 ]
@@ -112,7 +112,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/'.ErasureRequest::MODE_DELETION,
+                '/api/users/2/gdpr/'.ErasureRequest::MODE_DELETION,
                 [
                     'authenticatedAs' => 1,
                 ]
@@ -133,7 +133,7 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/invalid-mode',
+                '/api/users/2/gdpr/invalid-mode',
                 [
                     'authenticatedAs' => 1,
                 ]

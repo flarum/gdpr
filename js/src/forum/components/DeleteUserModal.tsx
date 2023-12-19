@@ -101,7 +101,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
     app
       .request({
         method: 'DELETE',
-        url: app.forum.attribute('apiUrl') + '/users/' + this.user.id() + '/' + mode,
+        url: app.forum.attribute('apiUrl') + '/users/' + this.user.id() + '/gdpr/' + mode,
       })
       .then(
         () => {
