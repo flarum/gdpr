@@ -111,13 +111,3 @@ These are the known extensions which offer GDPR data integration with this exten
 
 - Generating the zip archive can be pushed to [queue functionality](https://extiverse.com/?filter[q]=queue). This is exceptionally important on larger communities and with more extensions that work with the gdpr extension to allow data exports.
 
-### Links
-
-- [Packagist](https://packagist.org/packages/blomstra/flarum-ext-gdpr)
-- [GitHub](https://github.com/blomstra/flarum-ext-gdpr)
-
----
-
-- Blomstra provides managed Flarum hosting.
-- https://blomstra.net
-- https://blomstra.community/t/ext-gdpr
