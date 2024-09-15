@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Models;
+namespace Flarum\Gdpr\Models;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;

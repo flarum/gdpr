@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Data;
+namespace Flarum\Gdpr\Data;
 
-use Blomstra\Gdpr\Contracts\DataType;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Contracts\DataType;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;

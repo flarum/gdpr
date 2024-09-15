@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Tests\integration\Api;
+namespace Flarum\Gdpr\Tests\integration\Api;
 
-use Blomstra\Gdpr\Data\Forum;
+use Flarum\Gdpr\Data\Forum;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 

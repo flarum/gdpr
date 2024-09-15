@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Jobs\ExportJob;
-use Blomstra\Gdpr\Jobs\GdprJob;
+use Flarum\Gdpr\Jobs\ExportJob;
+use Flarum\Gdpr\Jobs\GdprJob;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;

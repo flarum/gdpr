@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\tests\integration\api;
+namespace Flarum\Gdpr\tests\integration\api;
 
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Database\Eloquent\Collection;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;

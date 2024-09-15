@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr;
+namespace Flarum\Gdpr;
 
-use Blomstra\Gdpr\Api\Serializer\ExportSerializer;
-use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Api\Serializer\ExportSerializer;
+use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;

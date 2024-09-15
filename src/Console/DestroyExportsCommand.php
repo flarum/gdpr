@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Console;
+namespace Flarum\Gdpr\Console;
 
-use Blomstra\Gdpr\Exporter;
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Exporter;
+use Flarum\Gdpr\Models\Export;
 use Illuminate\Console\Command;
 
 class DestroyExportsCommand extends Command

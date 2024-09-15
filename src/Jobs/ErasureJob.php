@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Jobs;
+namespace Flarum\Gdpr\Jobs;
 
-use Blomstra\Gdpr\DataProcessor;
-use Blomstra\Gdpr\Events\Erased;
-use Blomstra\Gdpr\Events\Erasing;
-use Blomstra\Gdpr\Models\ErasureRequest;
-use Blomstra\Gdpr\Notifications\ErasureCompletedBlueprint;
+use Flarum\Gdpr\DataProcessor;
+use Flarum\Gdpr\Events\Erased;
+use Flarum\Gdpr\Events\Erasing;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Notifications\ErasureCompletedBlueprint;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;

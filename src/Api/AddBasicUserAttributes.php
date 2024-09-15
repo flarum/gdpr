@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api;
+namespace Flarum\Gdpr\Api;
 
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\User\User;

@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Models\ErasureRequest;
-use Blomstra\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Extend;
+namespace Flarum\Gdpr\Extend;
 
-use Blomstra\Gdpr\DataProcessor;
+use Flarum\Gdpr\DataProcessor;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
 use Illuminate\Contracts\Container\Container;
@@ -38,7 +38,7 @@ class UserData implements ExtenderInterface
     /**
      * Register a new data type.
      *
-     * Must be a class that implements Blomstra\Gdpr\Contracts\DataType.
+     * Must be a class that implements Flarum\Gdpr\Contracts\DataType.
      *
      * @param string $type
      *

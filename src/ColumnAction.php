@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr;
+namespace Flarum\Gdpr;
 
 class ColumnAction
 {

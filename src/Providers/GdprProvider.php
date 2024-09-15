@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Providers;
+namespace Flarum\Gdpr\Providers;
 
 use Flarum\Foundation\AbstractServiceProvider;
 

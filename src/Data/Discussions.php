@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Data;
+namespace Flarum\Gdpr\Data;
 
 use Flarum\Discussion\Discussion;
 use Illuminate\Support\Arr;

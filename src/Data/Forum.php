@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Data;
+namespace Flarum\Gdpr\Data;
 
-use Blomstra\Gdpr\ZipManager;
+use Flarum\Gdpr\ZipManager;
 use Carbon\Carbon;
 
 class Forum extends Type

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Notifications;
+namespace Flarum\Gdpr\Notifications;
 
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;

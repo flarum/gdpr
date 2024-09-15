@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Blomstra\Gdpr\Models\ErasureRequest;
-use Blomstra\Gdpr\Notifications\ConfirmErasureBlueprint;
+use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Notifications\ConfirmErasureBlueprint;
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;

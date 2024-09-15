@@ -1,10 +1,10 @@
 {
-    "name": "blomstra/gdpr",
-    "description": "Gives user more control over their data",
+    "name": "flarum/gdpr",
+    "description": "Features for GDPR, PII management",
     "keywords": [
         "extension",
         "flarum",
-        "blomstra",
+        "pii",
         "gdpr",
         "export"
     ],
@@ -25,11 +25,16 @@
             "name": "Alexander Skvortsov",
             "email": "askvortsov@flarum.org",
             "role": "Developer"
+        },
+        {
+            "name": "Flarum",
+            "email": "info@flarum.org",
+            "homepage": "https://flarum.org/team"
         }
     ],
     "support": {
-        "issues": "https://github.com/blomstra/flarum-gdpr/issues",
-        "source": "https://github.com/blomstra/flarum-gdpr"
+        "issues": "https://github.com/flarum/gdpr/issues",
+        "source": "https://github.com/flarum/gdpr"
     },
     "require": {
         "php": "8.*",
@@ -38,8 +43,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Blomstra\\Gdpr\\": "src/"
+            "Flarum\\Gdpr\\": "src/"
         }
+    },
+    "replace": {
+        "blomstra/gdpr": "*"
     },
     "extra": {
         "flarum-extension": {
@@ -61,11 +69,11 @@
                 "backendTesting": true,
                 "jsCommon": true
             }
-        } 
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Blomstra\\Gdpr\\Tests\\": "tests/"
+            "Flarum\\Gdpr\\Tests\\": "tests/"
         }
     },
     "scripts": {

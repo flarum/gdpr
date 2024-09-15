@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Blomstra\Gdpr\Jobs\ErasureJob;
-use Blomstra\Gdpr\Jobs\GdprJob;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Flarum\Gdpr\Jobs\ErasureJob;
+use Flarum\Gdpr\Jobs\GdprJob;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;

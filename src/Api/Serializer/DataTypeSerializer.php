@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Serializer;
+namespace Flarum\Gdpr\Api\Serializer;
 
-use Blomstra\Gdpr\Contracts\DataType;
+use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Api\Serializer\AbstractSerializer;
 
 class DataTypeSerializer extends AbstractSerializer

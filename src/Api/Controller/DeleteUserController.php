@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Jobs\ErasureJob;
-use Blomstra\Gdpr\Jobs\GdprJob;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Jobs\ErasureJob;
+use Flarum\Gdpr\Jobs\GdprJob;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;

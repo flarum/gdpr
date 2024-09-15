@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;

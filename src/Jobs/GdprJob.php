@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Jobs;
+namespace Flarum\Gdpr\Jobs;
 
 use Flarum\Queue\AbstractJob;
 

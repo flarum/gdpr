@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Http\Controller;
+namespace Flarum\Gdpr\Http\Controller;
 
-use Blomstra\Gdpr\Models\Export;
-use Blomstra\Gdpr\StorageManager;
+use Flarum\Gdpr\Models\Export;
+use Flarum\Gdpr\StorageManager;
 use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;

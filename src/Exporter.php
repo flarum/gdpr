@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr;
+namespace Flarum\Gdpr;
 
-use Blomstra\Gdpr\Contracts\DataType;
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Contracts\DataType;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\Notification\Notification;

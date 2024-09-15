@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Tests\integration\Api;
+namespace Flarum\Gdpr\Tests\integration\Api;
 
 use Carbon\Carbon;
 use Flarum\Extend;

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Notifications;
+namespace Flarum\Gdpr\Notifications;
 
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;

@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Jobs;
+namespace Flarum\Gdpr\Jobs;
 
-use Blomstra\Gdpr\Events\Exported;
-use Blomstra\Gdpr\Events\Exporting;
-use Blomstra\Gdpr\Exporter;
-use Blomstra\Gdpr\Models\Export;
-use Blomstra\Gdpr\Notifications\ExportAvailableBlueprint;
+use Flarum\Gdpr\Events\Exported;
+use Flarum\Gdpr\Events\Exporting;
+use Flarum\Gdpr\Exporter;
+use Flarum\Gdpr\Models\Export;
+use Flarum\Gdpr\Notifications\ExportAvailableBlueprint;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;

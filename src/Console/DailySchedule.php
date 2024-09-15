@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Console;
+namespace Flarum\Gdpr\Console;
 
 use Illuminate\Console\Scheduling\Event;
 

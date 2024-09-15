@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Controller;
+namespace Flarum\Gdpr\Api\Controller;
 
-use Blomstra\Gdpr\Api\Serializer\DataTypeSerializer;
-use Blomstra\Gdpr\DataProcessor;
+use Flarum\Gdpr\Api\Serializer\DataTypeSerializer;
+use Flarum\Gdpr\DataProcessor;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;

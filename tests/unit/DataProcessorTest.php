@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\tests\unit;
+namespace Flarum\Gdpr\tests\unit;
 
-use Blomstra\Gdpr\Data;
-use Blomstra\Gdpr\DataProcessor;
+use Flarum\Gdpr\Data;
+use Flarum\Gdpr\DataProcessor;
 use Flarum\Testing\unit\TestCase;
 
 class DataProcessorTest extends TestCase

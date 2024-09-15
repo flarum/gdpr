@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr;
+namespace Flarum\Gdpr;
 
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Models\Export;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 

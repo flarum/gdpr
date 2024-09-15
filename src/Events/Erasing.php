@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Events;
+namespace Flarum\Gdpr\Events;
 
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Models\ErasureRequest;
 
 class Erasing
 {

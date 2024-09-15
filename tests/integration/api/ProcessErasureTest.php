@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\tests\integration\api;
+namespace Flarum\Gdpr\tests\integration\api;
 
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;

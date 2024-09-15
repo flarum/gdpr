@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Tests\integration\api;
+namespace Flarum\Gdpr\Tests\integration\api;
 
-use Blomstra\Gdpr\Data\Forum;
-use Blomstra\Gdpr\DataProcessor;
-use Blomstra\Gdpr\Extend\UserData;
+use Flarum\Gdpr\Data\Forum;
+use Flarum\Gdpr\DataProcessor;
+use Flarum\Gdpr\Extend\UserData;
 use Flarum\Testing\integration\TestCase;
 
 class ExtenderTest extends TestCase

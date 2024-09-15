@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Access;
+namespace Flarum\Gdpr\Access;
 
 use Flarum\User\Access\AbstractPolicy;
 use Flarum\User\User;

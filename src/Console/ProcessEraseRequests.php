@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Console;
+namespace Flarum\Gdpr\Console;
 
-use Blomstra\Gdpr\Jobs\ErasureJob;
-use Blomstra\Gdpr\Jobs\GdprJob;
-use Blomstra\Gdpr\Models\ErasureRequest;
+use Flarum\Gdpr\Jobs\ErasureJob;
+use Flarum\Gdpr\Jobs\GdprJob;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Console\Command;

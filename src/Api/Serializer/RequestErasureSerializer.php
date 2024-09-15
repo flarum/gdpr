@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Serializer;
+namespace Flarum\Gdpr\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
@@ -20,7 +20,7 @@ class RequestErasureSerializer extends AbstractSerializer
     protected $type = 'user-erasure-requests';
 
     /**
-     * @param \Blomstra\Gdpr\Models\ErasureRequest $erasure_request
+     * @param \Flarum\Gdpr\Models\ErasureRequest $erasure_request
      *
      * @return array
      */

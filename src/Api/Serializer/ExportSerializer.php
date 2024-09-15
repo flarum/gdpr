@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blomstra\Gdpr\Api\Serializer;
+namespace Flarum\Gdpr\Api\Serializer;
 
-use Blomstra\Gdpr\Models\Export;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use InvalidArgumentException;
