@@ -16,20 +16,19 @@ use Flarum\User\User;
 
 class UserPolicy extends AbstractPolicy
 {
-    /**
-     * @var array
-     */
-    public $reservedAbilities;
+    public array $reservedAbilities;
 
     public function __construct()
     {
         $this->reservedAbilities = resolve('gdpr.user.reservedAbilities');
     }
 
-    public function can(User $actor, $ability, User $user)
+    public function can(User $actor, $ability, mixed $user)
     {
         // if $user is anonymized, deny all abilities except those in $reservedAbilities
-        if ($user->anonymized && !in_array($ability, $this->reservedAbilities)) {
+        if ($user instanceof User
+            && $user->anonymized
+            && !in_array($ability, $this->reservedAbilities)) {
             return $this->deny();
         }
     }
