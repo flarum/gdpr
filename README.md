@@ -12,7 +12,7 @@ This extension allows users increasing control over their data.
 Install manually with composer:
 
 ```sh
-composer require flarum/gdpr:@beta
+composer require blomstra/gdpr:@beta
 ```
 
 ### Use
@@ -27,7 +27,7 @@ From here, users may self-service export their data from the forum, or start an 
 If your forum runs multiple queues, ie `low` and `high`, you may specify which queue jobs for this extension are run on in your skeleton's `extend.php` file:
 
 ```php
-Flarum\Gdpr\Jobs\GdprJob::$onQueue = 'low';
+Blomstra\Gdpr\Jobs\GdprJob::$onQueue = 'low';
 
 return [
     ... your current extenders,
@@ -40,12 +40,12 @@ You can easily register a new Data type, remove an existing Data type, or exclud
 
 #### Registering a new Data Type:
 
-Your data type class should implement the `Flarum\Gdpr\Contracts\DataType`:
+Your data type class should implement the `Blomstra\Gdpr\Contracts\DataType`:
 ```php
 <?php
 
-use Flarum\Gdpr\Extend\UserData;
-use Flarum\Extend;
+use Blomstra\Gdpr\Extend\UserData;
+use Blomstra\Extend;
 
 return [
     (new Extend\Conditional())
@@ -65,12 +65,12 @@ name the file and always prefix it with your extension slug (blomstra-something-
 #### Removing a Data Type:
 If for any reason you want to exclude a certain DataType from the export:
 ```php
-use Flarum\Gdpr\Extend\UserData;
-use Flarum\Extend;
+use Blomstra\Gdpr\Extend\UserData;
+use Blomstra\Extend;
 
 return [
     (new Extend\Conditional())
-        ->whenExtensionEnabled('flarum-gdpr', fn () => [
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
             (new UserData())
                 ->removeType(Your\Own\DataType::class),
 
@@ -81,11 +81,11 @@ return [
 
 #### Exclude specific columns from the user table during export:
 ```php
-use Flarum\Gdpr\Extend\UserData;
+use Blomstra\Gdpr\Extend\UserData;
 
 return [
     (new Extend\Conditional())
-        ->whenExtensionEnabled('flarum-gdpr', fn () => [
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
             (new UserData())
                 ->removeUserColumn('column_name') // For a single column
                 ->removeUserColumns(['column1', 'column2']), // For multiple columns
