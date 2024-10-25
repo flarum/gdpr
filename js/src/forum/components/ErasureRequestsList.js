@@ -29,7 +29,7 @@ export default class ErasureRequestsList extends Component {
                     avatar={<Avatar user={request.user()} />}
                     icon="fas fa-user-edit"
                     content={app.translator.trans(`blomstra-gdpr.forum.erasure_requests.item_text`, {
-                        name: username(request.user()),
+                      name: username(request.user()),
                     })}
                     datetim={request.createdAt()}
                   />
