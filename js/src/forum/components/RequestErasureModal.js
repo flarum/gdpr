@@ -1,11 +1,12 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
 
-export default class RequestErasureModal extends Modal {
+export default class RequestErasureModal extends FormModal {
   oninit(vnode) {
     super.oninit(vnode);
 
@@ -24,7 +25,7 @@ export default class RequestErasureModal extends Modal {
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">{this.fields().toArray()}</div>
+        <Form className="Form--centered">{this.fields().toArray()}</Form>
       </div>
     );
   }

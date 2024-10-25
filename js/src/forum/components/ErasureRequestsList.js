@@ -1,10 +1,9 @@
 import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import avatar from 'flarum/common/helpers/avatar';
-import icon from 'flarum/common/helpers/icon';
+import Avatar from 'flarum/common/components/Avatar';
 import username from 'flarum/common/helpers/username';
-import humanTime from 'flarum/common/helpers/humanTime';
+import HeaderListItem from 'flarum/forum/components/HeaderListItem';
 
 import ProcessErasureRequestModal from './ProcessErasureRequestModal';
 
@@ -14,27 +13,26 @@ export default class ErasureRequestsList extends Component {
     const state = this.attrs.state;
 
     return (
-      <div className="NotificationList ErasureRequestsList">
+      <div className="HeaderList ErasureRequestsList">
         <div className="NotificationList-header">
           <h4 className="App-titleControl App-titleControl--text">{app.translator.trans('blomstra-gdpr.forum.erasure_requests.title')}</h4>
         </div>
         <div className="NotificationList-content">
-          <ul className="NotificationGroup-content">
+          <ul className="HeaderListGroup-content">
             {erasureRequests.length ? (
-              erasureRequests.map((request) => {
+              erasureRequests.map((request, index) => {
                 return (
-                  <li>
-                    <a onclick={this.showModal.bind(this, request)} className="Notification Request">
-                      {avatar(request.user())}
-                      {icon('fas fa-user-edit', { className: 'Notification-icon' })}
-                      <span className="Notification-content">
-                        {app.translator.trans(`blomstra-gdpr.forum.erasure_requests.item_text`, {
-                          name: username(request.user()),
-                        })}
-                      </span>
-                      {humanTime(request.createdAt())}
-                    </a>
-                  </li>
+                  <HeaderListItem
+                    key={index}
+                    className="EraseRequest"
+                    onclick={this.showModal.bind(this, request)}
+                    avatar={<Avatar user={request.user()} />}
+                    icon="fas fa-user-edit"
+                    content={app.translator.trans(`blomstra-gdpr.forum.erasure_requests.item_text`, {
+                        name: username(request.user()),
+                    })}
+                    datetim={request.createdAt()}
+                  />
                 );
               })
             ) : !state.loading ? (

@@ -1,3 +1,4 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
@@ -38,7 +39,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">{this.fields().toArray()}</div>
+        <Form className="Form--centered">{this.fields().toArray()}</Form>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import User from 'flarum/common/models/User';
@@ -33,7 +34,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">
+        <Form className="Form--centered">
           <p className="helpText">
             {app.translator.trans('blomstra-gdpr.forum.delete_user.text', {
               username: username(this.user),
@@ -73,7 +74,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
               </div>
             </div>
           )}
-        </div>
+        </Form>
       </div>
     );
   }

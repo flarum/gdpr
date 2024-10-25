@@ -27,35 +27,35 @@ export default function extendUserSettingsPage() {
     );
   });
 
-    override('flarum/forum/components/SettingsPage', 'dataItems', function (): ItemList<Mithril.Children> {
-        const items = new ItemList<Mithril.Children>();
+  override('flarum/forum/components/SettingsPage', 'dataItems', function (): ItemList<Mithril.Children> {
+    const items = new ItemList<Mithril.Children>();
 
-        items.add(
-          'gdprErasure',
-          <div className="gdprErasure-container">
-            <Button className="Button Button-gdprErasure" icon="fas fa-user-minus" onclick={() => app.modal.show(RequestErasureModal)}>
-              {app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_button')}
-            </Button>
-            <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_help')}</p>
-          </div>,
-          50
-        );
+    items.add(
+      'gdprErasure',
+      <div className="gdprErasure-container">
+        <Button className="Button Button-gdprErasure" icon="fas fa-user-minus" onclick={() => app.modal.show(RequestErasureModal)}>
+          {app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_button')}
+        </Button>
+        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_help')}</p>
+      </div>,
+      50
+    );
 
-        items.add(
-          'gdprExport',
-          <div className="gdprExport-container">
-            <Button
-              className="Button Button-gdprExport"
-              icon="fas fa-file-export"
-              onclick={() => app.modal.show(RequestDataExportModal, { user: this.user })}
-            >
-              {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
-            </Button>
-            <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.export_data_help')}</p>
-          </div>,
-          40
-        );
+    items.add(
+      'gdprExport',
+      <div className="gdprExport-container">
+        <Button
+          className="Button Button-gdprExport"
+          icon="fas fa-file-export"
+          onclick={() => app.modal.show(RequestDataExportModal, { user: this.user })}
+        >
+          {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
+        </Button>
+        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.export_data_help')}</p>
+      </div>,
+      40
+    );
 
-        return items;
-});
+    return items;
+  });
 }
