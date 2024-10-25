@@ -11,13 +11,15 @@
 
 namespace Flarum\Gdpr\Notifications;
 
+use Flarum\Database\AbstractModel;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Gdpr\Models\Export;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Flarum\Locale\TranslatorInterface;
 
-class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
+class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {
     /**
      * @var Export
@@ -39,12 +41,12 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         return $this->export->actor;
     }
 
-    public function getSubject(): Export
+    public function getSubject(): ?AbstractModel
     {
         return $this->export;
     }
 
-    public function getData(): array
+    public function getData(): mixed
     {
         return [
             'export' => $this->export->id,
@@ -61,7 +63,7 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         return Export::class;
     }
 
-    public function getEmailView(): array
+    public function getEmailViews(): array
     {
         return ['text' => 'gdpr::export-available'];
     }

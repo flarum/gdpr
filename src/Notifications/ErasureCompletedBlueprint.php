@@ -11,13 +11,15 @@
 
 namespace Flarum\Gdpr\Notifications;
 
+use Flarum\Database\AbstractModel;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Flarum\Locale\TranslatorInterface;
 
-class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
+class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {
     public function __construct(private ErasureRequest $request, private string $username, private string $mode)
     {
@@ -29,7 +31,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return null;
     }
 
-    public function getSubject(): ErasureRequest
+    public function getSubject(): ?AbstractModel
     {
         return $this->request;
     }
@@ -39,7 +41,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return $this->mode;
     }
 
-    public function getData(): array
+    public function getData(): mixed
     {
         return [
             'username' => $this->username,
@@ -57,7 +59,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return ErasureRequest::class;
     }
 
-    public function getEmailView(): array
+    public function getEmailViews(): array
     {
         return ['text' => 'gdpr::erasure-completed'];
     }

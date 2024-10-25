@@ -49,9 +49,9 @@ return [
         ->get('/gdpr/datatypes/user-columns', 'gdpr.datatypes.user-columns', Api\Controller\ListUserColumnsDataController::class),
 
     (new Extend\Notification())
-        ->type(Notifications\ExportAvailableBlueprint::class, ExportSerializer::class, ['alert', 'email'])
-        ->type(Notifications\ConfirmErasureBlueprint::class, RequestErasureSerializer::class, ['email'])
-        ->type(Notifications\ErasureRequestCancelledBlueprint::class, RequestErasureSerializer::class, ['alert', 'email']),
+        ->type(Notifications\ExportAvailableBlueprint::class, ['alert', 'email'])
+        ->type(Notifications\ConfirmErasureBlueprint::class, ['email'])
+        ->type(Notifications\ErasureRequestCancelledBlueprint::class, ['alert', 'email']),
 
     (new Extend\Model(User::class))
         ->cast('anonymized', 'boolean')
