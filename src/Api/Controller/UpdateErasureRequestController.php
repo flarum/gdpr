@@ -15,7 +15,7 @@ use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Flarum\Gdpr\Jobs\ErasureJob;
 use Flarum\Gdpr\Jobs\GdprJob;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Api\Controller\AbstractUpdateController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -25,7 +25,7 @@ use Illuminate\Support\Carbon;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class ProcessErasureController extends AbstractShowController
+class UpdateErasureRequestController extends AbstractUpdateController
 {
     public $serializer = RequestErasureSerializer::class;
 

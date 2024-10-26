@@ -24,7 +24,7 @@ use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class RequestErasureController extends AbstractCreateController
+class CreateErasureRequestController extends AbstractCreateController
 {
     public $serializer = RequestErasureSerializer::class;
 
