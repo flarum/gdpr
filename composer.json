@@ -99,5 +99,6 @@
         "flarum/nicknames": "^2.0.0",
         "fof/user-bio": "^2.0",
         "flarum/phpstan": "*"
-    }
+    },
+    "minimum-stability": "dev"
 }

@@ -28,7 +28,7 @@ class CancelErasureTest extends TestCase
         $this->setting('mail_driver', 'log');
 
         $this->extend((new Extend\Csrf())
-            ->exemptRoute('gdpr.erasure.cancel'));
+            ->exemptRoute('gdpr.user-erasure-requests.cancel'));
 
         $this->prepareDatabase([
             'users' => [

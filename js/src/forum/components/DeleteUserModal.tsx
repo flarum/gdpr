@@ -99,19 +99,14 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
       this.loadingDeletion = true;
     }
 
-    app
-      .request({
-        method: 'DELETE',
-        url: app.forum.attribute('apiUrl') + '/users/' + this.user.id() + '/gdpr/' + mode,
-      })
-      .then(
-        () => {
-          this.hide();
-          this.loadingAnonymization = false;
-          this.loadingDeletion = false;
-          m.redraw();
-        },
-        () => []
-      );
+    this.user.delete({ gdprMode: mode }).then(
+      () => {
+        this.hide();
+        this.loadingAnonymization = false;
+        this.loadingDeletion = false;
+        m.redraw();
+      },
+      () => []
+    );
   }
 }

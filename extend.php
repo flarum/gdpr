@@ -11,14 +11,12 @@
 
 namespace Flarum\Gdpr;
 
-use Flarum\Gdpr\Api\Serializer\ExportSerializer;
-use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Api\Controller\ShowUserController;
-use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 use Flarum\Extend;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\User\User;
 
 return [
@@ -36,18 +34,6 @@ return [
         ->get('/gdpr/export/{file}', 'gdpr.export', Http\Controller\ExportController::class)
         ->get('/gdpr/erasure/confirm/{token}', 'gdpr.erasure.confirm', Http\Controller\ConfirmErasureController::class),
 
-    (new Extend\Routes('api'))
-        ->remove('users.delete')
-        ->delete('/users/{id}', 'users.delete', Api\Controller\DeleteUserController::class)
-        ->delete('/users/{id}/gdpr/{mode}', 'users.delete.mode', Api\Controller\DeleteUserController::class)
-        ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
-        ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
-        ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\CreateErasureRequestController::class)
-        ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\UpdateErasureRequestController::class)
-        ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\DeleteErasureRequestController::class)
-        ->get('/gdpr/datatypes', 'gdpr.datatypes.index', Api\Controller\ListDataTypesController::class)
-        ->get('/gdpr/datatypes/user-columns', 'gdpr.datatypes.user-columns', Api\Controller\ListUserColumnsDataController::class),
-
     (new Extend\Notification())
         ->type(Notifications\ExportAvailableBlueprint::class, ['alert', 'email'])
         ->type(Notifications\ConfirmErasureBlueprint::class, ['email'])
@@ -57,20 +43,19 @@ return [
         ->cast('anonymized', 'boolean')
         ->hasOne('erasureRequest', ErasureRequest::class),
 
-    (new Extend\ApiController(ShowUserController::class))
-        ->addInclude('erasureRequest'),
+    new Extend\ApiResource(Api\Resource\DataTypeResource::class),
+    new Extend\ApiResource(Api\Resource\ExportResource::class),
+    new Extend\ApiResource(Api\Resource\ErasureRequestResource::class),
 
-    (new Extend\ApiSerializer(ForumSerializer::class))
-        ->attributes(AddForumAttributes::class),
-
-    (new Extend\ApiSerializer(BasicUserSerializer::class))
-        ->attributes(Api\AddBasicUserAttributes::class),
-
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attribute('canModerateExports', function (UserSerializer $serializer, User $user) {
-            return $serializer->getActor()->can('exportFor', $user);
+    (new Extend\ApiResource(Resource\UserResource::class))
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            $endpoint->addDefaultInclude(['erasureRequest']);
         })
-        ->hasOne('erasureRequest', RequestErasureSerializer::class),
+        ->endpoint(Endpoint\Delete::class, Api\UserResourceDeleteEndpoint::class)
+        ->fields(Api\UserResourceFields::class),
+
+    (new Extend\ApiResource(Resource\ForumResource::class))
+        ->fields(Api\ForumResourceFields::class),
 
     (new Extend\Settings())
         ->default('blomstra-gdpr.allow-anonymization', true)
@@ -96,13 +81,16 @@ return [
         ->disk('gdpr-export', ExportDiskConfig::class),
 
     (new Extend\Policy())
-        ->modelPolicy(User::class, Access\UserPolicy::class),
+        ->modelPolicy(User::class, Access\UserPolicy::class)
+        ->modelPolicy(ErasureRequest::class, Access\ErasureRequestPolicy::class),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('fof-oauth', fn () => [
-            (new Extend\ApiSerializer(ForumSerializer::class))
-                ->attribute('passwordlessSignUp', function (ForumSerializer $serializer) {
-                    return !$serializer->getActor()->isGuest() && $serializer->getActor()->loginProviders()->count() > 0;
-                }),
+            // @TODO: move to fof-oauth
+            (new Extend\ApiResource(Resource\ForumResource::class))
+                ->fields(fn () => [
+                    Schema\Boolean::make('passwordlessSignUp')
+                        ->get(fn (object $forum, Context $context) => !$context->getActor()->isGuest() && $context->getActor()->loginProviders()->count() > 0),
+                ]),
         ]),
 ];

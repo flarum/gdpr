@@ -52,6 +52,8 @@ class ErasureRequest extends AbstractModel
         'processed_at'      => 'datetime',
     ];
 
+    protected $guarded = ['id'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -60,5 +62,10 @@ class ErasureRequest extends AbstractModel
     public function processedBy()
     {
         return $this->belongsTo(User::class, 'processed_by');
+    }
+
+    public function isConfirmed(): bool
+    {
+        return $this->status === ErasureRequest::STATUS_USER_CONFIRMED && $this->user_confirmed_at;
     }
 }

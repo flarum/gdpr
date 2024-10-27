@@ -35,6 +35,10 @@ class UserPolicy extends AbstractPolicy
 
     public function exportFor(User $actor, User $user)
     {
+        if ($actor->is($user)) {
+            return $this->allow();
+        }
+
         if ($user->anonymized) {
             return $this->deny();
         }

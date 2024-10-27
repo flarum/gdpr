@@ -20,8 +20,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface DataType
 {
-    public function __construct(User $user, ?ErasureRequest $erasureRequest, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
-
     public static function dataType(): string;
 
     /**

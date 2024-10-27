@@ -116,9 +116,13 @@ export default class RequestErasureModal extends FormModal {
     this.loading = true;
     m.redraw();
 
-    app.session.user
-      .erasureRequest()
-      .delete()
+    const request = app.session.user.erasureRequest();
+
+    app
+      .request({
+        method: 'POST',
+        url: app.forum.attribute('apiUrl') + '/user-erasure-requests/' + request.id() + '/cancel',
+      })
       .then(() => {
         this.loading = false;
         m.redraw();

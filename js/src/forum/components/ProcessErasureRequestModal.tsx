@@ -133,7 +133,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
     m.redraw();
 
     this.request
-      .save({ processor_comment: this.comments(), meta: { mode } })
+      .save({ processedMode: mode, processorComment: this.comments() })
       .then((erasureRequest) => {
         app.store.remove(erasureRequest);
         this.loadingAnonymization = false;
