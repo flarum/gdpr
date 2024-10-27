@@ -16,6 +16,9 @@ use Flarum\Extend;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
+use Flarum\Group\Group;
 
 class CancelErasureTest extends TestCase
 {
@@ -31,13 +34,13 @@ class CancelErasureTest extends TestCase
             ->exemptRoute('gdpr.user-erasure-requests.cancel'));
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
-            'groups' => [
+            Group::class => [
                 ['id' => 5, 'name_singular' => 'customgroup', 'name_plural' => 'customgroups'],
             ],
             'group_user' => [
@@ -56,9 +59,7 @@ class CancelErasureTest extends TestCase
         $this->extension('blomstra-gdpr');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_cancel_unconfirmed_erasure_request()
     {
         $response = $this->send(
@@ -68,9 +69,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_cancel_confirmed_erasure_request()
     {
         $response = $this->send(
@@ -80,9 +79,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_cancel_own_unconfirmed_erasure_request()
     {
         $response = $this->send(
@@ -98,9 +95,7 @@ class CancelErasureTest extends TestCase
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_cancel_own_confirmed_erasure_request()
     {
         $response = $this->send(
@@ -116,9 +111,7 @@ class CancelErasureTest extends TestCase
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_cancel_others_erasure_request()
     {
         $response = $this->send(
@@ -130,9 +123,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_can_cancel_others_erasure_request()
     {
         $response = $this->send(

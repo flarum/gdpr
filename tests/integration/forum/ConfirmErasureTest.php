@@ -17,6 +17,8 @@ use Flarum\Extend;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
 
 class ConfirmErasureTest extends TestCase
 {
@@ -35,7 +37,7 @@ class ConfirmErasureTest extends TestCase
         $this->setting('mail_driver', 'log');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
             ],
@@ -63,9 +65,7 @@ class ConfirmErasureTest extends TestCase
         return $response;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_confirm_erasure_without_correct_token()
     {
         $response = $this->send(
@@ -78,9 +78,7 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_can_confirm_erasure_with_correct_token()
     {
         $response = $this->send(
@@ -99,9 +97,7 @@ class ConfirmErasureTest extends TestCase
         $this->assertNotNull($erasureRequest->user_confirmed_at);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_confirm_erasure_with_incorrect_token()
     {
         $loginResponse = $this->loginUser();
@@ -119,9 +115,7 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_confirm_erasure_with_correct_token()
     {
         $loginResponse = $this->loginUser();
@@ -145,9 +139,7 @@ class ConfirmErasureTest extends TestCase
         $this->assertNotNull($erasureRequest->user_confirmed_at);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function different_user_cannot_confirm_erasure_for_user()
     {
         $loginResponse = $this->loginUser('moderator');

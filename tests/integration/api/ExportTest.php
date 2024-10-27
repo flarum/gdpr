@@ -21,6 +21,8 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use PhpZip\ZipFile;
 use Psr\Http\Message\ResponseInterface;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
 
 class ExportTest extends TestCase
 {
@@ -35,7 +37,7 @@ class ExportTest extends TestCase
         $this->setting('forum_title', 'Flarum Test');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'anon', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'anon@machine.local', 'is_email_confirmed' => 0, 'anonymized' => 1],
@@ -98,9 +100,7 @@ class ExportTest extends TestCase
         return $this->app()->getContainer()->make(Factory::class)->disk('gdpr-export');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guests_cannot_request_export_data()
     {
         $response = $this->send(
@@ -118,9 +118,7 @@ class ExportTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function users_can_request_export_own_data()
     {
         $response = $this->makeExportRequest();
@@ -133,9 +131,7 @@ class ExportTest extends TestCase
         $this->assertEquals(2, $export->actor_id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function users_cannot_request_export_other_users_data()
     {
         $response = $this->makeExportRequest(2, 3);
@@ -149,9 +145,7 @@ class ExportTest extends TestCase
         $this->assertNull($export);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderators_can_request_export_other_users_data()
     {
         // Perform an activity as the user, so that an access token is generated for them
@@ -181,9 +175,7 @@ class ExportTest extends TestCase
         $this->zip_file_contains_expected_files(3, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notification_is_created_after_requesting_export_data(int $actorId = 2, int $userId = 2)
     {
         $response = $this->makeExportRequest(2);
@@ -203,9 +195,7 @@ class ExportTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function export_is_created_after_requesting_export_data()
     {
         $response = $this->makeExportRequest(2);
@@ -222,9 +212,7 @@ class ExportTest extends TestCase
         $this->assertStringStartsWith("data-export-{$user->username}", $fileName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function export_file_exists_in_storage()
     {
         $response = $this->makeExportRequest(2);
@@ -235,9 +223,7 @@ class ExportTest extends TestCase
         $this->assertTrue($this->getStorageFilesystem()->exists("export-{$export->id}.zip"), 'Export file does not exist in storage.');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authenticated_user_can_retrieve_export_file_via_controller()
     {
         $response = $this->makeExportRequest(2);
@@ -259,9 +245,7 @@ class ExportTest extends TestCase
         $this->assertNotEmpty($data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthenticated_user_can_retrieve_export_file_via_controller()
     {
         $response = $this->makeExportRequest(2);
@@ -282,9 +266,7 @@ class ExportTest extends TestCase
         $this->assertNotEmpty($data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function zip_file_contains_expected_files(int $actorId = 2, int $userId = 2)
     {
         $response = $this->makeExportRequest($actorId, $userId);
@@ -325,9 +307,7 @@ class ExportTest extends TestCase
         $zip->close();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_export_data_for_already_anonymized_user()
     {
         $response = $this->makeExportRequest(1, 4);

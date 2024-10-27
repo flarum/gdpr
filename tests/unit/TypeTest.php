@@ -22,12 +22,12 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery as m;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class TypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_disk_instance()
     {
         // Mocking the dependencies
@@ -53,11 +53,8 @@ class TypeTest extends TestCase
         $this->assertEquals($mockedDisk, $returnedDisk);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider specialCharactersProvider
-     */
+    #[Test]
+    #[DataProvider('specialCharactersProvider')]
     public function it_does_not_escape_unicode_characters_when_encoding_for_export($input, $expected)
     {
         // Mocking the dependencies
@@ -79,7 +76,7 @@ class TypeTest extends TestCase
         $this->assertStringContainsString($expected, $encoded);
     }
 
-    public function specialCharactersProvider()
+    public static function specialCharactersProvider()
     {
         return [
             ['ß', '"content": "ß"'],
@@ -96,9 +93,7 @@ class TypeTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_data_type()
     {
         // Mocking the dependencies
@@ -119,9 +114,7 @@ class TypeTest extends TestCase
         $this->assertEquals('TestableType', $dataType);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_table_columns()
     {
         // Mocking the dependencies

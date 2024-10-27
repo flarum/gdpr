@@ -13,6 +13,8 @@ namespace Flarum\Gdpr\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
 
 class ForumAttributesTest extends TestCase
 {
@@ -24,7 +26,7 @@ class ForumAttributesTest extends TestCase
         $this->extension('blomstra-gdpr');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
             ],
@@ -37,9 +39,7 @@ class ForumAttributesTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function erasure_methods_are_serialized_and_with_the_correct_type()
     {
         $response = $this->send(
@@ -66,9 +66,7 @@ class ForumAttributesTest extends TestCase
         $this->assertFalse($json['data']['attributes']['erasureDeletionAllowed']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_users_do_not_see_gdpr_data()
     {
         $response = $this->send(
@@ -90,9 +88,7 @@ class ForumAttributesTest extends TestCase
         $this->assertArrayNotHasKey('erasureRequestCount', $json['data']['attributes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admins_see_gdpr_data()
     {
         $response = $this->send(
@@ -113,9 +109,7 @@ class ForumAttributesTest extends TestCase
         $this->assertArrayHasKey('erasureRequestCount', $json['data']['attributes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_see_gdpr_data()
     {
         $response = $this->send(

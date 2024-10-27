@@ -14,6 +14,8 @@ namespace Flarum\Gdpr\Tests\integration\Api;
 use Flarum\Gdpr\Data\Forum;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
 
 class ListDataTypesControllerTest extends TestCase
 {
@@ -24,7 +26,7 @@ class ListDataTypesControllerTest extends TestCase
         parent::setUp();
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
             ],
         ]);
@@ -32,9 +34,7 @@ class ListDataTypesControllerTest extends TestCase
         $this->extension('blomstra-gdpr');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function non_admin_cannot_list_types()
     {
         $response = $this->send(
@@ -44,9 +44,7 @@ class ListDataTypesControllerTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_list_types()
     {
         $response = $this->send(
