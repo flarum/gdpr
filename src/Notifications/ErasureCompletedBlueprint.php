@@ -62,7 +62,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailViews(): array
     {
-        return ['text' => 'gdpr::erasure-completed'];
+        return ['text' => 'flarum-gdpr::erasure-completed'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string

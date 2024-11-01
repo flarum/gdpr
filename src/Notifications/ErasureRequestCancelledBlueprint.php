@@ -57,7 +57,7 @@ class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableIn
 
     public function getEmailViews(): array
     {
-        return ['text' => 'gdpr::erasure-cancelled'];
+        return ['text' => 'flarum-gdpr::erasure-cancelled'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string
