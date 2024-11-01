@@ -1,6 +1,6 @@
-@extends('flarum.forum::email.html.notification.base')
+@extends('flarum.forum::email.html.information.base')
 
-@section('notificationContent')
+@section('informationContent')
   {!! $translator->trans('flarum-gdpr.email.export_available.body', [
     "{display_name}" => $user->display_name,
     "{url}" => $url->to('forum')->route('gdpr.export', ['file' => $blueprint->getSubject()->file]),
@@ -8,7 +8,3 @@
     "{destroys_at}" => $blueprint->getSubject()->destroys_at
 ]) !!}
 @endsection
-
-{{--@section('contentPreview')--}}
-{{--    <!-- Optional content -->--}}
-{{--@endsection--}}

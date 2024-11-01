@@ -21,7 +21,7 @@ use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
 use Flarum\Locale\TranslatorInterface;
 
-class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
+class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 {
     public function __construct(private ErasureRequest $request)
     {

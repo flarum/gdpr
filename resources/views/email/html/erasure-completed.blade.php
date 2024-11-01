@@ -1,11 +1,7 @@
-@extends('flarum.forum::email.html.notification.base')
+@extends('flarum.forum::email.html.information.base')
 
-@section('notificationContent')
+@section('informationContent')
   {!! $translator->trans("flarum-gdpr.email.erasure_completed.{$mode}.body", [
     "{display_name}" => $username
 ]) !!}
 @endsection
-
-{{--@section('contentPreview')--}}
-{{--    <!-- Optional content -->--}}
-{{--@endsection--}}

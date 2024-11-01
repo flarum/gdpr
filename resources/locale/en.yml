@@ -80,8 +80,6 @@ flarum-gdpr:
         confirm_erasure:
             subject: Confirm your account erasure request
             body: |
-                Hey {display_name}!
-
                 Someone (hopefully you) just requested to erase the account `{display_name}`.
 
                 To confirm this action, please follow the following link, after which your request will be processed by our team.
@@ -92,21 +90,15 @@ flarum-gdpr:
             deletion:
                 subject: Account deletion completed
                 body: |
-                    Hey {display_name}!
-
                     This is an automatic, final notification that your account has been deleted.
             anonymization:
                 subject: Account anonymization completed
                 body: |
-                    Hey {display_name}!
-
                     This is an automatic, final notification that your account has been anonymized.
 
         erasure_cancelled:
             subject: Account erasure request cancelled
             body: |
-                Hey {display_name}!
-
                 This is an automatic notification that your request to cancel account deletion has been processed.
 
                 Your account will no longer be deleted.
@@ -114,8 +106,6 @@ flarum-gdpr:
         export_available:
             subject: Data export available
             body: |
-                Hey {display_name}!
-
                 You requested an export of the account data for {username}. This export has successfully been generated and is now available:
 
                 {url}
