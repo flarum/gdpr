@@ -7,7 +7,6 @@ use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
-use Flarum\Api\Sort\SortColumn;
 use Flarum\Foundation\ValidationException;
 use Flarum\Gdpr\Jobs\ErasureJob;
 use Flarum\Gdpr\Jobs\GdprJob;
@@ -22,7 +21,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Tobyz\JsonApiServer\Context as OriginalContext;
-use Tobyz\JsonApiServer\Pagination\OffsetPagination;
 
 /**
  * @extends Resource\AbstractDatabaseResource<ErasureRequest>
@@ -100,7 +98,10 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
                     /** @var ErasureRequest $request */
                     $request = $context->model;
 
-                    // TODO: set status to cancelled with timestamp/actor
+                    $request->canceled_at = Carbon::now();
+                    $request->canceled_by = $context->getActor()->id;
+                    $request->status = ErasureRequest::STATUS_CANCELLED;
+                    $request->save();
 
                     $this->notifications->sync(new ErasureRequestCancelledBlueprint($request), [$request->user]);
                 })
