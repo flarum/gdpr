@@ -59,7 +59,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
     app
       .request({
         method: 'POST',
-        url: app.forum.attribute('apiUrl') + '/gdpr/export',
+        url: app.forum.attribute('apiUrl') + '/gdpr-exports',
         body: {
           data: {
             attributes: {

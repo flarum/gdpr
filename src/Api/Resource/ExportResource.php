@@ -33,7 +33,7 @@ class ExportResource extends Resource\AbstractDatabaseResource
 
     public function type(): string
     {
-        return 'exports';
+        return 'gdpr-exports';
     }
 
     public function model(): string
@@ -41,15 +41,11 @@ class ExportResource extends Resource\AbstractDatabaseResource
         return Export::class;
     }
 
-    public function scope(Builder $query, OriginalContext $context): void
-    {
-        $query->whereVisibleTo($context->getActor());
-    }
-
     public function endpoints(): array
     {
         return [
-            Endpoint\Create::make()
+            Endpoint\Endpoint::make('export')
+                ->route('POST', '/')
                 ->authenticated()
                 ->action(function (Context $context) {
                     $actor = $context->getActor();

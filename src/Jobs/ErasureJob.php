@@ -19,6 +19,7 @@ use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ErasureCompletedBlueprint;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\UrlGenerator;
+use Flarum\Locale\TranslatorInterface;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -28,7 +29,6 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Mail\Message;
 use RuntimeException;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureJob extends GdprJob
 {
@@ -118,7 +118,7 @@ class ErasureJob extends GdprJob
         $blueprint = new ErasureCompletedBlueprint($this->erasureRequest, $username, $mode);
 
         $mailer->send(
-            $blueprint->getEmailView(),
+            $blueprint->getEmailViews(),
             $blueprint->getData(),
             function (Message $message) use ($username, $email, $blueprint, $translator) {
                 $message->to($email, $username)

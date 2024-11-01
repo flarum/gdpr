@@ -17,20 +17,16 @@ export default class ErasureRequestsDropdown extends NotificationsDropdown<Erasu
     super.initAttrs(attrs);
   }
 
-  getMenu() {
-    return (
-      <div className={'Dropdown-menu ' + this.attrs.menuClassName} onclick={this.menuClick.bind(this)}>
-        {this.showing ? ErasureRequestsList.component({ state: this.attrs.state }) : ''}
-      </div>
-    );
+  getContent() {
+    return <ErasureRequestsList state={this.attrs.state} />;
   }
 
   goToRoute() {
     m.route.set(app.route('erasure-requests'));
   }
 
-  getUnreadCount(): number | undefined {
-    if (!this.attrs.state.requestsLoaded) {
+  getUnreadCount(): number {
+    if (!this.attrs.state.hasItems()) {
       return app.forum.attribute('erasureRequestCount');
     }
 

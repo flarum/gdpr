@@ -66,7 +66,7 @@ class ExportTest extends TestCase
         return $this->send(
             $this->request(
                 'POST',
-                '/api/gdpr/export',
+                '/api/gdpr-exports',
                 [
                     'authenticatedAs' => $actorId,
                     'json'            => [
@@ -107,7 +107,7 @@ class ExportTest extends TestCase
         $response = $this->send(
             $this->request(
                 'POST',
-                '/api/gdpr/export',
+                '/api/gdpr-exports',
                 [
                     'json' => [
                         'data' => [],

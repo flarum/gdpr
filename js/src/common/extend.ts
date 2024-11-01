@@ -6,7 +6,7 @@ import Export from './models/Export';
 export default [
   new Extend.Store() //
     .add('user-erasure-requests', ErasureRequest)
-    .add('exports', Export),
+    .add('gdpr-exports', Export),
 
   new Extend.Model(User) //
     .attribute<boolean>('canModerateExports')

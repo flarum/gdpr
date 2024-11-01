@@ -20,7 +20,9 @@ use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laminas\Diactoros\Response\EmptyResponse;
 use Tobyz\JsonApiServer\Context as OriginalContext;
+use Tobyz\JsonApiServer\Pagination\OffsetPagination;
 
 /**
  * @extends Resource\AbstractDatabaseResource<ErasureRequest>
@@ -52,6 +54,15 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
     public function scope(Builder $query, OriginalContext $context): void
     {
         $query->whereVisibleTo($context->getActor());
+    }
+
+    public function query(OriginalContext $context): object
+    {
+        if ($context->listing(self::class)) {
+            return parent::query($context)->where('status', ErasureRequest::STATUS_USER_CONFIRMED);
+        }
+
+        return parent::query($context);
     }
 
     public function newModel(OriginalContext $context): object
@@ -92,11 +103,12 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
                     // TODO: set status to cancelled with timestamp/actor
 
                     $this->notifications->sync(new ErasureRequestCancelledBlueprint($request), [$request->user]);
-                }),
+                })
+                ->response(fn () => new EmptyResponse(204)),
             Endpoint\Index::make()
                 ->can('processErasure')
                 ->defaultInclude(['user'])
-                ->query(fn (Builder $query) => $query->where('status', ErasureRequest::STATUS_USER_CONFIRMED)),
+                ->paginate(),
         ];
     }
 

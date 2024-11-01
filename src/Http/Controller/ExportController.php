@@ -30,6 +30,8 @@ class ExportController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        // @TODO: any user can download any export file if guessed, this should be restricted
+
         $actor = RequestUtil::getActor($request);
 
         $file = Arr::get($request->getQueryParams(), 'file');

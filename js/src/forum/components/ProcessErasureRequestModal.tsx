@@ -1,6 +1,6 @@
 import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import type { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import extractText from 'flarum/common/utils/extractText';
@@ -9,18 +9,21 @@ import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import ErasureRequest from 'src/common/models/ErasureRequest';
 import UserCard from 'flarum/forum/components/UserCard';
+import FormModal from 'flarum/common/components/FormModal';
 
-interface ProcessErasureRequestModalAttrs extends IInternalModalAttrs {
+export interface IProcessErasureRequestModalAttrs extends IInternalModalAttrs {
   request: ErasureRequest;
 }
 
-export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequestModalAttrs> {
+export default class ProcessErasureRequestModal<
+  CustomAttrs extends IProcessErasureRequestModalAttrs = IProcessErasureRequestModalAttrs,
+> extends FormModal<CustomAttrs> {
   comments: Stream<string>;
   loadingAnonymization: boolean = false;
   loadingDeletion: boolean = false;
   request!: ErasureRequest;
 
-  oninit(vnode: Mithril.Vnode<ProcessErasureRequestModalAttrs>) {
+  oninit(vnode: Mithril.Vnode<IProcessErasureRequestModalAttrs>) {
     super.oninit(vnode);
 
     this.request = this.attrs.request;
@@ -52,7 +55,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
     items.add(
       'text',
       <div>
-        <UserCard className="UserCard--popover UserCard--gdpr" user={this.request.user()} />
+        <UserCard className="UserCard--popover UserCard--gdpr" controlsButtonClassName="Button" user={this.request.user()} />
         <p className="helpText">{app.translator.trans('flarum-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
       </div>
     );
@@ -115,10 +118,14 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   process(mode: string) {
     if (
       !confirm(
-        app.translator.trans('flarum-gdpr.forum.process_erasure.confirm', {
-          name: extractText(username(this.request.user())),
-          mode,
-        }) as string
+        app.translator.trans(
+          'flarum-gdpr.forum.process_erasure.confirm',
+          {
+            name: extractText(username(this.request.user())),
+            mode,
+          },
+          true
+        )
       )
     ) {
       return;

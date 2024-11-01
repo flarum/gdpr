@@ -1,26 +1,30 @@
 import app from 'flarum/forum/app';
+import PaginatedListState from 'flarum/common/states/PaginatedListState';
+import type ErasureRequest from '../../common/models/ErasureRequest';
 
-export default class ErasureRequestsListState {
-  loading: boolean = false;
-  requestsLoaded: boolean = false;
+export default class ErasureRequestsListState extends PaginatedListState<ErasureRequest> {
+  constructor() {
+    super({}, 1, null);
+  }
 
-  load() {
-    if (this.requestsLoaded) {
-      return;
+  get type(): string {
+    return 'user-erasure-requests';
+  }
+
+  /**
+   * Load flags into the application's cache if they haven't already
+   * been loaded.
+   */
+  load(): Promise<void> {
+    if (app.session.user?.attribute<number>('erasureRequestCount')) {
+      this.pages = [];
+      this.location = { page: 1 };
     }
 
-    this.loading = true;
-    m.redraw();
+    if (this.pages.length > 0) {
+      return Promise.resolve();
+    }
 
-    app.store
-      .find('user-erasure-requests')
-      .then(
-        () => (this.requestsLoaded = true),
-        () => {}
-      )
-      .then(() => {
-        this.loading = false;
-        m.redraw();
-      });
+    return super.loadNext();
   }
 }

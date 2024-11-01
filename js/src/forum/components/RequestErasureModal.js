@@ -126,7 +126,7 @@ export default class RequestErasureModal extends FormModal {
       })
       .then(() => {
         this.loading = false;
-        m.redraw();
+        app.modal.close();
       });
   }
 
