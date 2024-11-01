@@ -25,7 +25,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.lib.request_data.title', {
+    return app.translator.trans('flarum-gdpr.lib.request_data.title', {
       username: username(this.user),
     });
   }
@@ -37,7 +37,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
           <div className="User">
             <Avatar user={this.user} />
           </div>
-          <p className="helpText">{app.translator.trans('blomstra-gdpr.lib.request_data.text')}</p>
+          <p className="helpText">{app.translator.trans('flarum-gdpr.lib.request_data.text')}</p>
           <div className="Form-group">
             <Button
               className="Button Button--primary Button--block"
@@ -45,7 +45,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
               loading={this.loading}
               disabled={this.loading}
             >
-              {app.translator.trans('blomstra-gdpr.lib.request_data.request_button')}
+              {app.translator.trans('flarum-gdpr.lib.request_data.request_button')}
             </Button>
           </div>
         </Form>

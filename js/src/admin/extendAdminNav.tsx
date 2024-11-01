@@ -9,8 +9,8 @@ export default function extendAdminNav() {
   extend(AdminNav.prototype, 'items', function (items: ItemList<Mithril.Children>) {
     items.add(
       'gdpr',
-      <LinkButton href={app.route('gdpr')} icon="fas fa-user-shield" title={app.translator.trans('blomstra-gdpr.admin.gdpr.title')}>
-        {app.translator.trans('blomstra-gdpr.admin.nav.gdpr_button')}
+      <LinkButton href={app.route('gdpr')} icon="fas fa-user-shield" title={app.translator.trans('flarum-gdpr.admin.gdpr.title')}>
+        {app.translator.trans('flarum-gdpr.admin.nav.gdpr_button')}
       </LinkButton>,
       48
     );

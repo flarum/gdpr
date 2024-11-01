@@ -26,7 +26,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.forum.delete_user.title', {
+    return app.translator.trans('flarum-gdpr.forum.delete_user.title', {
       username: username(this.user),
     });
   }
@@ -36,7 +36,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
       <div className="Modal-body">
         <Form className="Form--centered">
           <p className="helpText">
-            {app.translator.trans('blomstra-gdpr.forum.delete_user.text', {
+            {app.translator.trans('flarum-gdpr.forum.delete_user.text', {
               username: username(this.user),
             })}
           </p>
@@ -47,7 +47,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
               loading={this.loading}
               disabled={this.loading}
             >
-              {app.translator.trans('blomstra-gdpr.forum.delete_user.modal_delete_button')}
+              {app.translator.trans('flarum-gdpr.forum.delete_user.modal_delete_button')}
             </Button>
           </div>
           {app.forum.attribute('erasureAnonymizationAllowed') && app.forum.attribute('erasureDeletionAllowed') && (
@@ -59,7 +59,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
                   loading={this.loadingAnonymization}
                   disabled={this.loadingAnonymization}
                 >
-                  {app.translator.trans('blomstra-gdpr.forum.process_erasure.anonymization_button')}
+                  {app.translator.trans('flarum-gdpr.forum.process_erasure.anonymization_button')}
                 </Button>
               </div>
               <div className="Form-group">
@@ -69,7 +69,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
                   loading={this.loadingDeletion}
                   disabled={this.loadingDeletion}
                 >
-                  {app.translator.trans('blomstra-gdpr.forum.process_erasure.deletion_button')}
+                  {app.translator.trans('flarum-gdpr.forum.process_erasure.deletion_button')}
                 </Button>
               </div>
             </div>

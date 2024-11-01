@@ -14,7 +14,7 @@ export default function extendUserControls() {
       items.add(
         'gdpr-export',
         <Button icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user })}>
-          {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
+          {app.translator.trans('flarum-gdpr.forum.settings.export_data_button')}
         </Button>
       );
     }
@@ -27,7 +27,7 @@ export default function extendUserControls() {
       items.add(
         'gdpr-erase',
         <Button icon="fas fa-eraser" onclick={() => app.modal.show(DeleteUserModal, { user })}>
-          {app.translator.trans('blomstra-gdpr.forum.delete_user.delete_button')}
+          {app.translator.trans('flarum-gdpr.forum.delete_user.delete_button')}
         </Button>
       );
     }

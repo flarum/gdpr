@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -40,7 +41,7 @@ class User extends Type
             $this->user->{$column} = null;
         }
 
-        $anonymousName = $this->settings->get('blomstra-gdpr.default-anonymous-username');
+        $anonymousName = $this->settings->get('flarum-gdpr.default-anonymous-username');
         $this->user->rename("{$anonymousName}{$this->erasureRequest->id}");
         $this->user->changeEmail("{$this->user->username}@flarum-gdpr.local");
         $this->user->is_email_confirmed = false;

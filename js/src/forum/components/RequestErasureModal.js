@@ -19,7 +19,7 @@ export default class RequestErasureModal extends FormModal {
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.forum.request_erasure.title');
+    return app.translator.trans('flarum-gdpr.forum.request_erasure.title');
   }
 
   content() {
@@ -39,7 +39,7 @@ export default class RequestErasureModal extends FormModal {
       items.add(
         'status',
         <div className="Form-group">
-          <p className="helpText">{app.translator.trans(`blomstra-gdpr.forum.request_erasure.status.${currRequest.status()}`)}</p>
+          <p className="helpText">{app.translator.trans(`flarum-gdpr.forum.request_erasure.status.${currRequest.status()}`)}</p>
         </div>
       );
 
@@ -47,7 +47,7 @@ export default class RequestErasureModal extends FormModal {
         items.add(
           'reason',
           <div className="Form-group">
-            <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.reason', { reason: currRequest.reason() })}</p>
+            <p className="helpText">{app.translator.trans('flarum-gdpr.forum.request_erasure.reason', { reason: currRequest.reason() })}</p>
           </div>
         );
       }
@@ -61,12 +61,12 @@ export default class RequestErasureModal extends FormModal {
               onclick: this.oncancel.bind(this),
               loading: this.loading,
             },
-            app.translator.trans('blomstra-gdpr.forum.request_erasure.cancel_button')
+            app.translator.trans('flarum-gdpr.forum.request_erasure.cancel_button')
           )}
         </div>
       );
     } else {
-      items.add('text', <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.text')}</p>);
+      items.add('text', <p className="helpText">{app.translator.trans('flarum-gdpr.forum.request_erasure.text')}</p>);
 
       if (!app.forum.attribute('passwordlessSignUp')) {
         items.add(
@@ -76,7 +76,7 @@ export default class RequestErasureModal extends FormModal {
               type="password"
               className="FormControl"
               bidi={this.password}
-              placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.password_label'))}
+              placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.password_label'))}
             />
           </div>
         );
@@ -89,7 +89,8 @@ export default class RequestErasureModal extends FormModal {
             className="FormControl"
             value={this.reason()}
             oninput={(e) => this.reason(e.target.value)}
-            placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.reason_label'))}
+            placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.reason_label'))}
+            rows={6}
           ></textarea>
         </div>
       );
@@ -103,7 +104,7 @@ export default class RequestErasureModal extends FormModal {
               type: 'submit',
               loading: this.loading,
             },
-            app.translator.trans('blomstra-gdpr.forum.request_erasure.request_button')
+            app.translator.trans('flarum-gdpr.forum.request_erasure.request_button')
           )}
         </div>
       );
@@ -112,7 +113,7 @@ export default class RequestErasureModal extends FormModal {
     return items;
   }
 
-  oncancel(e) {
+  oncancel() {
     this.loading = true;
     m.redraw();
 
@@ -133,8 +134,6 @@ export default class RequestErasureModal extends FormModal {
     // Status is set so that the proper confirmation message is displayed.
     return {
       reason: this.reason(),
-      status: 'user_confirmed',
-      relationships: { user: app.session.user },
     };
   }
 

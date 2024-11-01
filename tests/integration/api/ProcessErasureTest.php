@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -27,7 +28,7 @@ class ProcessErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
 
         $this->setting('mail_driver', 'log');
 
@@ -131,7 +132,7 @@ class ProcessErasureTest extends TestCase
     #[Test]
     public function authorized_user_can_process_confirmed_erasure_request_in_deletion_mode()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -200,7 +201,7 @@ class ProcessErasureTest extends TestCase
     #[Test]
     public function anonymization_with_custom_username_works()
     {
-        $this->setting('blomstra-gdpr.default-anonymous-username', 'Custom');
+        $this->setting('flarum-gdpr.default-anonymous-username', 'Custom');
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -228,7 +229,7 @@ class ProcessErasureTest extends TestCase
     #[Test]
     public function authorized_user_cannot_process_confirmed_erasure_request_in_anonymization_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-anonymization', false);
+        $this->setting('flarum-gdpr.allow-anonymization', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -252,7 +253,7 @@ class ProcessErasureTest extends TestCase
     #[Test]
     public function authorized_user_cannot_process_confirmed_erasure_request_in_deletion_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', false);
+        $this->setting('flarum-gdpr.allow-deletion', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [

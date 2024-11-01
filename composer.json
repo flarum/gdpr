@@ -47,7 +47,7 @@
         }
     },
     "replace": {
-        "blomstra/gdpr": "*"
+        "flarum/gdpr": "*"
     },
     "extra": {
         "flarum-extension": {

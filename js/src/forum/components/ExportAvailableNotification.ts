@@ -17,7 +17,7 @@ export default class ExportAvailableNotification extends Notification {
 
   content() {
     const notification = this.attrs.notification;
-    return app.translator.trans('blomstra-gdpr.forum.notification.export-ready', {
+    return app.translator.trans('flarum-gdpr.forum.notification.export-ready', {
       username: username(notification.fromUser()),
     });
   }

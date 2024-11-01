@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@blomstra/gdpr",
+  "name": "@flarum/gdpr",
   "prettier": "@flarum/prettier-config",
   "dependencies": {
     "flarum-webpack-config": "^3.0.0",
@@ -24,7 +24,6 @@
   },
   "devDependencies": {
     "prettier": "^3.0.3",
-    "flarum-tsconfig": "^1.0.2",
     "typescript": "^4.5.4",
     "typescript-coverage-report": "^0.6.1"
   }

@@ -1,6 +1,5 @@
 import app from 'flarum/forum/app';
 import ErasureRequestsListState from './states/ErasureRequestsListState';
-import ExportAvailableNotification from './components/ExportAvailableNotification';
 import extendUserSettingsPage from './extenders/extendUserSettingsPage';
 import extendHeaderSecondary from './extenders/extendHeaderSecondary';
 import extendPage from './extenders/extendPage';
@@ -9,10 +8,8 @@ import addAnonymousBadges from './addAnonymousBadges';
 
 export { default as extend } from './extend';
 
-app.initializers.add('blomstra-gdpr', () => {
+app.initializers.add('flarum-gdpr', () => {
   app.erasureRequests = new ErasureRequestsListState();
-
-  app.notificationComponents.gdprExportAvailable = ExportAvailableNotification;
 
   extendUserSettingsPage();
   extendHeaderSecondary();

@@ -115,8 +115,8 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
                 ->writableOnUpdate()
                 ->requiredOnUpdate()
                 ->in(array_keys(array_filter([
-                    ErasureRequest::MODE_ANONYMIZATION => $this->settings->get('blomstra-gdpr.allow-anonymization'),
-                    ErasureRequest::MODE_DELETION => $this->settings->get('blomstra-gdpr.allow-deletion'),
+                    ErasureRequest::MODE_ANONYMIZATION => $this->settings->get('flarum-gdpr.allow-anonymization'),
+                    ErasureRequest::MODE_DELETION => $this->settings->get('flarum-gdpr.allow-deletion'),
                 ]))),
             Schema\Str::make('processorComment')
                 ->writableOnUpdate()

@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -49,7 +50,7 @@ return [
 
     (new Extend\ApiResource(Resource\UserResource::class))
         ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
-            $endpoint->addDefaultInclude(['erasureRequest']);
+            return $endpoint->addDefaultInclude(['erasureRequest']);
         })
         ->endpoint(Endpoint\Delete::class, Api\UserResourceDeleteEndpoint::class)
         ->fields(Api\UserResourceFields::class),
@@ -58,12 +59,12 @@ return [
         ->fields(Api\ForumResourceFields::class),
 
     (new Extend\Settings())
-        ->default('blomstra-gdpr.allow-anonymization', true)
-        ->default('blomstra-gdpr.allow-deletion', false)
-        ->default('blomstra-gdpr.default-anonymous-username', 'Anonymous')
-        ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
-        ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization', 'boolVal')
-        ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion', 'boolVal'),
+        ->default('flarum-gdpr.allow-anonymization', true)
+        ->default('flarum-gdpr.allow-deletion', false)
+        ->default('flarum-gdpr.default-anonymous-username', 'Anonymous')
+        ->default('flarum-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
+        ->serializeToForum('erasureAnonymizationAllowed', 'flarum-gdpr.allow-anonymization', 'boolVal')
+        ->serializeToForum('erasureDeletionAllowed', 'flarum-gdpr.allow-deletion', 'boolVal'),
 
     (new Extend\View())
         ->namespace('gdpr', __DIR__.'/resources/views'),

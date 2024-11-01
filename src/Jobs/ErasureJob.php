@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -75,10 +76,10 @@ class ErasureJob extends GdprJob
             throw new RuntimeException('Erasure request has no mode set.');
         }
 
-        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
+        if ($this->settings->get('flarum-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
         }
-        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
+        if ($this->settings->get('flarum-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
             throw new ValidationException(['mode' => 'Deletion is not enabled.']);
         }
 

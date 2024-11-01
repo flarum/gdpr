@@ -11,7 +11,7 @@ interface ErasureRequestsDropdownAttrs extends IDropdownAttrs {
 
 export default class ErasureRequestsDropdown extends NotificationsDropdown<ErasureRequestsDropdownAttrs> {
   static initAttrs(attrs: ErasureRequestsDropdownAttrs) {
-    attrs.label = attrs.label || app.translator.trans('blomstra-gdpr.forum.erasure_requests.tooltip');
+    attrs.label = attrs.label || app.translator.trans('flarum-gdpr.forum.erasure_requests.tooltip');
     attrs.icon = attrs.icon || 'fas fa-user-minus';
 
     super.initAttrs(attrs);

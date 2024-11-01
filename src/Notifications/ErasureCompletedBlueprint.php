@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -66,6 +67,6 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans("blomstra-gdpr.email.erasure_completed.{$this->getMode()}.subject");
+        return $translator->trans("flarum-gdpr.email.erasure_completed.{$this->getMode()}.subject");
     }
 }

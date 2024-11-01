@@ -17,11 +17,8 @@ export default function extendUserSettingsPage() {
 
     items.add(
       'dataItems',
-      <FieldSet className="Settings-gdpr" label={app.translator.trans('blomstra-gdpr.forum.settings.data.heading')}>
-        {
-          /** @ts-ignore **/
-          this.dataItems().toArray()
-        }
+      <FieldSet className="Settings-gdpr FieldSet--form" label={app.translator.trans('flarum-gdpr.forum.settings.data.heading')}>
+        {this.dataItems().toArray()}
       </FieldSet>,
       90
     );
@@ -32,26 +29,26 @@ export default function extendUserSettingsPage() {
 
     items.add(
       'gdprErasure',
-      <div className="gdprErasure-container">
+      <div className="Form-group gdprErasure-container">
+        <p className="helpText">{app.translator.trans('flarum-gdpr.forum.settings.request_erasure_help')}</p>
         <Button className="Button Button-gdprErasure" icon="fas fa-user-minus" onclick={() => app.modal.show(RequestErasureModal)}>
-          {app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_button')}
+          {app.translator.trans('flarum-gdpr.forum.settings.request_erasure_button')}
         </Button>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_help')}</p>
       </div>,
       50
     );
 
     items.add(
       'gdprExport',
-      <div className="gdprExport-container">
+      <div className="Form-group gdprExport-container">
+        <p className="helpText">{app.translator.trans('flarum-gdpr.forum.settings.export_data_help')}</p>
         <Button
           className="Button Button-gdprExport"
           icon="fas fa-file-export"
           onclick={() => app.modal.show(RequestDataExportModal, { user: this.user })}
         >
-          {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
+          {app.translator.trans('flarum-gdpr.forum.settings.export_data_button')}
         </Button>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.export_data_help')}</p>
       </div>,
       40
     );

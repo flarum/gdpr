@@ -66,6 +66,11 @@ class DataTypeResource extends Resource\AbstractResource implements Resource\Con
         ];
     }
 
+    public function getId(object $model, OriginalContext $context): string
+    {
+        return $model->class;
+    }
+
     public function query(OriginalContext $context): object
     {
         return new stdClass();

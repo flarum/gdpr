@@ -25,7 +25,7 @@ export default function extendUserListPage() {
     columns.add(
       'gdpr',
       {
-        name: app.translator.trans('blomstra-gdpr.admin.userlist.columns.gdpr_actions.title'),
+        name: app.translator.trans('flarum-gdpr.admin.userlist.columns.gdpr_actions.title'),
         content: (user: User) => {
           return <div className="gdprActions">{this.gdprActions(user).toArray()}</div>;
         },
@@ -40,7 +40,7 @@ export default function extendUserListPage() {
     if (user.canModerateExports()) {
       items.add(
         'export-data',
-        <Tooltip text={app.translator.trans('blomstra-gdpr.admin.userlist.columns.gdpr_actions.export', { username: username(user) })}>
+        <Tooltip text={app.translator.trans('flarum-gdpr.admin.userlist.columns.gdpr_actions.export', { username: username(user) })}>
           <Button className="Button Button--icon" icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user: user })} />
         </Tooltip>
       );

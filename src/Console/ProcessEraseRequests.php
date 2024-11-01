@@ -1,9 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum
  *
  * Copyright (c) 2021 Blomstra Ltd
+ * Copyright (c) 2024 Flarum Foundation
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -34,7 +35,7 @@ class ProcessEraseRequests extends Command
             ->each(function (ErasureRequest $request) use ($queue, $settings) {
                 $request->status = ErasureRequest::STATUS_PROCESSED;
                 $request->processed_at = Carbon::now();
-                $request->processed_mode = $request->processed_mode ?? $settings->get('blomstra-gdpr.default-erasure');
+                $request->processed_mode = $request->processed_mode ?? $settings->get('flarum-gdpr.default-erasure');
                 $request->processor_comment = 'Automatically processed after '.static::days.' through scheduled task.';
                 $request->save();
 
