@@ -57,7 +57,7 @@ class ConfirmErasureBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailViews(): array
     {
-        return ['text' => 'flarum-gdpr::email.text.confirm-erasure', 'html' => 'flarum-gdpr::email.html.confirm-erasure'];
+        return ['text' => 'flarum-gdpr::email.plain.confirm-erasure', 'html' => 'flarum-gdpr::email.html.confirm-erasure'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string
