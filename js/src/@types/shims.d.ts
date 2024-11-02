@@ -10,11 +10,11 @@ declare module 'flarum/forum/ForumApplication' {
 }
 
 declare module 'flarum/common/models/User' {
-    import User from 'flarum/common/models/User';
+  import User from 'flarum/common/models/User';
 
-    export default interface User {
-        canModerateExports(): boolean;
-        anonymized(): boolean;
-        erasureRequest: ErasureRequest;
-    }
+  export default interface User {
+    canModerateExports(): boolean;
+    anonymized(): boolean;
+    erasureRequest: ErasureRequest;
+  }
 }

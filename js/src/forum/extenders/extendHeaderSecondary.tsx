@@ -5,7 +5,7 @@ import ErasureRequestsDropdown from '../components/ErasureRequestsDropdown';
 
 export default function extendHeaderSecondary() {
   extend(HeaderSecondary.prototype, 'items', function (items) {
-    if (app.forum.attribute<number|null>('erasureRequestCount')) {
+    if (app.forum.attribute<number | null>('erasureRequestCount')) {
       items.add('erasureRequests', <ErasureRequestsDropdown state={app.erasureRequests} />, 20);
     }
   });
