@@ -63,7 +63,7 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailView(): array
     {
-        return ['text' => 'gdpr::export-available'];
+        return ['text' => 'flarum-gdpr::export-available'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string

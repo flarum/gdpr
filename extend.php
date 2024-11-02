@@ -81,7 +81,7 @@ return [
         ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion', 'boolVal'),
 
     (new Extend\View())
-        ->namespace('gdpr', __DIR__.'/resources/views'),
+        ->namespace('flarum-gdpr', __DIR__.'/resources/views'),
 
     (new Extend\Console())
         ->command(Console\DestroyExportsCommand::class)
