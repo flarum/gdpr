@@ -21,7 +21,7 @@ use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
-class CancelErasureController extends AbstractDeleteController
+class DeleteErasureRequestController extends AbstractDeleteController
 {
     public function __construct(protected NotificationSyncer $notifications)
     {

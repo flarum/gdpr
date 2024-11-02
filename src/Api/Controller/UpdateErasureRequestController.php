@@ -25,7 +25,7 @@ use Illuminate\Support\Carbon;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class ProcessErasureController extends AbstractShowController
+class UpdateErasureRequestController extends AbstractShowController
 {
     public $serializer = RequestErasureSerializer::class;
 

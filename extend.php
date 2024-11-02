@@ -42,9 +42,9 @@ return [
         ->delete('/users/{id}/gdpr/{mode}', 'users.delete.mode', Api\Controller\DeleteUserController::class)
         ->post('/gdpr/export', 'gdpr.request-export', Api\Controller\RequestExportController::class)
         ->get('/user-erasure-requests', 'gdpr.erasure.index', Api\Controller\ListErasureRequestsController::class)
-        ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\RequestErasureController::class)
-        ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\ProcessErasureController::class)
-        ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\CancelErasureController::class)
+        ->post('/user-erasure-requests', 'gdpr.erasure.create', Api\Controller\CreateErasureRequestController::class)
+        ->patch('/user-erasure-requests/{id}', 'gdpr.erasure.process', Api\Controller\UpdateErasureRequestController::class)
+        ->delete('/user-erasure-requests/{id}', 'gdpr.erasure.cancel', Api\Controller\DeleteErasureRequestController::class)
         ->get('/gdpr/datatypes', 'gdpr.datatypes.index', Api\Controller\ListDataTypesController::class)
         ->get('/gdpr/datatypes/user-columns', 'gdpr.datatypes.user-columns', Api\Controller\ListUserColumnsDataController::class),
 
