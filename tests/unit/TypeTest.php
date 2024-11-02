@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flarum\Gdpr\tests\unit;
+namespace Flarum\Gdpr\Tests\unit;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Data\Type;

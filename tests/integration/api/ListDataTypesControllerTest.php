@@ -29,7 +29,7 @@ class ListDataTypesControllerTest extends TestCase
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
     /**

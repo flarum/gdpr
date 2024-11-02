@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flarum\Gdpr\tests\integration\forum;
+namespace Flarum\Gdpr\Tests\integration\forum;
 
 use Carbon\Carbon;
 use Flarum\Extend;
@@ -44,7 +44,7 @@ class ConfirmErasureTest extends TestCase
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
     protected function loginUser(string $username = 'normal', string $password = 'too-obscure'): ResponseInterface

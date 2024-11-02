@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flarum\Gdpr\tests\integration\api;
+namespace Flarum\Gdpr\Tests\integration\api;
 
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -30,7 +30,7 @@ class DeleteUserTest extends TestCase
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
     /**

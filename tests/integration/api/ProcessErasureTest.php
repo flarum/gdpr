@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flarum\Gdpr\tests\integration\api;
+namespace Flarum\Gdpr\Tests\integration\api;
 
 use Carbon\Carbon;
 use Flarum\Gdpr\Models\ErasureRequest;
@@ -24,7 +24,7 @@ class ProcessErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
 
         $this->setting('mail_driver', 'log');
 

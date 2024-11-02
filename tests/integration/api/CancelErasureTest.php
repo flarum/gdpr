@@ -53,7 +53,7 @@ class CancelErasureTest extends TestCase
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
     /**

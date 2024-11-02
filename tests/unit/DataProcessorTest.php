@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flarum\Gdpr\tests\unit;
+namespace Flarum\Gdpr\Tests\unit;
 
 use Flarum\Gdpr\Data;
 use Flarum\Gdpr\DataProcessor;
