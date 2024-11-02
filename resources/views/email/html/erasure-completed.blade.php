@@ -1,7 +1,7 @@
-@extends('flarum.forum::email.html.information.base')
-
-@section('informationContent')
-  {!! $translator->trans("flarum-gdpr.email.erasure_completed.{$mode}.body", [
-    "{display_name}" => $username
-]) !!}
-@endsection
+<x-mail::html.information>
+    <x-slot:body>
+        {!! $translator->trans("flarum-gdpr.email.erasure_completed.{$mode}.body", [
+            "{display_name}" => $username
+        ]) !!}
+    </x-slot:body>
+</x-mail::html.information>
