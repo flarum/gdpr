@@ -97,12 +97,4 @@ return [
 
     (new Extend\Policy())
         ->modelPolicy(User::class, Access\UserPolicy::class),
-
-    (new Extend\Conditional())
-        ->whenExtensionEnabled('fof-oauth', fn () => [
-            (new Extend\ApiSerializer(ForumSerializer::class))
-                ->attribute('passwordlessSignUp', function (ForumSerializer $serializer) {
-                    return !$serializer->getActor()->isGuest() && $serializer->getActor()->loginProviders()->count() > 0;
-                }),
-        ]),
 ];
