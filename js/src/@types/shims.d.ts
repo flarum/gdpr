@@ -1,4 +1,5 @@
 import 'flarum/forum/ForumApplication';
+import 'flarum/common/models/User';
 
 declare module 'flarum/forum/ForumApplication' {
   import ErasureRequestsListState from '../forum/states/ErasureRequestsListState';
@@ -6,4 +7,14 @@ declare module 'flarum/forum/ForumApplication' {
   export default interface ForumApplication {
     erasureRequests: ErasureRequestsListState;
   }
+}
+
+declare module 'flarum/common/models/User' {
+    import User from 'flarum/common/models/User';
+
+    export default interface User {
+        canModerateExports(): boolean;
+        anonymized(): boolean;
+        erasureRequest: ErasureRequest;
+    }
 }
