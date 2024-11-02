@@ -45,7 +45,7 @@ class Exporter
 
         $file = tempnam($tmpDir, 'data-export-'.$user->username);
 
-        $file .= '-' . Str::random(20);
+        $file .= '-'.Str::random(20);
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {
