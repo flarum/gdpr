@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr\Api\Serializer;
 
-use Flarum\Gdpr\Models\Export;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Gdpr\Models\Export;
 use InvalidArgumentException;
 use Tobscure\JsonApi\Relationship;
 

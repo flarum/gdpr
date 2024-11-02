@@ -11,8 +11,8 @@
 
 namespace Flarum\Gdpr\tests\integration\api;
 
-use Flarum\Gdpr\Models\Export;
 use Flarum\Database\Eloquent\Collection;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;

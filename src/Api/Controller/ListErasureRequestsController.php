@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr\Api\Controller;
 
+use Flarum\Api\Controller\AbstractListController;
 use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;

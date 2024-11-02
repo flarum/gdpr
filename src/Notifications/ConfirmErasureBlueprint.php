@@ -11,8 +11,8 @@
 
 namespace Flarum\Gdpr\Notifications;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;

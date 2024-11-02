@@ -11,8 +11,8 @@
 
 namespace Flarum\Gdpr;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Gdpr\Models\ErasureRequest;
 
 class AddForumAttributes
 {

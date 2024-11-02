@@ -11,11 +11,11 @@
 
 namespace Flarum\Gdpr\Api\Controller;
 
+use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ConfirmErasureBlueprint;
-use Flarum\Api\Controller\AbstractCreateController;
-use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Illuminate\Support\Arr;

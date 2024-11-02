@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr\tests\integration\forum;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Extend;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Psr\Http\Message\ResponseInterface;

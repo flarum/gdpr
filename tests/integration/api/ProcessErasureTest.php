@@ -11,8 +11,8 @@
 
 namespace Flarum\Gdpr\tests\integration\api;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;

@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr\tests\unit;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Data\Type;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Testing\unit\TestCase;

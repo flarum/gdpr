@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr\Api\Controller;
 
+use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
-use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\User\Exception\NotAuthenticatedException;

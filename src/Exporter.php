@@ -11,9 +11,9 @@
 
 namespace Flarum\Gdpr;
 
+use Flarum\Foundation\Paths;
 use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Gdpr\Models\Export;
-use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;

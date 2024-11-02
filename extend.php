@@ -11,14 +11,14 @@
 
 namespace Flarum\Gdpr;
 
-use Flarum\Gdpr\Api\Serializer\ExportSerializer;
-use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
-use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
+use Flarum\Gdpr\Api\Serializer\ExportSerializer;
+use Flarum\Gdpr\Api\Serializer\RequestErasureSerializer;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\User\User;
 
 return [

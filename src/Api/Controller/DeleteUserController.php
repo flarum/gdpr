@@ -11,12 +11,12 @@
 
 namespace Flarum\Gdpr\Api\Controller;
 
-use Flarum\Gdpr\Jobs\ErasureJob;
-use Flarum\Gdpr\Jobs\GdprJob;
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;
+use Flarum\Gdpr\Jobs\ErasureJob;
+use Flarum\Gdpr\Jobs\GdprJob;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\UserRepository;

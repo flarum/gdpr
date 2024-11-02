@@ -11,8 +11,8 @@
 
 namespace Flarum\Gdpr\Api\Serializer;
 
-use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Api\Serializer\AbstractSerializer;
+use Flarum\Gdpr\Contracts\DataType;
 
 class DataTypeSerializer extends AbstractSerializer
 {
