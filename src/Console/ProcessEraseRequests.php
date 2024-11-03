@@ -34,7 +34,7 @@ class ProcessEraseRequests extends Command
             ->each(function (ErasureRequest $request) use ($queue, $settings) {
                 $request->status = ErasureRequest::STATUS_PROCESSED;
                 $request->processed_at = Carbon::now();
-                $request->processed_mode = $request->processed_mode ?? $settings->get('blomstra-gdpr.default-erasure');
+                $request->processed_mode = $request->processed_mode ?? $settings->get('flarum-gdpr.default-erasure');
                 $request->processor_comment = 'Automatically processed after '.static::days.' through scheduled task.';
                 $request->save();
 

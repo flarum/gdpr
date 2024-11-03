@@ -9,7 +9,7 @@ import addAnonymousBadges from './addAnonymousBadges';
 
 export { default as extend } from './extend';
 
-app.initializers.add('blomstra-gdpr', () => {
+app.initializers.add('flarum-gdpr', () => {
   app.erasureRequests = new ErasureRequestsListState();
 
   app.notificationComponents.gdprExportAvailable = ExportAvailableNotification;

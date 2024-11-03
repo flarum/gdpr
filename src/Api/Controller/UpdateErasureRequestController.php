@@ -43,10 +43,10 @@ class UpdateErasureRequestController extends AbstractShowController
 
         $mode = Arr::get($request->getParsedBody(), 'data.attributes.meta.mode');
 
-        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
+        if ($this->settings->get('flarum-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
         }
-        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
+        if ($this->settings->get('flarum-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
             throw new ValidationException(['mode' => 'Deletion is not enabled.']);
         }
 

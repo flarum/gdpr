@@ -107,7 +107,7 @@ class DeleteUserTest extends TestCase
      */
     public function delete_user_endpoint_can_be_called_with_deletion_mode_enabled()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request(
