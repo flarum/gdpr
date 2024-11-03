@@ -18,7 +18,7 @@ export default function extendUserSettingsPage() {
 
     items.add(
       'dataItems',
-      <FieldSet className="Settings-gdpr" label={app.translator.trans('blomstra-gdpr.forum.settings.data.heading')}>
+      <FieldSet className="Settings-gdpr" label={app.translator.trans('flarum-gdpr.forum.settings.data.heading')}>
         {this.dataItems().toArray()}
       </FieldSet>,
       -100
@@ -32,9 +32,9 @@ export default function extendUserSettingsPage() {
       'gdprErasure',
       <div className="gdprErasure-container">
         <Button className="Button Button-gdprErasure" icon="fas fa-user-minus" onclick={() => app.modal.show(RequestErasureModal)}>
-          {app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_button')}
+          {app.translator.trans('flarum-gdpr.forum.settings.request_erasure_button')}
         </Button>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.request_erasure_help')}</p>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.forum.settings.request_erasure_help')}</p>
       </div>,
       50
     );
@@ -47,9 +47,9 @@ export default function extendUserSettingsPage() {
           icon="fas fa-file-export"
           onclick={() => app.modal.show(RequestDataExportModal, { user: this.user })}
         >
-          {app.translator.trans('blomstra-gdpr.forum.settings.export_data_button')}
+          {app.translator.trans('flarum-gdpr.forum.settings.export_data_button')}
         </Button>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.settings.export_data_help')}</p>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.forum.settings.export_data_help')}</p>
       </div>,
       40
     );

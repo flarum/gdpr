@@ -21,8 +21,8 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
     return {
       className: 'GdprPage--header',
       icon: 'fas fa-user-shield',
-      title: app.translator.trans('blomstra-gdpr.admin.gdpr_page.heading'),
-      description: app.translator.trans('blomstra-gdpr.admin.gdpr_page.description'),
+      title: app.translator.trans('flarum-gdpr.admin.gdpr_page.heading'),
+      description: app.translator.trans('flarum-gdpr.admin.gdpr_page.description'),
     };
   }
 
@@ -42,22 +42,22 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
 
     return (
       <div className="GdprPage">
-        <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.heading')}</h3>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.help_text')}</p>
-        <LinkButton className="Button" href={app.route('extension', { id: 'blomstra-gdpr' })}>
-          {app.translator.trans('blomstra-gdpr.admin.gdpr_page.settings.extension_settings_button')}
+        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.heading')}</h3>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.help_text')}</p>
+        <LinkButton className="Button" href={app.route('extension', { id: 'flarum-gdpr' })}>
+          {app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.extension_settings_button')}
         </LinkButton>
         <hr />
-        <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.title')}</h3>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.help_text')}</p>
+        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.title')}</h3>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.help_text')}</p>
 
         <div className="GdprGrid">
           <div class="GdprGrid-row">
-            <div className="GdprGrid-header">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.type')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.export_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.anonymize_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.delete_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.data_types.extension')}</div>
+            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.type')}</div>
+            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.export_description')}</div>
+            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.anonymize_description')}</div>
+            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.delete_description')}</div>
+            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.extension')}</div>
           </div>
 
           {this.gdprDataTypes.map((dataType) => (
@@ -79,8 +79,8 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
           ))}
         </div>
         <hr />
-        <h3>{app.translator.trans('blomstra-gdpr.admin.gdpr_page.user_table_data.title')}</h3>
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
+        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.title')}</h3>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
         <div className="GdprUserColumnData">Not yet implemented</div>
       </div>
     );

@@ -51,7 +51,7 @@ class Discussions extends Type
 
     public static function deleteDescription(): string
     {
-        return static::staticTranslator()->trans('blomstra-gdpr.lib.data.no_action');
+        return static::staticTranslator()->trans('flarum-gdpr.lib.data.no_action');
     }
 
     public function delete(): void

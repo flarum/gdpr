@@ -59,6 +59,6 @@ class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableIn
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans('blomstra-gdpr.email.erasure_cancelled.subject');
+        return $translator->trans('flarum-gdpr.email.erasure_cancelled.subject');
     }
 }

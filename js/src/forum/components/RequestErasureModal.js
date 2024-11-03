@@ -18,7 +18,7 @@ export default class RequestErasureModal extends Modal {
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.forum.request_erasure.title');
+    return app.translator.trans('flarum-gdpr.forum.request_erasure.title');
   }
 
   content() {
@@ -38,7 +38,7 @@ export default class RequestErasureModal extends Modal {
       items.add(
         'status',
         <div className="Form-group">
-          <p className="helpText">{app.translator.trans(`blomstra-gdpr.forum.request_erasure.status.${currRequest.status()}`)}</p>
+          <p className="helpText">{app.translator.trans(`flarum-gdpr.forum.request_erasure.status.${currRequest.status()}`)}</p>
         </div>
       );
 
@@ -46,7 +46,7 @@ export default class RequestErasureModal extends Modal {
         items.add(
           'reason',
           <div className="Form-group">
-            <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.reason', { reason: currRequest.reason() })}</p>
+            <p className="helpText">{app.translator.trans('flarum-gdpr.forum.request_erasure.reason', { reason: currRequest.reason() })}</p>
           </div>
         );
       }
@@ -60,12 +60,12 @@ export default class RequestErasureModal extends Modal {
               onclick: this.oncancel.bind(this),
               loading: this.loading,
             },
-            app.translator.trans('blomstra-gdpr.forum.request_erasure.cancel_button')
+            app.translator.trans('flarum-gdpr.forum.request_erasure.cancel_button')
           )}
         </div>
       );
     } else {
-      items.add('text', <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.request_erasure.text')}</p>);
+      items.add('text', <p className="helpText">{app.translator.trans('flarum-gdpr.forum.request_erasure.text')}</p>);
 
       if (!app.forum.attribute('passwordlessSignUp')) {
         items.add(
@@ -75,7 +75,7 @@ export default class RequestErasureModal extends Modal {
               type="password"
               className="FormControl"
               bidi={this.password}
-              placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.password_label'))}
+              placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.password_label'))}
             />
           </div>
         );
@@ -88,7 +88,7 @@ export default class RequestErasureModal extends Modal {
             className="FormControl"
             value={this.reason()}
             oninput={(e) => this.reason(e.target.value)}
-            placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.request_erasure.reason_label'))}
+            placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.reason_label'))}
           ></textarea>
         </div>
       );
@@ -102,7 +102,7 @@ export default class RequestErasureModal extends Modal {
               type: 'submit',
               loading: this.loading,
             },
-            app.translator.trans('blomstra-gdpr.forum.request_erasure.request_button')
+            app.translator.trans('flarum-gdpr.forum.request_erasure.request_button')
           )}
         </div>
       );

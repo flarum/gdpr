@@ -64,6 +64,6 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans("blomstra-gdpr.email.erasure_completed.{$this->getMode()}.subject");
+        return $translator->trans("flarum-gdpr.email.erasure_completed.{$this->getMode()}.subject");
     }
 }

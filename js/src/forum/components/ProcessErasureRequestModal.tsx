@@ -32,7 +32,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.forum.process_erasure.title');
+    return app.translator.trans('flarum-gdpr.forum.process_erasure.title');
   }
 
   content() {
@@ -52,7 +52,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
       'text',
       <div>
         <UserCard className="UserCard--popover UserCard--gdpr" user={this.request.user()} />
-        <p className="helpText">{app.translator.trans('blomstra-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
+        <p className="helpText">{app.translator.trans('flarum-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
       </div>
     );
 
@@ -71,7 +71,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
           className="FormControl"
           value={this.comments()}
           bidi={this.comments}
-          placeholder={extractText(app.translator.trans('blomstra-gdpr.forum.process_erasure.comments_label'))}
+          placeholder={extractText(app.translator.trans('flarum-gdpr.forum.process_erasure.comments_label'))}
         ></textarea>
       </div>
     );
@@ -86,7 +86,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
               loading: this.loadingAnonymization,
               onclick: () => this.process('anonymization'),
             },
-            app.translator.trans('blomstra-gdpr.forum.process_erasure.anonymization_button')
+            app.translator.trans('flarum-gdpr.forum.process_erasure.anonymization_button')
           )}
         </div>
       );
@@ -102,7 +102,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
               loading: this.loadingDeletion,
               onclick: () => this.process('deletion'),
             },
-            app.translator.trans('blomstra-gdpr.forum.process_erasure.deletion_button')
+            app.translator.trans('flarum-gdpr.forum.process_erasure.deletion_button')
           )}
         </div>
       );
@@ -114,7 +114,7 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
   process(mode: string) {
     if (
       !confirm(
-        app.translator.trans('blomstra-gdpr.forum.process_erasure.confirm', {
+        app.translator.trans('flarum-gdpr.forum.process_erasure.confirm', {
           name: extractText(username(this.request.user())),
           mode,
         }) as string
