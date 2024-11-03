@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of blomstra/flarum-gdpr
+ *
+ * Copyright (c) 2021 Blomstra Ltd
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
@@ -18,7 +27,7 @@ return [
                 $table->text('processor_comment')->nullable();
                 $table->dateTime('processed_at')->nullable();
                 $table->string('processed_mode')->nullable();
-        
+
                 $table->foreign('processed_by')->references('id')->on('users')->onDelete('no action');
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             });
