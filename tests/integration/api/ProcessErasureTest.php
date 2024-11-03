@@ -34,6 +34,7 @@ class ProcessErasureTest extends TestCase
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
+                ['id' => 6, 'username' => 'user6', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user6@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
             'groups' => [
                 ['id' => 5, 'name_singular' => 'customgroup', 'name_plural' => 'customgroups'],
@@ -48,6 +49,7 @@ class ProcessErasureTest extends TestCase
             'gdpr_erasure' => [
                 ['id' => 1, 'user_id' => 4, 'verification_token' => 'abc123', 'status' => 'awaiting_user_confirmation', 'reason' => 'I want to be forgotten', 'created_at' => Carbon::now()],
                 ['id' => 2, 'user_id' => 5, 'verification_token' => '123abc', 'status' => 'user_confirmed', 'reason' => 'I also want to be forgotten', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now()],
+                ['id' => 3, 'user_id' => 6, 'verification_token' => '321zyx', 'status' => 'cancelled', 'created_at' => Carbon::now()->subDay(), 'cancelled_at' => Carbon::now()],
             ],
         ]);
     }
@@ -362,5 +364,35 @@ class ProcessErasureTest extends TestCase
         $this->assertNotNull($user);
         $this->assertEquals('Anonymous2', $user->username);
         $this->assertNull($user->bio);
+    }
+
+    /**
+     * @test
+     */
+    public function cancelled_erasure_requests_are_not_processed()
+    {
+        $this->setting('blomstra-gdpr.allow-deletion', true);
+        
+        $response = $this->send(
+            $this->request('PATCH', '/api/user-erasure-requests/3', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'processor_comment' => 'I have processed this request',
+                            'meta'              => [
+                                'mode' => ErasureRequest::MODE_DELETION,
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertEquals('Erasure request is cancelled.', $data['errors'][0]['detail']);
     }
 }

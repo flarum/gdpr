@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\User\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int         $id
@@ -30,6 +31,7 @@ use Flarum\User\User;
  * @property string|null $processor_comment
  * @property Carbon|null $processed_at
  * @property string|null $processed_mode
+ * @property Carbon|null $cancelled_at
  */
 class ErasureRequest extends AbstractModel
 {
@@ -46,19 +48,27 @@ class ErasureRequest extends AbstractModel
 
     protected $table = 'gdpr_erasure';
 
+    protected $guarded = ['id'];
+
     protected $casts = [
         'created_at'        => 'datetime',
         'user_confirmed_at' => 'datetime',
         'processed_at'      => 'datetime',
+        'cancelled_at'      => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function processedBy()
+    public function processedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'processed_by');
+    }
+
+    public function isConfirmed(): bool
+    {
+        return $this->status === ErasureRequest::STATUS_USER_CONFIRMED && $this->user_confirmed_at;
     }
 }

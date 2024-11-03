@@ -11,12 +11,12 @@
 
 namespace Flarum\Gdpr\Api\Controller;
 
+use Carbon\Carbon;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ErasureRequestCancelledBlueprint;
 use Flarum\Http\RequestUtil;
 use Flarum\Notification\NotificationSyncer;
-use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,10 +30,7 @@ class DeleteErasureRequestController extends AbstractDeleteController
     public function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-
-        if ($actor->isGuest()) {
-            throw new NotAuthenticatedException();
-        }
+        $actor->assertRegistered();
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $erasureRequest = ErasureRequest::query()->where('id', $id)->firstOrFail();
@@ -44,7 +41,10 @@ class DeleteErasureRequestController extends AbstractDeleteController
             throw new PermissionDeniedException();
         }
 
-        // TODO: set status to cancelled with timestamp/actor
+        $erasureRequest->status = ErasureRequest::STATUS_CANCELLED;
+        $erasureRequest->cancelled_at = Carbon::now();
+
+        $erasureRequest->save();
 
         $this->notifications->sync(new ErasureRequestCancelledBlueprint($erasureRequest), [$erasureRequest->user]);
     }

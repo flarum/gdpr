@@ -52,6 +52,11 @@ class UpdateErasureRequestController extends AbstractShowController
 
         $erasureRequest = ErasureRequest::findOrFail($id);
 
+        // if the request is cancelled, we should not proceed, but throw an error
+        if ($erasureRequest->status === ErasureRequest::STATUS_CANCELLED || $erasureRequest->cancelled_at !== null) {
+            throw new ValidationException(['user' => 'Erasure request is cancelled.']);
+        }
+
         // if the request is not confirmed, or already processed we should not proceed, but throw an error
         if ($erasureRequest->status !== ErasureRequest::STATUS_USER_CONFIRMED || $erasureRequest->user_confirmed_at === null) {
             throw new ValidationException(['user' => 'Erasure request is not confirmed.']);

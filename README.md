@@ -19,7 +19,7 @@ composer require blomstra/gdpr:@beta
 
 All forum users now have a `Personal Data` section within their account settings page:
 
-![image](https://github.com/blomstra/flarum-ext-gdpr/assets/16573496/4e469956-709f-4ba3-a5fe-d3fcb0401b73)
+![image](https://github.com/flarum/gdpr/assets/16573496/4e469956-709f-4ba3-a5fe-d3fcb0401b73)
 
 From here, users may self-service export their data from the forum, or start an erasure request. Erasure requests are queued up for admins/moderators to process. Any unprocessed requests that are still pending after 30 days will be processed automatically using the configured default method (Deletion or Anonymization).
 
@@ -109,5 +109,4 @@ These are the known extensions which offer GDPR data integration with this exten
 
 ### FAQ & Recommendations
 
-- Generating the zip archive can be pushed to [queue functionality](https://extiverse.com/?filter[q]=queue). This is exceptionally important on larger communities and with more extensions that work with the gdpr extension to allow data exports.
-
+- Generating the zip archive can be pushed to queue functionality. This is exceptionally important on larger communities and with more extensions that work with the gdpr extension to allow data exports.
