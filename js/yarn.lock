@@ -1700,7 +1700,7 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-flarum-tsconfig@^1.0.2:
+flarum-tsconfig@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/flarum-tsconfig/-/flarum-tsconfig-1.0.3.tgz#70420511f833f65f2d83a4541677f9cefbac664e"
   integrity sha512-//zFt0zFlPBukJvH0gRI4SQH1hLsUHYxZD+xVbuFdBaiJxmYxVMFWhmDrpA6kRT5miokZ8veuN28mwq1SzeGKw==

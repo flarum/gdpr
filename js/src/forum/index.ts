@@ -5,7 +5,7 @@ import extendUserSettingsPage from './extenders/extendUserSettingsPage';
 import extendHeaderSecondary from './extenders/extendHeaderSecondary';
 import extendPage from './extenders/extendPage';
 import extendUserControls from './extenders/extendUserControls';
-import addAnonymousBadges from './addAnonymousBadges';
+import addAnonymousBadges from './extenders/addAnonymousBadges';
 
 export { default as extend } from './extend';
 
@@ -20,3 +20,9 @@ app.initializers.add('flarum-gdpr', () => {
   extendUserControls();
   addAnonymousBadges();
 });
+
+// Expose compat API
+import gdprCompat from './compat';
+import { compat } from '@flarum/core/forum';
+
+Object.assign(compat, gdprCompat);

@@ -76,3 +76,9 @@ app.initializers.add('flarum-gdpr', () => {
   extendUserListPage();
   extendAdminNav();
 });
+
+// Expose compat API
+import gdprCompat from './compat';
+import { compat } from '@flarum/core/admin';
+
+Object.assign(compat, gdprCompat);
