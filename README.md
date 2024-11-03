@@ -4,7 +4,7 @@ This extension allows users increasing control over their data.
 
 ### Requirements
 
-- `flarum/core` - `v1.8.3` or higher
+- `flarum/core` - `v1.8.6` or higher
 - `PHP` - `8.0` or higher
 
 ### Installation or update
@@ -36,7 +36,7 @@ return [
 
 ### For developers
 
-You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Flarum\Gdpr\Extend\UserData` extender. Ensure that you wrap the GDPR extender in a conditional extend, so that forum owners can choose if they want to enable GDPR functionality or not. This functionality requires `flarum/core` `v1.8.3` or higher, so that should be set as your extension's minimum requirement.
+You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Flarum\Gdpr\Extend\UserData` extender. Ensure that you wrap the GDPR extender in a conditional extend, so that forum owners can choose if they want to enable GDPR functionality or not. This functionality requires `flarum/core` `v1.8.6` or higher, so that should be set as your extension's minimum requirement.
 
 #### Registering a new Data Type:
 
@@ -105,6 +105,7 @@ These are the known extensions which offer GDPR data integration with this exten
 - [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`
 - [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `1.3.0`
 - [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.4.4`
+- [FoF User Bio](https://github.com/FriendsOfFlarum/user-bio), since `1.3.3`
 - [Follow Users](https://github.com/imorland/follow-users), since `1.4.1`
 
 ### FAQ & Recommendations

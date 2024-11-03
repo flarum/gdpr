@@ -331,44 +331,6 @@ class ProcessErasureTest extends TestCase
     /**
      * @test
      */
-    public function user_bio_is_anonimized()
-    {
-        $this->extension('fof-user-bio');
-        $this->app();
-
-        User::unguard();
-        User::find(5)->update(['bio' => 'Custom bio']);
-        User::reguard();
-
-        $this->assertEquals('Custom bio', User::find(5)->bio);
-
-        $response = $this->send(
-            $this->request('PATCH', '/api/user-erasure-requests/2', [
-                'authenticatedAs' => 3,
-                'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
-                        ],
-                    ],
-                ],
-            ])
-        );
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $user = User::find(5);
-        $this->assertNotNull($user);
-        $this->assertEquals('Anonymous2', $user->username);
-        $this->assertNull($user->bio);
-    }
-
-    /**
-     * @test
-     */
     public function cancelled_erasure_requests_are_not_processed()
     {
         $this->setting('flarum-gdpr.allow-deletion', true);
