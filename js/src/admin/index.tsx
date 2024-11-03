@@ -5,9 +5,9 @@ import LinkButton from 'flarum/common/components/LinkButton';
 
 export { default as extend } from './extend';
 
-app.initializers.add('blomstra-gdpr', () => {
+app.initializers.add('flarum-gdpr', () => {
   app.extensionData
-    .for('blomstra-gdpr')
+    .for('flarum-gdpr')
     .registerSetting(function () {
       return (
         <div className="Form-group">
@@ -20,19 +20,19 @@ app.initializers.add('blomstra-gdpr', () => {
       );
     })
     .registerSetting({
-      setting: 'blomstra-gdpr.allow-anonymization',
+      setting: 'flarum-gdpr.allow-anonymization',
       label: app.translator.trans('blomstra-gdpr.admin.settings.allow_anonymization'),
       help: app.translator.trans('blomstra-gdpr.admin.settings.allow_anonymization_help'),
       type: 'boolean',
     })
     .registerSetting({
-      setting: 'blomstra-gdpr.allow-deletion',
+      setting: 'flarum-gdpr.allow-deletion',
       label: app.translator.trans('blomstra-gdpr.admin.settings.allow_deletion'),
       help: app.translator.trans('blomstra-gdpr.admin.settings.allow_deletion_help'),
       type: 'boolean',
     })
     .registerSetting({
-      setting: 'blomstra-gdpr.default-erasure',
+      setting: 'flarum-gdpr.default-erasure',
       label: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure'),
       help: app.translator.trans('blomstra-gdpr.admin.settings.default_erasure_help'),
       type: 'select',
@@ -42,7 +42,7 @@ app.initializers.add('blomstra-gdpr', () => {
       },
     })
     .registerSetting({
-      setting: 'blomstra-gdpr.default-anonymous-username',
+      setting: 'flarum-gdpr.default-anonymous-username',
       type: 'string',
       label: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username'),
       help: app.translator.trans('blomstra-gdpr.admin.settings.default_anonymous_username_help'),

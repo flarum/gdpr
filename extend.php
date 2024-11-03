@@ -73,12 +73,12 @@ return [
         ->hasOne('erasureRequest', RequestErasureSerializer::class),
 
     (new Extend\Settings())
-        ->default('blomstra-gdpr.allow-anonymization', true)
-        ->default('blomstra-gdpr.allow-deletion', false)
-        ->default('blomstra-gdpr.default-anonymous-username', 'Anonymous')
-        ->default('blomstra-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
-        ->serializeToForum('erasureAnonymizationAllowed', 'blomstra-gdpr.allow-anonymization', 'boolVal')
-        ->serializeToForum('erasureDeletionAllowed', 'blomstra-gdpr.allow-deletion', 'boolVal'),
+        ->default('flarum-gdpr.allow-anonymization', true)
+        ->default('flarum-gdpr.allow-deletion', false)
+        ->default('flarum-gdpr.default-anonymous-username', 'Anonymous')
+        ->default('flarum-gdpr.default-erasure', ErasureRequest::MODE_ANONYMIZATION)
+        ->serializeToForum('erasureAnonymizationAllowed', 'flarum-gdpr.allow-anonymization', 'boolVal')
+        ->serializeToForum('erasureDeletionAllowed', 'flarum-gdpr.allow-deletion', 'boolVal'),
 
     (new Extend\View())
         ->namespace('flarum-gdpr', __DIR__.'/resources/views'),

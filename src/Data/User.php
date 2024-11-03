@@ -40,7 +40,7 @@ class User extends Type
             $this->user->{$column} = null;
         }
 
-        $anonymousName = $this->settings->get('blomstra-gdpr.default-anonymous-username');
+        $anonymousName = $this->settings->get('flarum-gdpr.default-anonymous-username');
         $this->user->rename("{$anonymousName}{$this->erasureRequest->id}");
         $this->user->changeEmail("{$this->user->username}@flarum-gdpr.local");
         $this->user->is_email_confirmed = false;

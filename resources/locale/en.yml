@@ -1,4 +1,4 @@
-blomstra-gdpr:
+flarum-gdpr:
     admin:
         gdpr_page:
             heading: GDPR Data Overview

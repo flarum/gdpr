@@ -140,7 +140,7 @@ class ProcessErasureTest extends TestCase
      */
     public function authorized_user_can_process_confirmed_erasure_request_in_deletion_mode()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -213,7 +213,7 @@ class ProcessErasureTest extends TestCase
      */
     public function anonymization_with_custom_username_works()
     {
-        $this->setting('blomstra-gdpr.default-anonymous-username', 'Custom');
+        $this->setting('flarum-gdpr.default-anonymous-username', 'Custom');
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -243,7 +243,7 @@ class ProcessErasureTest extends TestCase
      */
     public function authorized_user_cannot_process_confirmed_erasure_request_in_anonymization_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-anonymization', false);
+        $this->setting('flarum-gdpr.allow-anonymization', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -269,7 +269,7 @@ class ProcessErasureTest extends TestCase
      */
     public function authorized_user_cannot_process_confirmed_erasure_request_in_deletion_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', false);
+        $this->setting('flarum-gdpr.allow-deletion', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -371,7 +371,7 @@ class ProcessErasureTest extends TestCase
      */
     public function cancelled_erasure_requests_are_not_processed()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/3', [
