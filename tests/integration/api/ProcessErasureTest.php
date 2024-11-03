@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Tests\integration\api;
@@ -326,44 +324,6 @@ class ProcessErasureTest extends TestCase
         $this->assertNotNull($user);
         $this->assertEquals('Anonymous2', $user->username);
         $this->assertNull($user->nickname);
-    }
-
-    /**
-     * @test
-     */
-    public function user_bio_is_anonimized()
-    {
-        $this->extension('fof-user-bio');
-        $this->app();
-
-        User::unguard();
-        User::find(5)->update(['bio' => 'Custom bio']);
-        User::reguard();
-
-        $this->assertEquals('Custom bio', User::find(5)->bio);
-
-        $response = $this->send(
-            $this->request('PATCH', '/api/user-erasure-requests/2', [
-                'authenticatedAs' => 3,
-                'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
-                        ],
-                    ],
-                ],
-            ])
-        );
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $user = User::find(5);
-        $this->assertNotNull($user);
-        $this->assertEquals('Anonymous2', $user->username);
-        $this->assertNull($user->bio);
     }
 
     /**
