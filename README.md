@@ -98,15 +98,15 @@ return [
 
 These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
 
-- [2FA](https://github.com/imorland/flarum-ext-twofactor), since `1.0.9`
-- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `1.0.0`
-- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.0`
-- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.8`
-- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`
-- [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `1.3.0`
-- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.4.4`
-- [FoF User Bio](https://github.com/FriendsOfFlarum/user-bio), since `1.3.3`
-- [Follow Users](https://github.com/imorland/follow-users), since `1.4.1`
+- [2FA](https://github.com/imorland/flarum-ext-twofactor), since `1.1.3`
+- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `1.0.1`
+- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.2`
+- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.12`
+- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.7`
+- [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `1.4.0`
+- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.5.6`
+- [FoF User Bio](https://github.com/FriendsOfFlarum/user-bio), since `1.4.1`
+- [Follow Users](https://github.com/imorland/follow-users), since `1.4.10`
 
 ### FAQ & Recommendations
 
