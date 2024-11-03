@@ -1,15 +1,10 @@
 {
     "private": true,
-    "name": "@blomstra/gdpr",
+    "name": "@flarum/gdpr",
     "prettier": "@flarum/prettier-config",
     "dependencies": {
-        "flarum-webpack-config": "^2.0.0",
-        "@flarum/prettier-config": "^1.0.0",
-        "flarum-tsconfig": "^1.0.2",
         "lodash-es": "^4.17.21",
-        "pusher-js": "^7.0.6",
-        "webpack": "^5.88.2",
-        "webpack-cli": "^5.1.4"
+        "pusher-js": "^7.0.6"
     },
     "scripts": {
         "dev": "webpack --mode development --watch",
@@ -23,9 +18,13 @@
         "format-check": "prettier --check src"
     },
     "devDependencies": {
+        "flarum-webpack-config": "^2.0.0",
+        "@flarum/prettier-config": "^1.0.0",
+        "flarum-tsconfig": "^1.0.3",
         "prettier": "^3.0.3",
-        "flarum-tsconfig": "^1.0.2",
         "typescript": "^4.5.4",
-        "typescript-coverage-report": "^0.6.1"
+        "typescript-coverage-report": "^0.6.1",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4"
     }
 }

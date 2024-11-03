@@ -12,7 +12,7 @@ export default class ExportAvailableNotification extends Notification {
     const exportModel = this.attrs.notification.subject() as Export;
 
     // Building the full url scheme so that Mithril treats this as an external link, so the download will work correctly.
-    return app.forum.attribute('baseUrl') + `/gdpr/export/${exportModel.file()}`;
+    return app.forum.attribute<string>('baseUrl') + `/gdpr/export/${exportModel.file()}`;
   }
 
   content() {

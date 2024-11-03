@@ -19,16 +19,12 @@ export default function extendUserSettingsPage() {
     items.add(
       'dataItems',
       <FieldSet className="Settings-gdpr" label={app.translator.trans('blomstra-gdpr.forum.settings.data.heading')}>
-        {
-          /** @ts-ignore **/
-          this.dataItems().toArray()
-        }
+        {this.dataItems().toArray()}
       </FieldSet>,
-      90
+      -100
     );
   });
 
-  /** @ts-ignore */
   SettingsPage.prototype.dataItems = function (): ItemList<Mithril.Children> {
     const items = new ItemList<Mithril.Children>();
 
