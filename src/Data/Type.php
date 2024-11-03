@@ -36,17 +36,17 @@ abstract class Type implements DataType
 
     public static function exportDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.export_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.export_description');
     }
 
     public static function anonymizeDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.anonymize_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.anonymize_description');
     }
 
     public static function deleteDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.delete_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.delete_description');
     }
 
     public static function staticTranslator(): TranslatorInterface

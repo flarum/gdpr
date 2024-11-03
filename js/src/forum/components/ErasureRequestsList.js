@@ -16,7 +16,7 @@ export default class ErasureRequestsList extends Component {
     return (
       <div className="NotificationList ErasureRequestsList">
         <div className="NotificationList-header">
-          <h4 className="App-titleControl App-titleControl--text">{app.translator.trans('blomstra-gdpr.forum.erasure_requests.title')}</h4>
+          <h4 className="App-titleControl App-titleControl--text">{app.translator.trans('flarum-gdpr.forum.erasure_requests.title')}</h4>
         </div>
         <div className="NotificationList-content">
           <ul className="NotificationGroup-content">
@@ -28,7 +28,7 @@ export default class ErasureRequestsList extends Component {
                       {avatar(request.user())}
                       {icon('fas fa-user-edit', { className: 'Notification-icon' })}
                       <span className="Notification-content">
-                        {app.translator.trans(`blomstra-gdpr.forum.erasure_requests.item_text`, {
+                        {app.translator.trans(`flarum-gdpr.forum.erasure_requests.item_text`, {
                           name: username(request.user()),
                         })}
                       </span>
@@ -38,7 +38,7 @@ export default class ErasureRequestsList extends Component {
                 );
               })
             ) : !state.loading ? (
-              <div className="NotificationList-empty">{app.translator.trans('blomstra-gdpr.forum.erasure_requests.empty_text')}</div>
+              <div className="NotificationList-empty">{app.translator.trans('flarum-gdpr.forum.erasure_requests.empty_text')}</div>
             ) : (
               LoadingIndicator.component({ className: 'LoadingIndicator--block' })
             )}

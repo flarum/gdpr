@@ -68,6 +68,6 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans('blomstra-gdpr.email.export_available.subject');
+        return $translator->trans('flarum-gdpr.email.export_available.subject');
     }
 }

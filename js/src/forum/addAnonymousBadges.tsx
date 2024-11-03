@@ -10,7 +10,7 @@ export default function () {
     if (this.anonymized()) {
       badges.add(
         'anonymized',
-        <Badge label={app.translator.trans('blomstra-gdpr.forum.badges.anonymized_user')} icon="fas fa-user-secret" type="anonymized" />
+        <Badge label={app.translator.trans('flarum-gdpr.forum.badges.anonymized_user')} icon="fas fa-user-secret" type="anonymized" />
       );
     }
   });
