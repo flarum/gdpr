@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int         $id
  * @property int         $user_id
  * @property User        $user
- * @property string      $verification_token
+ * @property string|null $verification_token
  * @property string      $status
  * @property string|null $reason
  * @property Carbon      $created_at

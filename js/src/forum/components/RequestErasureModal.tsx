@@ -4,13 +4,22 @@ import Button from 'flarum/common/components/Button';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
+import Mithril from 'mithril';
+import type User from 'flarum/common/models/User';
+import type ErasureRequest from '../../common/models/ErasureRequest';
 
 export default class RequestErasureModal extends Modal {
-  oninit(vnode) {
+  reason: Stream<string>;
+  password: Stream<string>;
+  user!: User | null;
+
+  oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
 
     this.reason = Stream('');
     this.password = Stream('');
+
+    this.user = app.session.user;
   }
 
   className() {
@@ -30,11 +39,11 @@ export default class RequestErasureModal extends Modal {
   }
 
   fields() {
-    const items = new ItemList();
+    const items = new ItemList<Mithril.Children>();
 
-    const currRequest = app.session.user.erasureRequest();
+    const currRequest = this.user?.erasureRequest() as ErasureRequest | null;
 
-    if (currRequest) {
+    if (currRequest && currRequest.status() !== 'cancelled') {
       items.add(
         'status',
         <div className="Form-group">
@@ -87,7 +96,12 @@ export default class RequestErasureModal extends Modal {
           <textarea
             className="FormControl"
             value={this.reason()}
-            oninput={(e) => this.reason(e.target.value)}
+            oninput={(e: Event) => {
+              const target = e.target as HTMLTextAreaElement | null;
+              if (target) {
+                this.reason(target.value);
+              }
+            }}
             placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.reason_label'))}
           ></textarea>
         </div>
@@ -111,17 +125,19 @@ export default class RequestErasureModal extends Modal {
     return items;
   }
 
-  oncancel(e) {
+  oncancel(e: Event) {
     this.loading = true;
     m.redraw();
 
-    app.session.user
-      .erasureRequest()
-      .delete()
-      .then(() => {
-        this.loading = false;
-        m.redraw();
-      });
+    if (this.user) {
+      this.user
+        .erasureRequest()
+        .delete()
+        .then(() => {
+          this.loading = false;
+          m.redraw();
+        });
+    }
   }
 
   data() {
@@ -133,16 +149,18 @@ export default class RequestErasureModal extends Modal {
     };
   }
 
-  onsubmit(e) {
+  onsubmit(e: Event) {
     e.preventDefault();
 
     this.loading = true;
 
     app.store
-      .createRecord('user-erasure-requests')
+      .createRecord<ErasureRequest>('user-erasure-requests')
       .save(this.data(), { meta: { password: this.password() } })
       .then((erasureRequest) => {
-        app.session.user.pushData({ relationships: { erasureRequest } });
+        if (this.user) {
+          this.user.pushData({ relationships: { erasureRequest } });
+        }
         this.loading = false;
         m.redraw();
       })

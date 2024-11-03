@@ -59,6 +59,7 @@ class CreateErasureRequestController extends AbstractCreateController
         $erasureRequest->reason = $reason;
         $erasureRequest->verification_token = $token;
         $erasureRequest->created_at = Carbon::now();
+        $erasureRequest->cancelled_at = null;
 
         $erasureRequest->save();
 

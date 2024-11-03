@@ -11,6 +11,7 @@
 
 namespace Flarum\Gdpr;
 
+use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Controller\ShowUserController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
@@ -59,6 +60,9 @@ return [
 
     (new Extend\ApiController(ShowUserController::class))
         ->addInclude('erasureRequest'),
+
+    (new Extend\ApiController(ShowForumController::class))
+        ->addInclude('actor.erasureRequest'),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(AddForumAttributes::class),
