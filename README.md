@@ -12,7 +12,7 @@ This extension allows users increasing control over their data.
 Install manually with composer:
 
 ```sh
-composer require flarum/gdpr:@beta
+composer require flarum/gdpr:^1.0.0@beta
 ```
 
 ### Use
