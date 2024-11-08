@@ -7,8 +7,22 @@
  * LICENSE file that was distributed with this source code.
  */
 
-use Flarum\Database\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
-return Migration::addColumns('gdpr_erasure', [
-    'cancelled_at' => ['datetime', 'nullable' => true],
-]);
+return [
+    'up'   => function (Builder $schema) {
+        if (! $schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
+            $schema->table('gdpr_erasure', function (Blueprint $table) {
+                $table->dateTime('cancelled_at')->nullable();
+            });
+        }
+    },
+    'down' => function (Builder $schema) {
+        if ($schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
+            $schema->table('gdpr_erasure', function (Blueprint $table) {
+                $table->dropColumn('cancelled_at');
+            });
+        }
+    },
+];
