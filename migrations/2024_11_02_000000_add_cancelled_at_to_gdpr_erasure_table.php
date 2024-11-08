@@ -12,7 +12,7 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up'   => function (Builder $schema) {
-        if (! $schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
+        if (!$schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
             $schema->table('gdpr_erasure', function (Blueprint $table) {
                 $table->dateTime('cancelled_at')->nullable();
             });
