@@ -14,6 +14,7 @@ namespace Flarum\Gdpr\Tests\integration\Api;
 
 use Carbon\Carbon;
 use Flarum\Extend;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
@@ -91,6 +92,10 @@ class CancelErasureTest extends TestCase
 
         $this->assertEquals(204, $response->getStatusCode());
 
+        $erasureRequest = ErasureRequest::query()->find(1);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 
         $this->assertNotNull($notification);
@@ -106,6 +111,10 @@ class CancelErasureTest extends TestCase
         );
 
         $this->assertEquals(204, $response->getStatusCode());
+
+        $erasureRequest = ErasureRequest::query()->find(2);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
 
         $notification = Notification::query()->where('user_id', 5)->where('type', 'gdpr_erasure_cancelled')->first();
 
@@ -134,6 +143,10 @@ class CancelErasureTest extends TestCase
         );
 
         $this->assertEquals(204, $response->getStatusCode());
+
+        $erasureRequest = ErasureRequest::query()->find(1);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
 
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 

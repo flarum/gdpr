@@ -10,7 +10,7 @@ class ErasureRequestPolicy extends AbstractPolicy
 {
     public function process(User $actor, ErasureRequest $request): ?string
     {
-        if ($actor->hasPermission('processErasure') && $request->isConfirmed()) {
+        if ($actor->hasPermission('processErasure') && $request->isConfirmed() && ! $request->isCancelled()) {
             return $this->allow();
         }
 

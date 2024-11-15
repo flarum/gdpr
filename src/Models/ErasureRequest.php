@@ -32,8 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $processor_comment
  * @property Carbon|null $processed_at
  * @property string|null $processed_mode
- * @property Carbon|null $canceled_at
- * @property int|null    $canceled_by
+ * @property Carbon|null $cancelled_at
  */
 class ErasureRequest extends AbstractModel
 {
@@ -54,7 +53,7 @@ class ErasureRequest extends AbstractModel
         'created_at'        => 'datetime',
         'user_confirmed_at' => 'datetime',
         'processed_at'      => 'datetime',
-        'canceled_at'       => 'datetime',
+        'cancelled_at'       => 'datetime',
     ];
 
     protected $guarded = ['id'];
@@ -72,5 +71,10 @@ class ErasureRequest extends AbstractModel
     public function isConfirmed(): bool
     {
         return $this->status === ErasureRequest::STATUS_USER_CONFIRMED && $this->user_confirmed_at;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === ErasureRequest::STATUS_CANCELLED || $this->cancelled_at;
     }
 }

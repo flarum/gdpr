@@ -20,7 +20,7 @@ export default function extendUserSettingsPage() {
       <FieldSet className="Settings-gdpr FieldSet--form" label={app.translator.trans('flarum-gdpr.forum.settings.data.heading')}>
         {this.dataItems().toArray()}
       </FieldSet>,
-      90
+      -100
     );
   });
 

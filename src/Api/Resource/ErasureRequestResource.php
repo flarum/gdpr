@@ -98,8 +98,7 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
                     /** @var ErasureRequest $request */
                     $request = $context->model;
 
-                    $request->canceled_at = Carbon::now();
-                    $request->canceled_by = $context->getActor()->id;
+                    $request->cancelled_at = Carbon::now();
                     $request->status = ErasureRequest::STATUS_CANCELLED;
                     $request->save();
 
