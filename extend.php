@@ -84,14 +84,4 @@ return [
     (new Extend\Policy())
         ->modelPolicy(User::class, Access\UserPolicy::class)
         ->modelPolicy(ErasureRequest::class, Access\ErasureRequestPolicy::class),
-
-    (new Extend\Conditional())
-        ->whenExtensionEnabled('fof-oauth', fn () => [
-            // @TODO: move to fof-oauth
-            (new Extend\ApiResource(Resource\ForumResource::class))
-                ->fields(fn () => [
-                    Schema\Boolean::make('passwordlessSignUp')
-                        ->get(fn (object $forum, Context $context) => !$context->getActor()->isGuest() && $context->getActor()->loginProviders()->count() > 0),
-                ]),
-        ]),
 ];
