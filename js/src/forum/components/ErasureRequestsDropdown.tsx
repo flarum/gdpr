@@ -27,7 +27,7 @@ export default class ErasureRequestsDropdown extends NotificationsDropdown<Erasu
 
   getUnreadCount(): number {
     if (!this.attrs.state.hasItems()) {
-      return app.forum.attribute('erasureRequestCount');
+      return app.forum.attribute<number>('erasureRequestCount');
     }
 
     return app.store.all('erasure-requests').length;
