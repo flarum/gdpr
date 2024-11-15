@@ -1,16 +1,28 @@
 <?php
 
 /*
- * This file is part of Flarum
+ * This file is part of Flarum.
  *
- * Copyright (c) Flarum Foundation
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
-use Flarum\Database\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
-return Migration::addColumns('gdpr_erasure', [
-    'cancelled_at' => ['datetime', 'nullable' => true],
-]);
+return [
+    'up'   => function (Builder $schema) {
+        if (!$schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
+            $schema->table('gdpr_erasure', function (Blueprint $table) {
+                $table->dateTime('cancelled_at')->nullable();
+            });
+        }
+    },
+    'down' => function (Builder $schema) {
+        if ($schema->hasColumn('gdpr_erasure', 'cancelled_at')) {
+            $schema->table('gdpr_erasure', function (Blueprint $table) {
+                $table->dropColumn('cancelled_at');
+            });
+        }
+    },
+];
