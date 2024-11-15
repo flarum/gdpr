@@ -9,9 +9,9 @@
 
 namespace Flarum\Gdpr;
 
+use Flarum\Foundation\Paths;
 use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Gdpr\Models\Export;
-use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -43,7 +43,7 @@ class Exporter
 
         $file = tempnam($tmpDir, 'data-export-'.$user->username);
 
-        $file .= '-' . Str::random(20);
+        $file .= '-'.Str::random(20);
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {

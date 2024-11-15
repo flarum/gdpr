@@ -10,12 +10,12 @@
 namespace Flarum\Gdpr\Notifications;
 
 use Flarum\Database\AbstractModel;
-use Flarum\Notification\AlertableInterface;
 use Flarum\Gdpr\Models\Export;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Flarum\Locale\TranslatorInterface;
 
 class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {

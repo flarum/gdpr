@@ -9,9 +9,9 @@
 
 namespace Flarum\Gdpr\Data;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;

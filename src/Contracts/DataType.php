@@ -9,13 +9,6 @@
 
 namespace Flarum\Gdpr\Contracts;
 
-use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Http\UrlGenerator;
-use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\User;
-use Illuminate\Contracts\Filesystem\Factory;
-use Symfony\Contracts\Translation\TranslatorInterface;
-
 interface DataType
 {
     public static function dataType(): string;

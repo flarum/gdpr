@@ -9,10 +9,8 @@
 
 namespace Flarum\Gdpr;
 
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
-use Flarum\Api\Schema;
 use Flarum\Extend;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\User\User;

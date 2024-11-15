@@ -9,9 +9,9 @@
 
 namespace Flarum\Gdpr\Extend;
 
-use Flarum\Gdpr\DataProcessor;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
+use Flarum\Gdpr\DataProcessor;
 use Illuminate\Contracts\Container\Container;
 
 class UserData implements ExtenderInterface

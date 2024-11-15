@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Flarum\Gdpr\Api\Resource;
 
 use Flarum\Api\Context;
@@ -11,10 +18,8 @@ use Flarum\Gdpr\Jobs\GdprJob;
 use Flarum\Gdpr\Models\Export;
 use Flarum\User\User;
 use Illuminate\Contracts\Queue\Queue;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
-use Tobyz\JsonApiServer\Context as OriginalContext;
 
 /**
  * @extends Resource\AbstractDatabaseResource<Export>
@@ -58,7 +63,7 @@ class ExportResource extends Resource\AbstractDatabaseResource
                         queue: GdprJob::$onQueue
                     );
                 })
-                ->response(fn() => new EmptyResponse(201)),
+                ->response(fn () => new EmptyResponse(201)),
         ];
     }
 

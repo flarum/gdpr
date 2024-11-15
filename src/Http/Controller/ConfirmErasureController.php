@@ -9,9 +9,9 @@
 
 namespace Flarum\Gdpr\Http\Controller;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Foundation\ValidationException;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\SessionAuthenticator;
 use Flarum\Http\UrlGenerator;

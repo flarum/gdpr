@@ -12,12 +12,12 @@ namespace Flarum\Gdpr\Tests\integration\Api;
 use Carbon\Carbon;
 use Flarum\Extend;
 use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Group\Group;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Flarum\User\User;
-use Flarum\Group\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 class CancelErasureTest extends TestCase
 {

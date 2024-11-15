@@ -11,7 +11,6 @@ namespace Flarum\Gdpr\Http\Controller;
 
 use Flarum\Gdpr\Models\Export;
 use Flarum\Gdpr\StorageManager;
-use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response;

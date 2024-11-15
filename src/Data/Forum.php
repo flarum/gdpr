@@ -9,8 +9,8 @@
 
 namespace Flarum\Gdpr\Data;
 
-use Flarum\Gdpr\ZipManager;
 use Carbon\Carbon;
+use Flarum\Gdpr\ZipManager;
 
 class Forum extends Type
 {

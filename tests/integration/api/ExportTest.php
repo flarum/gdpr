@@ -9,17 +9,17 @@
 
 namespace Flarum\Gdpr\tests\integration\api;
 
-use Flarum\Gdpr\Models\Export;
 use Flarum\Database\Eloquent\Collection;
+use Flarum\Gdpr\Models\Export;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use PHPUnit\Framework\Attributes\Test;
 use PhpZip\ZipFile;
 use Psr\Http\Message\ResponseInterface;
-use PHPUnit\Framework\Attributes\Test;
 
 class ExportTest extends TestCase
 {

@@ -9,14 +9,14 @@
 
 namespace Flarum\Gdpr\Notifications;
 
-use Flarum\Database\AbstractModel;
-use Flarum\Notification\AlertableInterface;
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Database\AbstractModel;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Flarum\Locale\TranslatorInterface;
 
 class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {

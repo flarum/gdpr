@@ -9,10 +9,10 @@
 
 namespace Flarum\Gdpr\Console;
 
+use Carbon\Carbon;
 use Flarum\Gdpr\Jobs\ErasureJob;
 use Flarum\Gdpr\Jobs\GdprJob;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Carbon\Carbon;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Queue\Queue;

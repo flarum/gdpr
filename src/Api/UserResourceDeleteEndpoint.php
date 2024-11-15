@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Flarum\Gdpr\Api;
 
 use Carbon\Carbon;
@@ -51,7 +58,7 @@ class UserResourceDeleteEndpoint
         $actor = $context->getActor();
         $mode = Arr::get($context->body(), 'gdprMode', $this->settings->get('flarum-gdpr.default-erasure'));
 
-        if (! in_array($mode, [ErasureRequest::MODE_ANONYMIZATION, ErasureRequest::MODE_DELETION])) {
+        if (!in_array($mode, [ErasureRequest::MODE_ANONYMIZATION, ErasureRequest::MODE_DELETION])) {
             throw new ValidationException(['mode' => "Invalid erasure mode: $mode"]);
         }
 

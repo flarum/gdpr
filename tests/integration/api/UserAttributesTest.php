@@ -11,8 +11,8 @@ namespace Flarum\Gdpr\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class UserAttributesTest extends TestCase
 {
