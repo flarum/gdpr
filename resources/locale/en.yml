@@ -46,7 +46,6 @@ flarum-gdpr:
         userlist:
             columns:
                 gdpr_actions:
-                    title: GDPR Actions
                     export: Export data for {username}
 
     lib:
