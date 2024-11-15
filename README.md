@@ -36,7 +36,7 @@ return [
 
 ### For developers
 
-You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Flarum\Gdpr\Extend\UserData` extender. Ensure that you wrap the GDPR extender in a conditional extend, so that forum owners can choose if they want to enable GDPR functionality or not. This functionality requires `flarum/core` `v1.8.3` or higher, so that should be set as your extension's minimum requirement.
+You can easily register a new Data type, remove an existing Data type, or exclude specific columns from the user table during export by leveraging the `Flarum\Gdpr\Extend\UserData` extender. Ensure that you wrap the GDPR extender in a conditional extend, so that forum owners can choose if they want to enable GDPR functionality or not. This functionality requires `flarum/core` `v2.0` or higher, so that should be set as your extension's minimum requirement.
 
 #### Registering a new Data Type:
 
@@ -98,14 +98,15 @@ return [
 
 These are the known extensions which offer GDPR data integration with this extension. Don't see a required extension listed? Contact the author to request it
 
-- [2FA](https://github.com/imorland/flarum-ext-twofactor), since `1.0.9`
-- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `1.0.0`
-- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `1.1.0`
-- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `1.2.8`
-- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `1.2.2`
-- [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `1.3.0`
-- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `1.4.4`
-- [Follow Users](https://github.com/imorland/follow-users), since `1.4.1`
+- [2FA](https://github.com/imorland/flarum-ext-twofactor), since `2.0`
+- [Boring Avatars](https://github.com/imorland/flarum-ext-boring-avatars), since `2.0`
+- [FoF Ban IPs](https://github.com/FriendsOfFlarum/ban-ips), since `2.0`
+- [FoF Drafts](https://github.com/FriendsOfFlarum/drafts), since `2.0`
+- [FoF Follow Tags](https://github.com/FriendsOfFlarum/follow-tags), since `2.0`
+- [FoF Terms](https://github.com/FriendsOfFlarum/terms), since `2.0`
+- [FoF Upload](https://github.com/FriendsOfFlarum/upload), since `2.0`
+- [FoF User Bio](https://github.com/FriendsOfFlarum/user-bio), since `2.0`
+- [Follow Users](https://github.com/imorland/follow-users), since `2.0`
 
 ### FAQ & Recommendations
 

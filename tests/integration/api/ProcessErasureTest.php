@@ -1,13 +1,10 @@
 <?php
 
 /*
- * This file is part of Flarum
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- * Copyright (c) 2024 Flarum Foundation
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\integration\api;
@@ -18,7 +15,6 @@ use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use PHPUnit\Framework\Attributes\Test;
-use Flarum\User\User;
 use Flarum\Group\Group;
 
 class ProcessErasureTest extends TestCase
@@ -311,42 +307,6 @@ class ProcessErasureTest extends TestCase
         $this->assertNotNull($user);
         $this->assertEquals('Anonymous2', $user->username);
         $this->assertNull($user->nickname);
-    }
-
-    #[Test]
-    public function user_bio_is_anonimized()
-    {
-        $this->extension('fof-user-bio');
-        $this->app();
-
-        User::unguard();
-        User::find(5)->update(['bio' => 'Custom bio']);
-        User::reguard();
-
-        $this->assertEquals('Custom bio', User::find(5)->bio);
-
-        $response = $this->send(
-            $this->request('PATCH', '/api/user-erasure-requests/2', [
-                'authenticatedAs' => 3,
-                'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
-                        ],
-                    ],
-                ],
-            ])
-        );
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $user = User::find(5);
-        $this->assertNotNull($user);
-        $this->assertEquals('Anonymous2', $user->username);
-        $this->assertNull($user->bio);
     }
 
     #[Test]
