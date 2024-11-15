@@ -50,6 +50,7 @@ class ConfirmErasureController implements RequestHandlerInterface
 
         $erasureRequest->user_confirmed_at = Carbon::now();
         $erasureRequest->status = ErasureRequest::STATUS_USER_CONFIRMED;
+        $erasureRequest->cancelled_at = null;
         $erasureRequest->save();
 
         return new RedirectResponse($this->url->to('forum')->base().'?erasureRequestConfirmed=1');

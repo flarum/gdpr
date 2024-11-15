@@ -5,13 +5,22 @@ import Button from 'flarum/common/components/Button';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import type User from 'flarum/common/models/User';
+import type ErasureRequest from '../../common/models/ErasureRequest';
 
 export default class RequestErasureModal extends FormModal {
-  oninit(vnode) {
+  reason: Stream<string>;
+  password: Stream<string>;
+  user!: User | null;
+
+  oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
 
     this.reason = Stream('');
     this.password = Stream('');
+
+    this.user = app.session.user;
   }
 
   className() {
@@ -31,11 +40,11 @@ export default class RequestErasureModal extends FormModal {
   }
 
   fields() {
-    const items = new ItemList();
+    const items = new ItemList<Mithril.Children>();
 
-    const currRequest = app.session.user.erasureRequest();
+    const currRequest = this.user?.erasureRequest() as ErasureRequest | null;
 
-    if (currRequest) {
+    if (currRequest && currRequest.status() !== 'cancelled') {
       items.add(
         'status',
         <div className="Form-group">
@@ -88,7 +97,12 @@ export default class RequestErasureModal extends FormModal {
           <textarea
             className="FormControl"
             value={this.reason()}
-            oninput={(e) => this.reason(e.target.value)}
+            oninput={(e: Event) => {
+              const target = e.target as HTMLTextAreaElement | null;
+              if (target) {
+                this.reason(target.value);
+              }
+            }}
             placeholder={extractText(app.translator.trans('flarum-gdpr.forum.request_erasure.reason_label'))}
             rows={6}
           ></textarea>
@@ -113,21 +127,23 @@ export default class RequestErasureModal extends FormModal {
     return items;
   }
 
-  oncancel() {
+  oncancel(e: Event) {
     this.loading = true;
     m.redraw();
 
-    const request = app.session.user.erasureRequest();
+    if (this.user) {
+      const request = this.user.erasureRequest();
 
-    app
-      .request({
-        method: 'POST',
-        url: app.forum.attribute('apiUrl') + '/user-erasure-requests/' + request.id() + '/cancel',
-      })
-      .then(() => {
-        this.loading = false;
-        app.modal.close();
-      });
+      app
+        .request({
+          method: 'POST',
+          url: app.forum.attribute('apiUrl') + '/user-erasure-requests/' + request.id() + '/cancel',
+        })
+        .then(() => {
+          this.loading = false;
+          app.modal.close();
+        });
+    }
   }
 
   data() {
@@ -137,16 +153,18 @@ export default class RequestErasureModal extends FormModal {
     };
   }
 
-  onsubmit(e) {
+  onsubmit(e: Event) {
     e.preventDefault();
 
     this.loading = true;
 
     app.store
-      .createRecord('user-erasure-requests')
+      .createRecord<ErasureRequest>('user-erasure-requests')
       .save(this.data(), { meta: { password: this.password() } })
       .then((erasureRequest) => {
-        app.session.user.pushData({ relationships: { erasureRequest } });
+        if (this.user) {
+          this.user.pushData({ relationships: { erasureRequest } });
+        }
         this.loading = false;
         m.redraw();
       })

@@ -100,6 +100,7 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
 
                     $request->cancelled_at = Carbon::now();
                     $request->status = ErasureRequest::STATUS_CANCELLED;
+                    $request->verification_token = null;
                     $request->save();
 
                     $this->notifications->sync(new ErasureRequestCancelledBlueprint($request), [$request->user]);
@@ -115,7 +116,6 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
     public function fields(): array
     {
         return [
-
             Schema\Str::make('status'),
             Schema\Str::make('reason')
                 ->nullable()
@@ -158,6 +158,7 @@ class ErasureRequestResource extends Resource\AbstractDatabaseResource
         $model->status = ErasureRequest::STATUS_AWAITING_USER_CONFIRMATION;
         $model->verification_token = Str::random(40);
         $model->created_at = Carbon::now();
+        $model->cancelled_at = null;
 
         return $model;
     }

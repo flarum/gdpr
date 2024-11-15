@@ -56,7 +56,10 @@ return [
         ->fields(Api\UserResourceFields::class),
 
     (new Extend\ApiResource(Resource\ForumResource::class))
-        ->fields(Api\ForumResourceFields::class),
+        ->fields(Api\ForumResourceFields::class)
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            return $endpoint->addDefaultInclude(['actor.erasureRequest']);
+        }),
 
     (new Extend\Settings())
         ->default('flarum-gdpr.allow-anonymization', true)

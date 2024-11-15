@@ -95,6 +95,7 @@ class CancelErasureTest extends TestCase
         $erasureRequest = ErasureRequest::query()->find(1);
 
         $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
 
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 
@@ -115,6 +116,7 @@ class CancelErasureTest extends TestCase
         $erasureRequest = ErasureRequest::query()->find(2);
 
         $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
 
         $notification = Notification::query()->where('user_id', 5)->where('type', 'gdpr_erasure_cancelled')->first();
 
@@ -147,6 +149,7 @@ class CancelErasureTest extends TestCase
         $erasureRequest = ErasureRequest::query()->find(1);
 
         $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
 
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 
