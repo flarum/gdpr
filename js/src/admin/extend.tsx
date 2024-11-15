@@ -1,7 +1,7 @@
 import { default as extend } from '../common/extend';
 import Extend from 'flarum/common/extenders';
 import app from 'flarum/admin/app';
-import GdprPage from './GdprPage';
+import GdprPage from './components/GdprPage';
 import DataType from './models/DataType';
 import LinkButton from 'flarum/common/components/LinkButton';
 import type Mithril from 'mithril';

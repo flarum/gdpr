@@ -3,9 +3,9 @@ import AdminPage, { AdminHeaderAttrs } from 'flarum/admin/components/AdminPage';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import type { IPageAttrs } from 'flarum/common/components/Page';
 import type Mithril from 'mithril';
-import DataType from './models/DataType';
+import DataType from '../models/DataType';
 import Tooltip from 'flarum/common/components/Tooltip';
-import ExtensionLink from './components/ExtensionLink';
+import ExtensionLink from './ExtensionLink';
 import LinkButton from 'flarum/common/components/LinkButton';
 
 export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> extends AdminPage<CustomAttrs> {
@@ -72,7 +72,7 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
                 <div className="helpText">{dataType.anonymizeDescription()}</div>
                 <div className="helpText">{dataType.deleteDescription()}</div>
                 <div>
-                  <ExtensionLink extension={app.data.extensions[dataType.extension()]} />
+                  <ExtensionLink extension={dataType.extension() ? app.data.extensions[dataType.extension() as string] : null} />
                 </div>
               </div>
             </>
