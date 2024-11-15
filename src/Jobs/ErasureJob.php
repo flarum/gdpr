@@ -1,23 +1,22 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Jobs;
 
+use Flarum\Foundation\ValidationException;
 use Flarum\Gdpr\DataProcessor;
 use Flarum\Gdpr\Events\Erased;
 use Flarum\Gdpr\Events\Erasing;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ErasureCompletedBlueprint;
-use Flarum\Foundation\ValidationException;
 use Flarum\Http\UrlGenerator;
+use Flarum\Locale\TranslatorInterface;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -27,7 +26,6 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Mail\Message;
 use RuntimeException;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErasureJob extends GdprJob
 {
@@ -75,10 +73,10 @@ class ErasureJob extends GdprJob
             throw new RuntimeException('Erasure request has no mode set.');
         }
 
-        if ($this->settings->get('blomstra-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
+        if ($this->settings->get('flarum-gdpr.allow-anonymization') === false && $mode === ErasureRequest::MODE_ANONYMIZATION) {
             throw new ValidationException(['mode' => 'Anonymization is not enabled.']);
         }
-        if ($this->settings->get('blomstra-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
+        if ($this->settings->get('flarum-gdpr.allow-deletion') === false && $mode === ErasureRequest::MODE_DELETION) {
             throw new ValidationException(['mode' => 'Deletion is not enabled.']);
         }
 
@@ -117,7 +115,7 @@ class ErasureJob extends GdprJob
         $blueprint = new ErasureCompletedBlueprint($this->erasureRequest, $username, $mode);
 
         $mailer->send(
-            $blueprint->getEmailView(),
+            $blueprint->getEmailViews(),
             $blueprint->getData(),
             function (Message $message) use ($username, $email, $blueprint, $translator) {
                 $message->to($email, $username)

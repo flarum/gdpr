@@ -1,24 +1,24 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Notifications;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Database\AbstractModel;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableInterface
+class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {
     public function __construct(private ErasureRequest $request)
     {
@@ -29,12 +29,12 @@ class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableIn
         return $this->request->user;
     }
 
-    public function getSubject(): ErasureRequest
+    public function getSubject(): ?AbstractModel
     {
         return $this->request;
     }
 
-    public function getData(): array
+    public function getData(): mixed
     {
         return [
             'erasure-request' => $this->request->id,
@@ -52,13 +52,13 @@ class ErasureRequestCancelledBlueprint implements BlueprintInterface, MailableIn
         return ErasureRequest::class;
     }
 
-    public function getEmailView(): array
+    public function getEmailViews(): array
     {
-        return ['text' => 'gdpr::erasure-cancelled'];
+        return ['text' => 'flarum-gdpr::email.plain.erasure-cancelled', 'html' => 'flarum-gdpr::email.html.erasure-cancelled'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans('blomstra-gdpr.email.erasure_cancelled.subject');
+        return $translator->trans('flarum-gdpr.email.erasure_cancelled.subject');
     }
 }

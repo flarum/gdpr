@@ -1,23 +1,23 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Notifications;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
+class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {
     public function __construct(private ErasureRequest $request, private string $username, private string $mode)
     {
@@ -29,7 +29,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return null;
     }
 
-    public function getSubject(): ErasureRequest
+    public function getSubject(): ?AbstractModel
     {
         return $this->request;
     }
@@ -39,7 +39,7 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return $this->mode;
     }
 
-    public function getData(): array
+    public function getData(): mixed
     {
         return [
             'username' => $this->username,
@@ -57,13 +57,13 @@ class ErasureCompletedBlueprint implements BlueprintInterface, MailableInterface
         return ErasureRequest::class;
     }
 
-    public function getEmailView(): array
+    public function getEmailViews(): array
     {
-        return ['text' => 'gdpr::erasure-completed'];
+        return ['text' => 'flarum-gdpr::email.plain.erasure-completed', 'html' => 'flarum-gdpr::email.html.erasure-completed'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans("blomstra-gdpr.email.erasure_completed.{$this->getMode()}.subject");
+        return $translator->trans("flarum-gdpr.email.erasure_completed.{$this->getMode()}.subject");
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\integration\api;
@@ -15,6 +13,8 @@ use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestErasureTest extends TestCase
 {
@@ -23,13 +23,13 @@ class RequestErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
 
         $this->setting('mail_driver', 'log');
         $this->setting('forum_title', 'Flarum Test');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
             ],
@@ -50,9 +50,7 @@ class RequestErasureTest extends TestCase
         ErasureRequest::query()->delete();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_request_erasure()
     {
         $response = $this->send(
@@ -65,9 +63,7 @@ class RequestErasureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_providing_incorrect_password_cannot_request_erasure()
     {
         $response = $this->send(
@@ -99,9 +95,7 @@ class RequestErasureTest extends TestCase
         $this->assertEquals('Incorrect password', $body['errors'][0]['detail']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_can_request_erasure_and_recieves_notification_to_confirm()
     {
         $response = $this->send(
@@ -152,9 +146,7 @@ class RequestErasureTest extends TestCase
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_request_erasure_without_giving_reason()
     {
         $response = $this->send(
@@ -204,9 +196,7 @@ class RequestErasureTest extends TestCase
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_with_permission_does_not_see_requests_pending_confirmation()
     {
         $this->normal_user_can_request_erasure_and_recieves_notification_to_confirm();

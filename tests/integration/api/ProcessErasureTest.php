@@ -1,21 +1,21 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\integration\api;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProcessErasureTest extends TestCase
 {
@@ -24,18 +24,20 @@ class ProcessErasureTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->extension('blomstra-gdpr');
+
+        $this->extension('flarum-gdpr');
 
         $this->setting('mail_driver', 'log');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
+                ['id' => 6, 'username' => 'user6', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user6@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
-            'groups' => [
+            Group::class => [
                 ['id' => 5, 'name_singular' => 'customgroup', 'name_plural' => 'customgroups'],
             ],
             'group_user' => [
@@ -48,13 +50,12 @@ class ProcessErasureTest extends TestCase
             'gdpr_erasure' => [
                 ['id' => 1, 'user_id' => 4, 'verification_token' => 'abc123', 'status' => 'awaiting_user_confirmation', 'reason' => 'I want to be forgotten', 'created_at' => Carbon::now()],
                 ['id' => 2, 'user_id' => 5, 'verification_token' => '123abc', 'status' => 'user_confirmed', 'reason' => 'I also want to be forgotten', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now()],
+                ['id' => 3, 'user_id' => 6, 'verification_token' => '321zyx', 'status' => 'cancelled', 'created_at' => Carbon::now()->subDay(), 'cancelled_at' => Carbon::now()],
             ],
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthorized_users_cannot_see_erasure_requests()
     {
         $response = $this->send(
@@ -66,9 +67,7 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_users_can_see_confirmed_erasure_requests()
     {
         $response = $this->send(
@@ -85,9 +84,7 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(ErasureRequest::STATUS_USER_CONFIRMED, $json['data'][0]['attributes']['status']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthorized_user_cannot_process_erasure_request()
     {
         $response = $this->send(
@@ -109,9 +106,7 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_cannot_process_unconfirmed_request()
     {
         $response = $this->send(
@@ -133,12 +128,10 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_can_process_confirmed_erasure_request_in_deletion_mode()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -167,9 +160,7 @@ class ProcessErasureTest extends TestCase
         $this->assertNull(User::find(5));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_can_process_confirmed_erasure_request_in_anonymization_mode()
     {
         $response = $this->send(
@@ -206,12 +197,10 @@ class ProcessErasureTest extends TestCase
         $this->assertEmpty($user->groups);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function anonymization_with_custom_username_works()
     {
-        $this->setting('blomstra-gdpr.default-anonymous-username', 'Custom');
+        $this->setting('flarum-gdpr.default-anonymous-username', 'Custom');
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -236,12 +225,10 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals('Custom2', $user->username);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_cannot_process_confirmed_erasure_request_in_anonymization_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-anonymization', false);
+        $this->setting('flarum-gdpr.allow-anonymization', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -262,12 +249,10 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_cannot_process_confirmed_erasure_request_in_deletion_mode_if_not_allowed()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', false);
+        $this->setting('flarum-gdpr.allow-deletion', false);
 
         $response = $this->send(
             $this->request('PATCH', '/api/user-erasure-requests/2', [
@@ -288,9 +273,7 @@ class ProcessErasureTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_is_anonymized_when_nicknames_is_enabled()
     {
         $this->extension('flarum-nicknames');
@@ -326,29 +309,20 @@ class ProcessErasureTest extends TestCase
         $this->assertNull($user->nickname);
     }
 
-    /**
-     * @test
-     */
-    public function user_bio_is_anonimized()
+    #[Test]
+    public function cancelled_erasure_requests_are_not_processed()
     {
-        $this->extension('fof-user-bio');
-        $this->app();
-
-        User::unguard();
-        User::find(5)->update(['bio' => 'Custom bio']);
-        User::reguard();
-
-        $this->assertEquals('Custom bio', User::find(5)->bio);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
-            $this->request('PATCH', '/api/user-erasure-requests/2', [
+            $this->request('PATCH', '/api/user-erasure-requests/3', [
                 'authenticatedAs' => 3,
                 'json'            => [
                     'data' => [
                         'attributes' => [
                             'processor_comment' => 'I have processed this request',
                             'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
+                                'mode' => ErasureRequest::MODE_DELETION,
                             ],
                         ],
                     ],
@@ -356,11 +330,10 @@ class ProcessErasureTest extends TestCase
             ])
         );
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(422, $response->getStatusCode());
 
-        $user = User::find(5);
-        $this->assertNotNull($user);
-        $this->assertEquals('Anonymous2', $user->username);
-        $this->assertNull($user->bio);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertEquals('Erasure request is cancelled.', $data['errors'][0]['detail']);
     }
 }

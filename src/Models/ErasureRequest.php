@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Models;
@@ -15,12 +13,13 @@ use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\User\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int         $id
  * @property int         $user_id
  * @property User        $user
- * @property string      $verification_token
+ * @property string|null $verification_token
  * @property string      $status
  * @property string|null $reason
  * @property Carbon      $created_at
@@ -30,6 +29,7 @@ use Flarum\User\User;
  * @property string|null $processor_comment
  * @property Carbon|null $processed_at
  * @property string|null $processed_mode
+ * @property Carbon|null $cancelled_at
  */
 class ErasureRequest extends AbstractModel
 {
@@ -47,18 +47,31 @@ class ErasureRequest extends AbstractModel
     protected $table = 'gdpr_erasure';
 
     protected $casts = [
-        'created_at'        => 'datetime',
-        'user_confirmed_at' => 'datetime',
-        'processed_at'      => 'datetime',
+        'created_at'         => 'datetime',
+        'user_confirmed_at'  => 'datetime',
+        'processed_at'       => 'datetime',
+        'cancelled_at'       => 'datetime',
     ];
 
-    public function user()
+    protected $guarded = ['id'];
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function processedBy()
+    public function processedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'processed_by');
+    }
+
+    public function isConfirmed(): bool
+    {
+        return $this->status === ErasureRequest::STATUS_USER_CONFIRMED && $this->user_confirmed_at;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === ErasureRequest::STATUS_CANCELLED || $this->cancelled_at;
     }
 }

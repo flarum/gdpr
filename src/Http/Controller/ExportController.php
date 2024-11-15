@@ -1,19 +1,16 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Http\Controller;
 
 use Flarum\Gdpr\Models\Export;
 use Flarum\Gdpr\StorageManager;
-use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response;
@@ -29,8 +26,6 @@ class ExportController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $actor = RequestUtil::getActor($request);
-
         $file = Arr::get($request->getQueryParams(), 'file');
 
         $export = Export::byFile($file);

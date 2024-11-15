@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Tests\integration\api;
@@ -15,12 +13,11 @@ use Flarum\Gdpr\Data\Forum;
 use Flarum\Gdpr\DataProcessor;
 use Flarum\Gdpr\Extend\UserData;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ExtenderTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function custom_data_type_can_be_added()
     {
         $this->extend(
@@ -35,9 +32,7 @@ class ExtenderTest extends TestCase
         $this->assertArrayHasKey(MyNewDataType::class, $types);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function data_type_can_be_removed()
     {
         $this->extend(
@@ -52,9 +47,7 @@ class ExtenderTest extends TestCase
         $this->assertArrayNotHasKey(Forum::class, $types);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function custom_user_column_can_be_removed()
     {
         $this->extend(
@@ -69,9 +62,7 @@ class ExtenderTest extends TestCase
         $this->assertContains('custom_column', $columns);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function custom_user_columns_can_be_removed()
     {
         $this->extend(
@@ -87,9 +78,7 @@ class ExtenderTest extends TestCase
         $this->assertContains('another_column', $columns);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function custom_user_columns_can_be_added()
     {
         $this->extend(

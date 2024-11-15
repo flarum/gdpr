@@ -1,18 +1,16 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Data;
 
-use Flarum\Gdpr\ZipManager;
 use Carbon\Carbon;
+use Flarum\Gdpr\ZipManager;
 
 class Forum extends Type
 {
@@ -21,7 +19,7 @@ class Forum extends Type
         $forumTitle = $this->settings->get('forum_title');
         $url = $this->url->to('forum')->base();
 
-        $comment = $this->translator->trans('blomstra-gdpr.forum.export_file', [
+        $comment = $this->translator->trans('flarum-gdpr.forum.export_file', [
             '{forumTitle}' => $forumTitle,
             '{url}'        => $url,
             '{username}'   => $this->user->username,
@@ -51,6 +49,6 @@ class Forum extends Type
 
     public static function deleteDescription(): string
     {
-        return static::staticTranslator()->trans('blomstra-gdpr.lib.data.no_action');
+        return static::staticTranslator()->trans('flarum-gdpr.lib.data.no_action');
     }
 }

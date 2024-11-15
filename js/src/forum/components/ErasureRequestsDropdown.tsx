@@ -11,27 +11,23 @@ interface ErasureRequestsDropdownAttrs extends IDropdownAttrs {
 
 export default class ErasureRequestsDropdown extends NotificationsDropdown<ErasureRequestsDropdownAttrs> {
   static initAttrs(attrs: ErasureRequestsDropdownAttrs) {
-    attrs.label = attrs.label || app.translator.trans('blomstra-gdpr.forum.erasure_requests.tooltip');
+    attrs.label = attrs.label || app.translator.trans('flarum-gdpr.forum.erasure_requests.tooltip');
     attrs.icon = attrs.icon || 'fas fa-user-minus';
 
     super.initAttrs(attrs);
   }
 
-  getMenu() {
-    return (
-      <div className={'Dropdown-menu ' + this.attrs.menuClassName} onclick={this.menuClick.bind(this)}>
-        {this.showing ? ErasureRequestsList.component({ state: this.attrs.state }) : ''}
-      </div>
-    );
+  getContent() {
+    return <ErasureRequestsList state={this.attrs.state} />;
   }
 
   goToRoute() {
     m.route.set(app.route('erasure-requests'));
   }
 
-  getUnreadCount(): number | undefined {
-    if (!this.attrs.state.requestsLoaded) {
-      return app.forum.attribute('erasureRequestCount');
+  getUnreadCount(): number {
+    if (!this.attrs.state.hasItems()) {
+      return app.forum.attribute<number>('erasureRequestCount');
     }
 
     return app.store.all('erasure-requests').length;

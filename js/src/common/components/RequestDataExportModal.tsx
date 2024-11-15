@@ -1,10 +1,11 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/common/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import User from 'flarum/common/models/User';
 import type Mithril from 'mithril';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 
 interface RequestDataExportModalAttrs extends IInternalModalAttrs {
   user: User;
@@ -24,7 +25,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
   }
 
   title() {
-    return app.translator.trans('blomstra-gdpr.lib.request_data.title', {
+    return app.translator.trans('flarum-gdpr.lib.request_data.title', {
       username: username(this.user),
     });
   }
@@ -32,9 +33,11 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">
-          <div className="User">{avatar(this.user)}</div>
-          <p className="helpText">{app.translator.trans('blomstra-gdpr.lib.request_data.text')}</p>
+        <Form className="Form--centered">
+          <div className="User">
+            <Avatar user={this.user} />
+          </div>
+          <p className="helpText">{app.translator.trans('flarum-gdpr.lib.request_data.text')}</p>
           <div className="Form-group">
             <Button
               className="Button Button--primary Button--block"
@@ -42,10 +45,10 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
               loading={this.loading}
               disabled={this.loading}
             >
-              {app.translator.trans('blomstra-gdpr.lib.request_data.request_button')}
+              {app.translator.trans('flarum-gdpr.lib.request_data.request_button')}
             </Button>
           </div>
-        </div>
+        </Form>
       </div>
     );
   }
@@ -56,7 +59,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
     app
       .request({
         method: 'POST',
-        url: app.forum.attribute('apiUrl') + '/gdpr/export',
+        url: app.forum.attribute('apiUrl') + '/gdpr-exports',
         body: {
           data: {
             attributes: {
