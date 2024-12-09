@@ -37,7 +37,6 @@
         "source": "https://github.com/flarum/gdpr"
     },
     "require": {
-        "php": "8.*",
         "flarum/core": "^2.0.0",
         "nelexa/zip": "^4.0.2"
     },
