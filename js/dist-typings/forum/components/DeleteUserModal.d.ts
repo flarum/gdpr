@@ -1,4 +1,3 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import User from 'flarum/common/models/User';
 import type Mithril from 'mithril';
@@ -11,7 +10,7 @@ export default class DeleteUserModal extends Modal<DeleteUserModalAttrs> {
     loadingDeletion: boolean;
     oninit(vnode: Mithril.Vnode<DeleteUserModalAttrs>): void;
     className(): string;
-    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    title(): any[];
     content(): JSX.Element;
     defaultErasure(): void;
     specificErasure(mode: string): void;

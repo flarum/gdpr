@@ -1,4 +1,3 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import User from 'flarum/common/models/User';
 import type Mithril from 'mithril';
@@ -9,7 +8,7 @@ export default class RequestDataExportModal extends Modal<RequestDataExportModal
     user: User;
     oninit(vnode: Mithril.Vnode<RequestDataExportModalAttrs>): void;
     className(): string;
-    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    title(): any[];
     content(): JSX.Element;
     requestExport(): void;
 }

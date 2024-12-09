@@ -7,9 +7,9 @@ interface ErasureRequestsDropdownAttrs extends IDropdownAttrs {
 }
 export default class ErasureRequestsDropdown extends NotificationsDropdown<ErasureRequestsDropdownAttrs> {
     static initAttrs(attrs: ErasureRequestsDropdownAttrs): void;
-    getMenu(): JSX.Element;
+    getContent(): JSX.Element;
     goToRoute(): void;
-    getUnreadCount(): number | undefined;
-    getNewCount(): number | undefined;
+    getUnreadCount(): number;
+    getNewCount(): number;
 }
 export {};

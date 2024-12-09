@@ -1,21 +1,20 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
-export default class RequestErasureModal extends Modal<import("flarum/common/components/Modal").IInternalModalAttrs, undefined> {
-    constructor();
-    oninit(vnode: any): void;
-    reason: any;
-    password: any;
-    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+import FormModal from 'flarum/common/components/FormModal';
+import ItemList from 'flarum/common/utils/ItemList';
+import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import type User from 'flarum/common/models/User';
+export default class RequestErasureModal extends FormModal {
+    reason: Stream<string>;
+    password: Stream<string>;
+    user: User | null;
+    oninit(vnode: Mithril.Vnode): void;
+    className(): string;
+    title(): string | any[];
     content(): JSX.Element;
-    fields(): ItemList<any>;
-    oncancel(e: any): void;
+    fields(): ItemList<Mithril.Children>;
+    oncancel(e: Event): void;
     data(): {
         reason: any;
-        status: string;
-        relationships: {
-            user: import("flarum/common/models/User").default | null;
-        };
     };
-    onsubmit(e: any): void;
+    onsubmit(e: Event): void;
 }
-import Modal from "flarum/common/components/Modal";
-import ItemList from "flarum/common/utils/ItemList";

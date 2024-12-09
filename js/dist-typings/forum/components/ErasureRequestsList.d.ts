@@ -1,6 +1,14 @@
-export default class ErasureRequestsList extends Component<any, undefined> {
-    constructor();
-    view(): JSX.Element;
-    showModal(request: any): void;
+/// <reference types="mithril" />
+import Component, { type ComponentAttrs } from 'flarum/common/Component';
+import ItemList from 'flarum/common/utils/ItemList';
+import type ErasureRequestsListState from '../states/ErasureRequestsListState';
+import type ErasureRequest from '../../common/models/ErasureRequest';
+export interface IErasureRequestsListAttrs extends ComponentAttrs {
+    state: ErasureRequestsListState;
 }
-import Component from "flarum/common/Component";
+export default class ErasureRequestsList<CustomAttrs extends IErasureRequestsListAttrs = IErasureRequestsListAttrs> extends Component<CustomAttrs> {
+    view(): JSX.Element;
+    showModal(request: ErasureRequest): void;
+    controlItems(): ItemList<unknown>;
+    content(state: ErasureRequestsListState): JSX.Element[][] | null;
+}
