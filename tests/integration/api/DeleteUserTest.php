@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\integration\api;
@@ -15,6 +13,7 @@ use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class DeleteUserTest extends TestCase
 {
@@ -25,17 +24,15 @@ class DeleteUserTest extends TestCase
         parent::setUp();
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function delete_user_endpoint_is_processed_by_this_extension()
     {
         $response = $this->send(
@@ -56,9 +53,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(ErasureRequest::STATUS_MANUAL, $user->erasureRequest->status);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function delete_user_endpoint_can_be_called_with_anonymization_mode()
     {
         $response = $this->send(
@@ -79,9 +74,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(ErasureRequest::STATUS_MANUAL, $user->erasureRequest->status);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function delete_user_endpoint_with_deletion_mode_not_enabled_by_default()
     {
         $response = $this->send(
@@ -102,12 +95,10 @@ class DeleteUserTest extends TestCase
         $this->assertEquals('/data/attributes/mode', $data['errors'][0]['source']['pointer']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function delete_user_endpoint_can_be_called_with_deletion_mode_enabled()
     {
-        $this->setting('blomstra-gdpr.allow-deletion', true);
+        $this->setting('flarum-gdpr.allow-deletion', true);
 
         $response = $this->send(
             $this->request(
@@ -125,9 +116,7 @@ class DeleteUserTest extends TestCase
         $this->assertNull($user);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalid_erasure_mode_throws_validation_error()
     {
         $response = $this->send(

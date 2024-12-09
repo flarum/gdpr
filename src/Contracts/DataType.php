@@ -1,27 +1,16 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Contracts;
 
-use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Http\UrlGenerator;
-use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\User;
-use Illuminate\Contracts\Filesystem\Factory;
-use Symfony\Contracts\Translation\TranslatorInterface;
-
 interface DataType
 {
-    public function __construct(User $user, ?ErasureRequest $erasureRequest, Factory $factory, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator);
-
     public static function dataType(): string;
 
     /**

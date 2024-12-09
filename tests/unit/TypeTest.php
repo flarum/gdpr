@@ -1,19 +1,17 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\unit;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Data\Type;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Testing\unit\TestCase;
@@ -21,13 +19,13 @@ use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_disk_instance()
     {
         // Mocking the dependencies
@@ -53,11 +51,8 @@ class TypeTest extends TestCase
         $this->assertEquals($mockedDisk, $returnedDisk);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider specialCharactersProvider
-     */
+    #[Test]
+    #[DataProvider('specialCharactersProvider')]
     public function it_does_not_escape_unicode_characters_when_encoding_for_export($input, $expected)
     {
         // Mocking the dependencies
@@ -79,7 +74,7 @@ class TypeTest extends TestCase
         $this->assertStringContainsString($expected, $encoded);
     }
 
-    public function specialCharactersProvider()
+    public static function specialCharactersProvider()
     {
         return [
             ['ß', '"content": "ß"'],
@@ -96,9 +91,7 @@ class TypeTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_data_type()
     {
         // Mocking the dependencies
@@ -119,9 +112,7 @@ class TypeTest extends TestCase
         $this->assertEquals('TestableType', $dataType);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_correct_table_columns()
     {
         // Mocking the dependencies

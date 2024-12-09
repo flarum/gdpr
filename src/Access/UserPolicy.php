@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Access;
@@ -35,6 +33,10 @@ class UserPolicy extends AbstractPolicy
 
     public function exportFor(User $actor, User $user)
     {
+        if ($actor->is($user)) {
+            return $this->allow();
+        }
+
         if ($user->anonymized) {
             return $this->deny();
         }

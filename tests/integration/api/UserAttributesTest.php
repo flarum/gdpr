@@ -1,18 +1,18 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class UserAttributesTest extends TestCase
 {
@@ -22,10 +22,10 @@ class UserAttributesTest extends TestCase
     {
         parent::setUp();
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'anon', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'anon@machine.local', 'is_email_confirmed' => 0, 'anonymized' => 1],
@@ -39,9 +39,7 @@ class UserAttributesTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_permission_does_not_see_anonimized_flag()
     {
         $response = $this->send(
@@ -56,9 +54,7 @@ class UserAttributesTest extends TestCase
         $this->assertArrayNotHasKey('anonymized', $body['data']['attributes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_sees_anonimized_flag()
     {
         $response = $this->send(
@@ -76,9 +72,7 @@ class UserAttributesTest extends TestCase
         $this->assertFalse($body['data']['attributes']['anonymized']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_sees_anonimized_flag()
     {
         $response = $this->send(
@@ -96,9 +90,7 @@ class UserAttributesTest extends TestCase
         $this->assertFalse($body['data']['attributes']['anonymized']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_sees_anonimized_flag_on_anonimized_user()
     {
         $response = $this->send(

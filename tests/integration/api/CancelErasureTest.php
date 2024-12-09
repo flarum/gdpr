@@ -1,21 +1,23 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Tests\integration\Api;
 
 use Carbon\Carbon;
 use Flarum\Extend;
+use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Group\Group;
 use Flarum\Notification\Notification;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class CancelErasureTest extends TestCase
 {
@@ -28,16 +30,16 @@ class CancelErasureTest extends TestCase
         $this->setting('mail_driver', 'log');
 
         $this->extend((new Extend\Csrf())
-            ->exemptRoute('gdpr.erasure.cancel'));
+            ->exemptRoute('gdpr.user-erasure-requests.cancel'));
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'user4', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user4@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'user5', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'user5@machine.local', 'is_email_confirmed' => 1, 'joined_at' => Carbon::now(), 'last_seen_at' => Carbon::now(), 'avatar_url' => 'avatar.jpg'],
             ],
-            'groups' => [
+            Group::class => [
                 ['id' => 5, 'name_singular' => 'customgroup', 'name_plural' => 'customgroups'],
             ],
             'group_user' => [
@@ -53,12 +55,10 @@ class CancelErasureTest extends TestCase
             ],
         ]);
 
-        $this->extension('blomstra-gdpr');
+        $this->extension('flarum-gdpr');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_cancel_unconfirmed_erasure_request()
     {
         $response = $this->send(
@@ -68,9 +68,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_cancel_confirmed_erasure_request()
     {
         $response = $this->send(
@@ -80,9 +78,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_cancel_own_unconfirmed_erasure_request()
     {
         $response = $this->send(
@@ -93,14 +89,17 @@ class CancelErasureTest extends TestCase
 
         $this->assertEquals(204, $response->getStatusCode());
 
+        $erasureRequest = ErasureRequest::query()->find(1);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
+
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_cancel_own_confirmed_erasure_request()
     {
         $response = $this->send(
@@ -111,14 +110,17 @@ class CancelErasureTest extends TestCase
 
         $this->assertEquals(204, $response->getStatusCode());
 
+        $erasureRequest = ErasureRequest::query()->find(2);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
+
         $notification = Notification::query()->where('user_id', 5)->where('type', 'gdpr_erasure_cancelled')->first();
 
         $this->assertNotNull($notification);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_cancel_others_erasure_request()
     {
         $response = $this->send(
@@ -130,9 +132,7 @@ class CancelErasureTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_can_cancel_others_erasure_request()
     {
         $response = $this->send(
@@ -142,6 +142,11 @@ class CancelErasureTest extends TestCase
         );
 
         $this->assertEquals(204, $response->getStatusCode());
+
+        $erasureRequest = ErasureRequest::query()->find(1);
+
+        $this->assertEquals(ErasureRequest::STATUS_CANCELLED, $erasureRequest->status);
+        $this->assertNull($erasureRequest->verification_token);
 
         $notification = Notification::query()->where('user_id', 4)->where('type', 'gdpr_erasure_cancelled')->first();
 

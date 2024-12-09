@@ -1,19 +1,17 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Http\Controller;
 
-use Flarum\Gdpr\Models\ErasureRequest;
 use Carbon\Carbon;
 use Flarum\Foundation\ValidationException;
+use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\SessionAuthenticator;
 use Flarum\Http\UrlGenerator;
@@ -40,12 +38,16 @@ class ConfirmErasureController implements RequestHandlerInterface
             ->where('verification_token', $token)
             ->firstOrFail();
 
+        /**
+         * @TODO: the token is enough to confirm the erasure request. We should not require the user to be logged in.
+         */
         if ($erasureRequest->user->isNot($actor) && !$actor->isGuest()) {
             throw new ValidationException(['user' => 'Erase requests cannot be confirmed by different users.']);
         }
 
         $erasureRequest->user_confirmed_at = Carbon::now();
         $erasureRequest->status = ErasureRequest::STATUS_USER_CONFIRMED;
+        $erasureRequest->cancelled_at = null;
         $erasureRequest->save();
 
         return new RedirectResponse($this->url->to('forum')->base().'?erasureRequestConfirmed=1');

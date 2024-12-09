@@ -1,19 +1,17 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Extend;
 
-use Flarum\Gdpr\DataProcessor;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
+use Flarum\Gdpr\DataProcessor;
 use Illuminate\Contracts\Container\Container;
 
 class UserData implements ExtenderInterface
@@ -22,7 +20,7 @@ class UserData implements ExtenderInterface
     protected array $removeTypes = [];
     protected array $removeUserColumns = [];
 
-    public function extend(Container $container, Extension $extension = null)
+    public function extend(Container $container, Extension $extension = null): void
     {
         foreach ($this->types as $type) {
             DataProcessor::addType($type, $extension?->getId());

@@ -1,24 +1,23 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr;
 
+use Flarum\Foundation\Paths;
 use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Gdpr\Models\Export;
-use Flarum\Foundation\Paths;
 use Flarum\Http\UrlGenerator;
 use Flarum\Notification\Notification;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Support\Str;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Exporter
@@ -43,6 +42,8 @@ class Exporter
         $tmpDir = $this->getTempDir();
 
         $file = tempnam($tmpDir, 'data-export-'.$user->username);
+
+        $file .= '-'.Str::random(20);
 
         foreach ($this->processor->removableUserColumns() as $column) {
             if ($user->{$column} !== null) {

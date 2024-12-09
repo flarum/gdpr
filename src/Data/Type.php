@@ -1,19 +1,17 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Data;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Contracts\DataType;
 use Flarum\Gdpr\Models\ErasureRequest;
-use Flarum\Database\AbstractModel;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -36,17 +34,17 @@ abstract class Type implements DataType
 
     public static function exportDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.export_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.export_description');
     }
 
     public static function anonymizeDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.anonymize_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.anonymize_description');
     }
 
     public static function deleteDescription(): string
     {
-        return self::staticTranslator()->trans('blomstra-gdpr.lib.data.'.Str::lower(static::dataType()).'.delete_description');
+        return self::staticTranslator()->trans('flarum-gdpr.lib.data.'.Str::lower(static::dataType()).'.delete_description');
     }
 
     public static function staticTranslator(): TranslatorInterface

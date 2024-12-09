@@ -1,23 +1,23 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Notifications;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Gdpr\Models\Export;
+use Flarum\Locale\TranslatorInterface;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
+class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface, AlertableInterface
 {
     /**
      * @var Export
@@ -39,12 +39,12 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         return $this->export->actor;
     }
 
-    public function getSubject(): Export
+    public function getSubject(): ?AbstractModel
     {
         return $this->export;
     }
 
-    public function getData(): array
+    public function getData(): mixed
     {
         return [
             'export' => $this->export->id,
@@ -61,13 +61,13 @@ class ExportAvailableBlueprint implements BlueprintInterface, MailableInterface
         return Export::class;
     }
 
-    public function getEmailView(): array
+    public function getEmailViews(): array
     {
-        return ['text' => 'gdpr::export-available'];
+        return ['text' => 'flarum-gdpr::email.plain.export-available', 'html' => 'flarum-gdpr::email.html.export-available'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator): string
     {
-        return $translator->trans('blomstra-gdpr.email.export_available.subject');
+        return $translator->trans('flarum-gdpr.email.export_available.subject');
     }
 }

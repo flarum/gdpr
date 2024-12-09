@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\Data;
@@ -51,7 +49,7 @@ class Discussions extends Type
 
     public static function deleteDescription(): string
     {
-        return static::staticTranslator()->trans('blomstra-gdpr.lib.data.no_action');
+        return static::staticTranslator()->trans('flarum-gdpr.lib.data.no_action');
     }
 
     public function delete(): void

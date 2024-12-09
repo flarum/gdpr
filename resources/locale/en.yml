@@ -1,4 +1,4 @@
-blomstra-gdpr:
+flarum-gdpr:
     admin:
         gdpr_page:
             heading: GDPR Data Overview
@@ -6,7 +6,7 @@ blomstra-gdpr:
             data_types:
                 title: Data Types
                 help_text: |
-                    These are the currently registered data types. Each type is listed along with it's associated export, anonymization, and deletion actions. If an extension handles any data which falls under GDPR regulations, it should register it's data types with <code>blomstra/gdpr</code>.
+                    These are the currently registered data types. Each type is listed along with it's associated export, anonymization, and deletion actions. If an extension handles any data which falls under GDPR regulations, it should register it's data types with <code>flarum/gdpr</code>.
                     Data stored in the <code>user</code> table is handled seperately, see user table data below.
                 type: Type
                 export_description: Export Action
@@ -46,7 +46,6 @@ blomstra-gdpr:
         userlist:
             columns:
                 gdpr_actions:
-                    title: GDPR Actions
                     export: Export data for {username}
 
     lib:
@@ -80,8 +79,6 @@ blomstra-gdpr:
         confirm_erasure:
             subject: Confirm your account erasure request
             body: |
-                Hey {display_name}!
-
                 Someone (hopefully you) just requested to erase the account `{display_name}`.
 
                 To confirm this action, please follow the following link, after which your request will be processed by our team.
@@ -92,21 +89,15 @@ blomstra-gdpr:
             deletion:
                 subject: Account deletion completed
                 body: |
-                    Hey {display_name}!
-
                     This is an automatic, final notification that your account has been deleted.
             anonymization:
                 subject: Account anonymization completed
                 body: |
-                    Hey {display_name}!
-
                     This is an automatic, final notification that your account has been anonymized.
 
         erasure_cancelled:
             subject: Account erasure request cancelled
             body: |
-                Hey {display_name}!
-
                 This is an automatic notification that your request to cancel account deletion has been processed.
 
                 Your account will no longer be deleted.
@@ -114,8 +105,6 @@ blomstra-gdpr:
         export_available:
             subject: Data export available
             body: |
-                Hey {display_name}!
-
                 You requested an export of the account data for {username}. This export has successfully been generated and is now available:
 
                 {url}
@@ -147,7 +136,7 @@ blomstra-gdpr:
             export_data_help: "Requesting data export will provide you with a downloadable copy of all the information associated with your account. This includes posts, comments, and profile details."
             request_erasure_button: Erase Account
             request_erasure_help: "Requesting erasure will permanently delete your account and all associated data. This action is irreversible. Before proceeding, ensure you have saved any content you wish to keep."
-        
+
 
         process_erasure:
             confirm: Are you sure you want to erase {name}'s account under {mode} mode?

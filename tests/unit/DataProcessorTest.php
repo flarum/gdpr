@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of blomstra/flarum-gdpr
+ * This file is part of Flarum.
  *
- * Copyright (c) 2021 Blomstra Ltd
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Gdpr\tests\unit;
@@ -14,6 +12,7 @@ namespace Flarum\Gdpr\tests\unit;
 use Flarum\Gdpr\Data;
 use Flarum\Gdpr\DataProcessor;
 use Flarum\Testing\unit\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DataProcessorTest extends TestCase
 {
@@ -33,9 +32,7 @@ class DataProcessorTest extends TestCase
         DataProcessor::removeUserColumns([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_add_a_new_type()
     {
         // Given
@@ -49,9 +46,7 @@ class DataProcessorTest extends TestCase
         $this->assertArrayHasKey($newType, $processor->types());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_remove_a_type()
     {
         // Given
@@ -65,9 +60,7 @@ class DataProcessorTest extends TestCase
         $this->assertNotContains($typeToRemove, $processor->types());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_set_types()
     {
         // Given
@@ -81,9 +74,7 @@ class DataProcessorTest extends TestCase
         $this->assertEquals($newTypes, $processor->types());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_add_removable_user_columns()
     {
         // Given
@@ -97,9 +88,7 @@ class DataProcessorTest extends TestCase
         $this->assertEquals($newColumns, $processor->removableUserColumns());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_class_is_always_the_last_entry()
     {
         // Given
