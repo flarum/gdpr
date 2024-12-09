@@ -11,6 +11,7 @@ namespace Flarum\Gdpr;
 
 use Flarum\User\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class DataProcessor.
@@ -112,20 +113,19 @@ final class DataProcessor
         $user = new User();
         $connection = $user->getConnection();
         $table = $user->getTable();
-        $prefix = $connection->getTablePrefix();
 
         // Get column listings for the user table
-        $columns = $connection->getSchemaBuilder()->getColumnListing($table);
+        $columns = $connection->getSchemaBuilder()->getColumns($table);
         $columnDetails = [];
 
         foreach ($columns as $column) {
-            $doctrineColumn = $connection->getDoctrineColumn($prefix.$table, $column);
-
-            $columnDetails[$column] = [
-                'type'     => $doctrineColumn->getType()->getName(),
-                'length'   => $doctrineColumn->getLength(),
-                'default'  => $doctrineColumn->getDefault(),
-                'nullable' => !$doctrineColumn->getNotnull(),
+            $columnDetails[$column['name']] = [
+                'type'     => $column['type_name'],
+                'length'   => str_contains($column['type'], '(')
+                    ? intval(Str::of($column['type'])->afterLast('(')->beforeLast(')')->toString())
+                    : null,
+                'default'  => $column['default'],
+                'nullable' => $column['nullable'],
             ];
         }
 
