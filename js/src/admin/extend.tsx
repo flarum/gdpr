@@ -21,7 +21,7 @@ export default [
         function () {
           return (
             <div className="Form-group">
-              <h3>{app.translator.trans('flarum-gdpr.admin.settings.gdpr_page.title')}</h3>
+              <label>{app.translator.trans('flarum-gdpr.admin.settings.gdpr_page.title')}</label>
               <p className="helpText">{app.translator.trans('flarum-gdpr.admin.settings.gdpr_page.help_text')}</p>
               <LinkButton href={app.route('gdpr')} icon="fas fa-user-shield" className="Button">
                 {app.translator.trans('flarum-gdpr.admin.nav.gdpr_button')}

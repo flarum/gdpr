@@ -7,6 +7,7 @@ import DataType from '../models/DataType';
 import Tooltip from 'flarum/common/components/Tooltip';
 import ExtensionLink from './ExtensionLink';
 import LinkButton from 'flarum/common/components/LinkButton';
+import Form from 'flarum/common/components/Form';
 
 export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> extends AdminPage<CustomAttrs> {
   gdprDataTypes: DataType[] = [];
@@ -42,46 +43,59 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
 
     return (
       <div className="GdprPage">
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.heading')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.help_text')}</p>
-        <LinkButton className="Button" href={app.route('extension', { id: 'flarum-gdpr' })}>
-          {app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.extension_settings_button')}
-        </LinkButton>
-        <hr />
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.title')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.help_text')}</p>
-
-        <div className="GdprGrid">
-          <div class="GdprGrid-row">
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.type')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.export_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.anonymize_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.delete_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.extension')}</div>
+        <Form>
+          <div className="Form-group">
+            <label>{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.heading')}</label>
+            <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.help_text')}</p>
+            <LinkButton className="Button" href={app.route('extension', { id: 'flarum-gdpr' })}>
+              {app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.extension_settings_button')}
+            </LinkButton>
           </div>
 
-          {this.gdprDataTypes.map((dataType) => (
-            <>
-              <div class="GdprGrid-row">
-                <div>
-                  <Tooltip text={dataType.id()}>
-                    <span className="helpText">{dataType.type()}</span>
-                  </Tooltip>
-                </div>
-                <div className="helpText">{dataType.exportDescription()}</div>
-                <div className="helpText">{dataType.anonymizeDescription()}</div>
-                <div className="helpText">{dataType.deleteDescription()}</div>
-                <div>
-                  <ExtensionLink extension={dataType.extension() ? app.data.extensions[dataType.extension() as string] : null} />
-                </div>
-              </div>
-            </>
-          ))}
+          <div className="Form-group">
+            <label>{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.title')}</label>
+            <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.help_text')}</p>
+            {this.grid()}
+          </div>
+
+          <div className="Form-group">
+            <label>{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.title')}</label>
+            <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
+            <div className="GdprUserColumnData">{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.not_yet_implemented')}</div>
+          </div>
+        </Form>
+      </div>
+    );
+  }
+
+  grid() {
+    return (
+      <div className="GdprGrid">
+        <div class="GdprGrid-row">
+          <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.type')}</div>
+          <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.export_description')}</div>
+          <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.anonymize_description')}</div>
+          <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.delete_description')}</div>
+          <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.extension')}</div>
         </div>
-        <hr />
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.title')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
-        <div className="GdprUserColumnData">Not yet implemented</div>
+
+        {this.gdprDataTypes.map((dataType) => (
+          <>
+            <div class="GdprGrid-row">
+              <div>
+                <Tooltip text={dataType.id()}>
+                  <span className="helpText">{dataType.type()}</span>
+                </Tooltip>
+              </div>
+              <div className="helpText">{dataType.exportDescription()}</div>
+              <div className="helpText">{dataType.anonymizeDescription()}</div>
+              <div className="helpText">{dataType.deleteDescription()}</div>
+              <div>
+                <ExtensionLink extension={dataType.extension() ? app.data.extensions[dataType.extension() as string] : null} />
+              </div>
+            </div>
+          </>
+        ))}
       </div>
     );
   }

@@ -18,6 +18,7 @@ flarum-gdpr:
                 help_text: Looking for GDPR settings? They're found on the extension page.
                 extension_settings_button: GDPR Settings
             user_table_data:
+                not_yet_implemented: Not yet implemented
                 title: User Table Data
                 help_text: |
                     On the most part, any columns added to the <code>user</code> table will be handled automatically, both for exporting data and for erasure.
