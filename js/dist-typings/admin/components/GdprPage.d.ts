@@ -8,4 +8,5 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
     headerInfo(): AdminHeaderAttrs;
     loadGdprDataTypes(): void;
     content(): Mithril.Children;
+    grid(): JSX.Element;
 }
