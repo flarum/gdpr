@@ -10,7 +10,7 @@ export default function extendUserListPage() {
     if (!user.canModerateExports()) return;
     items.add(
       'export-data',
-      <Button className="Button" icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user: user })}>
+      <Button icon="fas fa-file-export" onclick={() => app.modal.show(RequestDataExportModal, { user: user })}>
         {app.translator.trans('flarum-gdpr.admin.userlist.columns.gdpr_actions.export', { username: username(user) })}
       </Button>
     );
