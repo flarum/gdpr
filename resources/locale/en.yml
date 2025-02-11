@@ -25,6 +25,8 @@ flarum-gdpr:
                     However, there are some special cases, which are listed below.
         nav:
             gdpr_button: GDPR Integrations
+            gdpr_title: => flarum-gdpr.admin.gdpr_page.description
+
         permissions:
             process_erasure: Process erasure requests
             process_export_for_others: Request and receive data exports for other users
