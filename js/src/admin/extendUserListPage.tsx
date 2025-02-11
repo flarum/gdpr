@@ -15,7 +15,7 @@ export default function extendUserListPage() {
       'export-data',
       <Button
         icon="fas fa-file-export"
-        title={app.translator.trans('flarum-gdpr.admin.userlist.columns.user_actions.data_export.tooltip', { username: user.displayName() })}
+        title={app.translator.trans('flarum-gdpr.admin.userlist.columns.user_actions.data_export.tooltip', { username: user.displayName() }, true)}
         onclick={() => app.modal.show(RequestDataExportModal, { user: user })}
       >
         {app.translator.trans('flarum-gdpr.admin.userlist.columns.user_actions.data_export.button')}
