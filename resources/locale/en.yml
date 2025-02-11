@@ -48,8 +48,10 @@ flarum-gdpr:
                 help_text: Before deciding on which actions to use on your forum, it is vital to understand which data is integrated, and how it is handled for both anonymization and deletion. Vist the GDPR overview to understand how data is handled, and which optional extensions have registered their data to be handled by this extension.
         userlist:
             columns:
-                gdpr_actions:
-                    export: Export data for {username}
+                user_actions:
+                    data_export:
+                        button: Export
+                        tooltip: Export data for {username}
 
     lib:
         data:
