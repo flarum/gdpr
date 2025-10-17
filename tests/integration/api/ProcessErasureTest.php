@@ -115,17 +115,15 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I am trying to process this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_DELETION,
-                            ],
+                            'processorComment' => 'I am trying to process this request',
+                            'processedMode'    => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
             ])
         );
 
-        $this->assertEquals(422, $response->getStatusCode());
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
     #[Test]
@@ -139,10 +137,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_DELETION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
@@ -169,10 +165,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_ANONYMIZATION,
                         ],
                     ],
                 ],
@@ -208,10 +202,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_ANONYMIZATION,
                         ],
                     ],
                 ],
@@ -236,10 +228,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_ANONYMIZATION,
                         ],
                     ],
                 ],
@@ -260,10 +250,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_DELETION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
@@ -291,10 +279,8 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_ANONYMIZATION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_ANONYMIZATION,
                         ],
                     ],
                 ],
@@ -320,20 +306,14 @@ class ProcessErasureTest extends TestCase
                 'json'            => [
                     'data' => [
                         'attributes' => [
-                            'processor_comment' => 'I have processed this request',
-                            'meta'              => [
-                                'mode' => ErasureRequest::MODE_DELETION,
-                            ],
+                            'processorComment' => 'I have processed this request',
+                            'processedMode'    => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
             ])
         );
 
-        $this->assertEquals(422, $response->getStatusCode());
-
-        $data = json_decode($response->getBody()->getContents(), true);
-
-        $this->assertEquals('Erasure request is cancelled.', $data['errors'][0]['detail']);
+        $this->assertEquals(403, $response->getStatusCode());
     }
 }

@@ -32,7 +32,7 @@ class UserResourceDeleteEndpoint
 
     public function __invoke(Endpoint\Delete $endpoint): Endpoint\Delete
     {
-        return $endpoint->action(function (User $user, Context $context) use ($endpoint) {
+        return $endpoint->action(function (Context $context) use ($endpoint) {
             $model = $context->model;
 
             /** @var AbstractResource $resource */
