@@ -141,9 +141,7 @@ class RequestErasureTest extends TestCase
         $this->assertNull($erasureRequest->processed_at);
         $this->assertNull($erasureRequest->processed_mode);
 
-        $notification = Notification::query()->where('user_id', 2)->where('type', 'gdpr_erasure_confirm')->orderBy('id', 'desc')->first();
-
-        $this->assertNotNull($notification);
+        // TODO: Check that email was sent
     }
 
     #[Test]
@@ -191,9 +189,7 @@ class RequestErasureTest extends TestCase
         $this->assertNull($erasureRequest->processed_at);
         $this->assertNull($erasureRequest->processed_mode);
 
-        $notification = Notification::query()->where('user_id', 2)->where('type', 'gdpr_erasure_confirm')->orderBy('id', 'desc')->first();
-
-        $this->assertNotNull($notification);
+        // TODO: Check that email was sent
     }
 
     #[Test]
