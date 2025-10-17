@@ -18,6 +18,7 @@ use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use PHPUnit\Framework\Attributes\Test;
+use Psr\Http\Message\ResponseInterface;
 
 class CancelErasureTest extends TestCase
 {
@@ -58,12 +59,19 @@ class CancelErasureTest extends TestCase
         $this->extension('flarum-gdpr');
     }
 
+    public function cancelErasureRequest(int $userId, ?int $actorId): ResponseInterface
+    {
+        return $this->send(
+            $this->request('POST', "/api/user-erasure-requests/{$userId}/cancel", [
+                'authenticatedAs' => $actorId,
+            ])
+        );
+    }
+
     #[Test]
     public function guest_cannot_cancel_unconfirmed_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/1')
-        );
+        $response = $this->cancelErasureRequest(1, null);
 
         $this->assertEquals(401, $response->getStatusCode());
     }
@@ -71,9 +79,7 @@ class CancelErasureTest extends TestCase
     #[Test]
     public function guest_cannot_cancel_confirmed_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/2')
-        );
+        $response = $this->cancelErasureRequest(2, null);
 
         $this->assertEquals(401, $response->getStatusCode());
     }
@@ -81,11 +87,7 @@ class CancelErasureTest extends TestCase
     #[Test]
     public function user_can_cancel_own_unconfirmed_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/1', [
-                'authenticatedAs' => 4,
-            ])
-        );
+        $response = $this->cancelErasureRequest(1, 4);
 
         $this->assertEquals(204, $response->getStatusCode());
 
@@ -102,11 +104,7 @@ class CancelErasureTest extends TestCase
     #[Test]
     public function user_can_cancel_own_confirmed_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/2', [
-                'authenticatedAs' => 5,
-            ])
-        );
+        $response = $this->cancelErasureRequest(2, 5);
 
         $this->assertEquals(204, $response->getStatusCode());
 
@@ -123,11 +121,7 @@ class CancelErasureTest extends TestCase
     #[Test]
     public function user_cannot_cancel_others_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/1', [
-                'authenticatedAs' => 5,
-            ])
-        );
+        $response = $this->cancelErasureRequest(1, 5);
 
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -135,11 +129,7 @@ class CancelErasureTest extends TestCase
     #[Test]
     public function moderator_can_cancel_others_erasure_request()
     {
-        $response = $this->send(
-            $this->request('DELETE', '/api/user-erasure-requests/1', [
-                'authenticatedAs' => 3,
-            ])
-        );
+        $response = $this->cancelErasureRequest(1, 3);
 
         $this->assertEquals(204, $response->getStatusCode());
 
