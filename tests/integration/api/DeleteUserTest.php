@@ -54,14 +54,39 @@ class DeleteUserTest extends TestCase
     }
 
     #[Test]
+    public function delete_user_endpoint_uses_default_when_no_mode_provided()
+    {
+        $response = $this->send(
+            $this->request(
+                'DELETE',
+                '/api/users/2',
+                [
+                    'authenticatedAs' => 1,
+                    'json' => []
+                ]
+            )
+        );
+
+        $this->assertEquals(204, $response->getStatusCode());
+
+        $user = User::query()->where('id', 2)->with('erasureRequest')->first();
+        $this->assertNotNull($user);
+        $this->assertEquals("Anonymous{$user->erasureRequest->id}", $user->username);
+        $this->assertEquals(ErasureRequest::STATUS_MANUAL, $user->erasureRequest->status);
+    }
+
+    #[Test]
     public function delete_user_endpoint_can_be_called_with_anonymization_mode()
     {
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/gdpr/'.ErasureRequest::MODE_ANONYMIZATION,
+                '/api/users/2',
                 [
                     'authenticatedAs' => 1,
+                    'json' => [
+                        'gdprMode' => ErasureRequest::MODE_ANONYMIZATION,
+                    ]
                 ]
             )
         );
@@ -80,9 +105,12 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/gdpr/'.ErasureRequest::MODE_DELETION,
+                '/api/users/2',
                 [
                     'authenticatedAs' => 1,
+                    'json' => [
+                        'gdprMode' => ErasureRequest::MODE_DELETION,
+                    ]
                 ]
             )
         );
@@ -103,9 +131,12 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/gdpr/'.ErasureRequest::MODE_DELETION,
+                '/api/users/2',
                 [
                     'authenticatedAs' => 1,
+                    'json' => [
+                        'gdprMode' => ErasureRequest::MODE_DELETION,
+                    ]
                 ]
             )
         );
@@ -122,9 +153,12 @@ class DeleteUserTest extends TestCase
         $response = $this->send(
             $this->request(
                 'DELETE',
-                '/api/users/2/gdpr/invalid-mode',
+                '/api/users/2',
                 [
                     'authenticatedAs' => 1,
+                    'json' => [
+                        'gdprMode' => 'invalid-mode',
+                    ]
                 ]
             )
         );
