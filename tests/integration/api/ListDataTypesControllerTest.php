@@ -36,7 +36,7 @@ class ListDataTypesControllerTest extends TestCase
     public function non_admin_cannot_list_types()
     {
         $response = $this->send(
-            $this->request('GET', '/api/gdpr/datatypes', ['authenticatedAs' => 2])
+            $this->request('GET', '/api/gdpr-datatypes', ['authenticatedAs' => 2])
         );
 
         $this->assertEquals(403, $response->getStatusCode());
@@ -46,7 +46,7 @@ class ListDataTypesControllerTest extends TestCase
     public function admin_can_list_types()
     {
         $response = $this->send(
-            $this->request('GET', '/api/gdpr/datatypes', ['authenticatedAs' => 1])
+            $this->request('GET', '/api/gdpr-datatypes', ['authenticatedAs' => 1])
         );
 
         $this->assertEquals(200, $response->getStatusCode());
