@@ -138,7 +138,7 @@ class ProcessErasureTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'processorComment' => 'I have processed this request',
-                            'processedMode' => ErasureRequest::MODE_DELETION,
+                            'processedMode'    => ErasureRequest::MODE_DELETION,
                         ],
                     ],
                 ],
