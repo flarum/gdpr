@@ -62,7 +62,7 @@ class DeleteUserTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 1,
-                    'json' => []
+                    'json'            => [],
                 ]
             )
         );
@@ -84,9 +84,9 @@ class DeleteUserTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 1,
-                    'json' => [
+                    'json'            => [
                         'gdprMode' => ErasureRequest::MODE_ANONYMIZATION,
-                    ]
+                    ],
                 ]
             )
         );
@@ -108,9 +108,9 @@ class DeleteUserTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 1,
-                    'json' => [
+                    'json'            => [
                         'gdprMode' => ErasureRequest::MODE_DELETION,
-                    ]
+                    ],
                 ]
             )
         );
@@ -134,9 +134,9 @@ class DeleteUserTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 1,
-                    'json' => [
+                    'json'            => [
                         'gdprMode' => ErasureRequest::MODE_DELETION,
-                    ]
+                    ],
                 ]
             )
         );
@@ -156,9 +156,9 @@ class DeleteUserTest extends TestCase
                 '/api/users/2',
                 [
                     'authenticatedAs' => 1,
-                    'json' => [
+                    'json'            => [
                         'gdprMode' => 'invalid-mode',
-                    ]
+                    ],
                 ]
             )
         );
