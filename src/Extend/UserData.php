@@ -20,7 +20,7 @@ class UserData implements ExtenderInterface
     protected array $removeTypes = [];
     protected array $removeUserColumns = [];
 
-    public function extend(Container $container, Extension $extension = null): void
+    public function extend(Container $container, ?Extension $extension = null): void
     {
         foreach ($this->types as $type) {
             DataProcessor::addType($type, $extension?->getId());
