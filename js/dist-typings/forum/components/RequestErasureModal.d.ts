@@ -7,14 +7,14 @@ export default class RequestErasureModal extends FormModal {
     reason: Stream<string>;
     password: Stream<string>;
     user: User | null;
-    oninit(vnode: Mithril.Vnode): void;
+    oninit(vnode: Mithril.Vnode<any, this>): void;
     className(): string;
     title(): string | any[];
     content(): JSX.Element;
     fields(): ItemList<Mithril.Children>;
     oncancel(e: Event): void;
     data(): {
-        reason: any;
+        reason: string;
     };
     onsubmit(e: Event): void;
 }

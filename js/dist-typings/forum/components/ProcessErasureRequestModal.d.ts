@@ -12,7 +12,7 @@ export default class ProcessErasureRequestModal<CustomAttrs extends IProcessEras
     loadingAnonymization: boolean;
     loadingDeletion: boolean;
     request: ErasureRequest;
-    oninit(vnode: Mithril.Vnode<IProcessErasureRequestModalAttrs>): void;
+    oninit(vnode: Mithril.Vnode<CustomAttrs, this>): void;
     className(): string;
     title(): string | any[];
     content(): JSX.Element;
