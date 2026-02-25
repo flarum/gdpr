@@ -41,6 +41,7 @@ class DeleteErasureRequestController extends AbstractDeleteController
 
         $erasureRequest->status = ErasureRequest::STATUS_CANCELLED;
         $erasureRequest->cancelled_at = Carbon::now();
+        $erasureRequest->user_confirmed_at = null;
         $erasureRequest->verification_token = null;
 
         $erasureRequest->save();

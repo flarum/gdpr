@@ -10,10 +10,13 @@
 namespace Flarum\Gdpr\Tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Gdpr\Console\ProcessEraseRequests;
 use Flarum\Gdpr\Models\ErasureRequest;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use Illuminate\Contracts\Queue\Queue;
 
 class ProcessErasureTest extends TestCase
 {
@@ -354,5 +357,49 @@ class ProcessErasureTest extends TestCase
         $data = json_decode($response->getBody()->getContents(), true);
 
         $this->assertEquals('Erasure request is cancelled.', $data['errors'][0]['detail']);
+    }
+
+    /**
+     * @test
+     */
+    public function scheduled_processing_skips_requests_with_cancelled_at()
+    {
+        $this->app();
+
+        // Control row: confirmed long enough ago to be auto-processed by the scheduler.
+        $processableRequest = ErasureRequest::query()->find(2);
+        // 31 days ensures it matches the command's "older than 30 days" filter.
+        $processableRequest->user_confirmed_at = Carbon::now()->subDays(31);
+        $processableRequest->status = ErasureRequest::STATUS_USER_CONFIRMED;
+        $processableRequest->cancelled_at = null;
+        $processableRequest->save();
+
+        // intentionally inconsistent data.
+        // In a normal cancel flow, user_confirmed_at is reset to null.
+        // We keep a stale confirmation date here to prove cancelled_at still prevents processing.
+        $cancelledConfirmedRequest = ErasureRequest::query()->find(3);
+        $cancelledConfirmedRequest->status = ErasureRequest::STATUS_USER_CONFIRMED;
+        // Also older than 30 days, so cancelled_at must be the reason this one is skipped.
+        $cancelledConfirmedRequest->user_confirmed_at = Carbon::now()->subDays(31);
+        $cancelledConfirmedRequest->cancelled_at = Carbon::now()->subDay();
+        $cancelledConfirmedRequest->save();
+
+        // Resolve command dependencies from Flarum's DI container.
+        // We invoke the command directly here
+        $container = $this->app()->getContainer();
+        $command = new ProcessEraseRequests();
+        $command->handle(
+            $container->make(Queue::class),
+            $container->make(SettingsRepositoryInterface::class)
+        );
+
+        $processableRequest = ErasureRequest::query()->find(2);
+        $cancelledConfirmedRequest = ErasureRequest::query()->find(3);
+
+        // Eligible request is processed; cancelled request is not.
+        $this->assertEquals(ErasureRequest::STATUS_PROCESSED, $processableRequest->status);
+        $this->assertNotNull($processableRequest->processed_at);
+        $this->assertEquals(ErasureRequest::STATUS_USER_CONFIRMED, $cancelledConfirmedRequest->status);
+        $this->assertNull($cancelledConfirmedRequest->processed_at);
     }
 }
