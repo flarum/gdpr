@@ -42,6 +42,15 @@ final class DataProcessor
     private static $columnActions = [];
 
     /**
+     * Additional PII keys for serialization anonymization, beyond those declared by registered
+     * data types via {@see DataType::piiFields()}. Use this only for PII fields that don't
+     * belong to any registered data type.
+     *
+     * @var string[]
+     */
+    private static array $extraPiiKeysForSerialization = [];
+
+    /**
      * Add a data type to the list.
      *
      * @param string      $class       The class name of the data type.
@@ -143,5 +152,44 @@ final class DataProcessor
     public function getColumnActions(): array
     {
         return self::$columnActions;
+    }
+
+    /**
+     * Reset the extra PII keys list. Intended for use in tests.
+     */
+    public static function resetExtraPiiKeysForSerialization(): void
+    {
+        self::$extraPiiKeysForSerialization = [];
+    }
+
+    /**
+     * Register additional PII keys for serialization anonymization that are not declared
+     * by any registered data type. Prefer declaring PII fields on the data type itself
+     * via {@see DataType::piiFields()} wherever possible.
+     *
+     * @param string[] $keys
+     */
+    public static function addPiiKeysForSerialization(array $keys): void
+    {
+        self::$extraPiiKeysForSerialization = array_values(array_unique(array_merge(
+            self::$extraPiiKeysForSerialization,
+            $keys
+        )));
+    }
+
+    /**
+     * Get the full list of PII keys for serialization anonymization.
+     * Aggregates fields declared by all registered data types, plus any extras
+     * added via {@see addPiiKeysForSerialization()}.
+     *
+     * @return string[]
+     */
+    public function getPiiKeysForSerialization(): array
+    {
+        $fromTypes = array_merge(
+            ...array_map(fn (string $type) => $type::piiFields(), array_keys(self::$types))
+        );
+
+        return array_values(array_unique(array_merge($fromTypes, self::$extraPiiKeysForSerialization)));
     }
 }

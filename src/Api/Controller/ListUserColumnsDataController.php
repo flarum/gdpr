@@ -33,6 +33,7 @@ class ListUserColumnsDataController implements RequestHandlerInterface
             'data' => [
                 'removableColumns' => $removableColumns,
                 'allColumns'       => $allColumns,
+                'piiKeys'          => $this->processor->getPiiKeysForSerialization(),
             ],
         ]);
     }

@@ -7,14 +7,20 @@ import DataType from '../models/DataType';
 import Tooltip from 'flarum/common/components/Tooltip';
 import ExtensionLink from './ExtensionLink';
 import LinkButton from 'flarum/common/components/LinkButton';
+import icon from 'flarum/common/helpers/icon';
+
+type ColumnMeta = { type: string; length: number | null; default: string | null; nullable: boolean };
+type UserColumnsData = { allColumns: Record<string, ColumnMeta>; removableColumns: string[]; piiKeys: string[] };
 
 export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> extends AdminPage<CustomAttrs> {
   gdprDataTypes: DataType[] = [];
+  userColumnsData: UserColumnsData | null = null;
 
   oninit(vnode: Mithril.Vnode<CustomAttrs, this>) {
     super.oninit(vnode);
 
     this.loadGdprDataTypes();
+    this.loadUserColumnsData();
   }
 
   headerInfo(): AdminHeaderAttrs {
@@ -35,29 +41,43 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
     });
   }
 
+  loadUserColumnsData() {
+    app
+      .request<{ data: UserColumnsData }>({
+        method: 'GET',
+        url: app.forum.attribute('apiUrl') + '/gdpr/datatypes/user-columns',
+      })
+      .then((response) => {
+        this.userColumnsData = response.data;
+        m.redraw();
+      });
+  }
+
   content(): Mithril.Children {
     if (this.loading) {
       return <LoadingIndicator />;
     }
 
+    const t = (key: string) => app.translator.trans(`flarum-gdpr.admin.gdpr_page.${key}`);
+
     return (
       <div className="GdprPage">
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.heading')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.help_text')}</p>
+        <h3>{t('settings.heading')}</h3>
+        <p className="helpText">{t('settings.help_text')}</p>
         <LinkButton className="Button" href={app.route('extension', { id: 'flarum-gdpr' })}>
-          {app.translator.trans('flarum-gdpr.admin.gdpr_page.settings.extension_settings_button')}
+          {t('settings.extension_settings_button')}
         </LinkButton>
         <hr />
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.title')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.help_text')}</p>
+        <h3>{t('data_types.title')}</h3>
+        <p className="helpText">{t('data_types.help_text')}</p>
 
         <div className="GdprGrid">
           <div class="GdprGrid-row">
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.type')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.export_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.anonymize_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.delete_description')}</div>
-            <div className="GdprGrid-header">{app.translator.trans('flarum-gdpr.admin.gdpr_page.data_types.extension')}</div>
+            <div className="GdprGrid-header">{t('data_types.type')}</div>
+            <div className="GdprGrid-header">{t('data_types.export_description')}</div>
+            <div className="GdprGrid-header">{t('data_types.anonymize_description')}</div>
+            <div className="GdprGrid-header">{t('data_types.delete_description')}</div>
+            <div className="GdprGrid-header">{t('data_types.extension')}</div>
           </div>
 
           {this.gdprDataTypes.map((dataType) => (
@@ -79,9 +99,61 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
           ))}
         </div>
         <hr />
-        <h3>{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.title')}</h3>
-        <p className="helpText">{app.translator.trans('flarum-gdpr.admin.gdpr_page.user_table_data.help_text')}</p>
-        <div className="GdprUserColumnData">Not yet implemented</div>
+        <h3>{t('user_table_data.title')}</h3>
+        <p className="helpText">{t('user_table_data.help_text')}</p>
+
+        {this.userColumnsData ? this.userColumnTable(this.userColumnsData) : <LoadingIndicator />}
+      </div>
+    );
+  }
+
+  userColumnTable({ allColumns, removableColumns, piiKeys }: UserColumnsData): Mithril.Children {
+    const t = (key: string) => app.translator.trans(`flarum-gdpr.admin.gdpr_page.user_table_data.${key}`);
+
+    return (
+      <div className="GdprGrid GdprGrid--userColumns">
+        <div className="GdprGrid-row">
+          <div className="GdprGrid-header">{t('column')}</div>
+          <div className="GdprGrid-header">{t('type')}</div>
+          <div className="GdprGrid-header">{t('nullable')}</div>
+          <div className="GdprGrid-header">{t('pii')}</div>
+          <div className="GdprGrid-header">{t('redacted_on_export')}</div>
+        </div>
+
+        {Object.entries(allColumns).map(([column, meta]) => {
+          const isPii = piiKeys.includes(column);
+          const isExcluded = removableColumns.includes(column);
+
+          return (
+            <div className="GdprGrid-row">
+              <div>
+                <code>{column}</code>
+              </div>
+              <div className="helpText">{meta.type}</div>
+              <div className="helpText">{meta.nullable ? t('yes') : t('no')}</div>
+              <div>
+                {isPii ? (
+                  <Tooltip text={t('pii_tooltip')}>
+                    <span className="GdprPiiBadge">
+                      {icon('fas fa-user-secret')} {t('yes')}
+                    </span>
+                  </Tooltip>
+                ) : (
+                  <span className="helpText">{t('no')}</span>
+                )}
+              </div>
+              <div>
+                {isExcluded ? (
+                  <Tooltip text={t('redacted_on_export_tooltip')}>
+                    <span>{t('yes')}</span>
+                  </Tooltip>
+                ) : (
+                  <span className="helpText">{t('no')}</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   }

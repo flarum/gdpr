@@ -22,6 +22,15 @@ flarum-gdpr:
                 help_text: |
                     On the most part, any columns added to the <code>user</code> table will be handled automatically, both for exporting data and for erasure.
                     However, there are some special cases, which are listed below.
+                column: Column
+                type: Type
+                nullable: Nullable
+                pii: PII
+                redacted_on_export: Redacted on export
+                yes: Yes
+                no: No
+                pii_tooltip: This column is considered personally identifiable information and will be redacted in anonymized contexts (e.g. anonymized event payloads).
+                redacted_on_export_tooltip: This column's value is blanked (set to null) when generating a user data export. The column still appears in the export with a null value.
         nav:
             gdpr_button: GDPR Integrations
         permissions:
