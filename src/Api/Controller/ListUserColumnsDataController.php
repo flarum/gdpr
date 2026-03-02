@@ -26,13 +26,14 @@ class ListUserColumnsDataController implements RequestHandlerInterface
     {
         RequestUtil::getActor($request)->assertAdmin();
 
-        $removableColumns = $this->processor->removableUserColumns();
         $allColumns = $this->processor->allUserColumns();
 
         return new JsonResponse([
             'data' => [
-                'removableColumns' => $removableColumns,
+                'removableColumns' => $this->processor->removableUserColumnsWithExtensions(),
                 'allColumns'       => $allColumns,
+                'piiKeys'          => $this->processor->getPiiKeysForSerialization(),
+                'piiKeyExtensions' => $this->processor->getExtraPiiKeysWithExtensions(),
             ],
         ]);
     }
