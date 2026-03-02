@@ -91,6 +91,28 @@ class ProcessErasureTest extends TestCase
     /**
      * @test
      */
+    public function authorized_users_can_see_confirmed_erasure_requests_even_if_user_was_deleted()
+    {
+        $this->send($this->request('GET', '/api/forum'));
+        User::query()->where('id', 5)->delete();
+
+        $response = $this->send(
+            $this->request('GET', '/api/user-erasure-requests', [
+                'authenticatedAs' => 3,
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertCount(1, $json['data']);
+        $this->assertEquals(ErasureRequest::STATUS_USER_CONFIRMED, $json['data'][0]['attributes']['status']);
+    }
+
+    /**
+     * @test
+     */
     public function unauthorized_user_cannot_process_erasure_request()
     {
         $response = $this->send(
