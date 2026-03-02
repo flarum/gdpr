@@ -28,7 +28,7 @@ class DataProcessorTest extends TestCase
             Data\Discussions::class => null,
             Data\User::class        => null,
         ]);
-        DataProcessor::removeUserColumns([]);
+        DataProcessor::resetRemovableUserColumns();
         DataProcessor::resetExtraPiiKeysForSerialization();
     }
 

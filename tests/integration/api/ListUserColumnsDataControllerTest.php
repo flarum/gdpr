@@ -117,7 +117,7 @@ class ListUserColumnsDataControllerTest extends TestCase
 
         $body = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertContains('my_custom_column', $body['data']['removableColumns']);
+        $this->assertArrayHasKey('my_custom_column', $body['data']['removableColumns']);
     }
 
     /**

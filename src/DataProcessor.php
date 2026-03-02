@@ -32,7 +32,7 @@ final class DataProcessor
     ];
 
     /**
-     * @var string[] List of user columns to be removed.
+     * @var array<string, string|null> Map of column name => extension ID (or null for core).
      */
     private static array $removeUserColumns = [];
 
@@ -46,7 +46,7 @@ final class DataProcessor
      * data types via {@see DataType::piiFields()}. Use this only for PII fields that don't
      * belong to any registered data type.
      *
-     * @var string[]
+     * @var array<string, string|null> Map of key name => extension ID (or null for core).
      */
     private static array $extraPiiKeysForSerialization = [];
 
@@ -89,11 +89,22 @@ final class DataProcessor
     /**
      * Add columns to the list of user columns to be removed.
      *
-     * @param string[] $columns List of column names.
+     * @param string[]    $columns     List of column names.
+     * @param string|null $extensionId The ID of the extension registering the columns.
      */
-    public static function removeUserColumns(array $columns)
+    public static function removeUserColumns(array $columns, ?string $extensionId = null)
     {
-        self::$removeUserColumns = array_merge(self::$removeUserColumns, $columns);
+        foreach ($columns as $column) {
+            self::$removeUserColumns[$column] = $extensionId;
+        }
+    }
+
+    /**
+     * Reset the removable user columns list. Intended for use in tests.
+     */
+    public static function resetRemovableUserColumns(): void
+    {
+        self::$removeUserColumns = [];
     }
 
     /**
@@ -107,11 +118,21 @@ final class DataProcessor
     }
 
     /**
-     * Retrieve the list of user columns to be removed.
+     * Retrieve the list of user columns to be removed (column names only).
      *
      * @return string[] List of column names.
      */
     public function removableUserColumns(): array
+    {
+        return array_keys(self::$removeUserColumns);
+    }
+
+    /**
+     * Retrieve the full map of removable user columns with their registering extension IDs.
+     *
+     * @return array<string, string|null> Map of column name => extension ID (or null for core).
+     */
+    public function removableUserColumnsWithExtensions(): array
     {
         return self::$removeUserColumns;
     }
@@ -167,14 +188,26 @@ final class DataProcessor
      * by any registered data type. Prefer declaring PII fields on the data type itself
      * via {@see DataType::piiFields()} wherever possible.
      *
-     * @param string[] $keys
+     * @param string[]    $keys
+     * @param string|null $extensionId The ID of the extension registering the keys.
      */
-    public static function addPiiKeysForSerialization(array $keys): void
+    public static function addPiiKeysForSerialization(array $keys, ?string $extensionId = null): void
     {
-        self::$extraPiiKeysForSerialization = array_values(array_unique(array_merge(
-            self::$extraPiiKeysForSerialization,
-            $keys
-        )));
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, self::$extraPiiKeysForSerialization)) {
+                self::$extraPiiKeysForSerialization[$key] = $extensionId;
+            }
+        }
+    }
+
+    /**
+     * Retrieve the extra PII keys with their registering extension IDs.
+     *
+     * @return array<string, string|null> Map of key name => extension ID (or null for core).
+     */
+    public function getExtraPiiKeysWithExtensions(): array
+    {
+        return self::$extraPiiKeysForSerialization;
     }
 
     /**
@@ -190,6 +223,6 @@ final class DataProcessor
             ...array_map(fn (string $type) => $type::piiFields(), array_keys(self::$types))
         );
 
-        return array_values(array_unique(array_merge($fromTypes, self::$extraPiiKeysForSerialization)));
+        return array_values(array_unique(array_merge($fromTypes, array_keys(self::$extraPiiKeysForSerialization))));
     }
 }

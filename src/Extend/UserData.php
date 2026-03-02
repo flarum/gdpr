@@ -31,8 +31,8 @@ class UserData implements ExtenderInterface
             DataProcessor::removeType($type);
         }
 
-        DataProcessor::removeUserColumns($this->removeUserColumns);
-        DataProcessor::addPiiKeysForSerialization($this->piiKeysForSerialization);
+        DataProcessor::removeUserColumns($this->removeUserColumns, $extension?->getId());
+        DataProcessor::addPiiKeysForSerialization($this->piiKeysForSerialization, $extension?->getId());
     }
 
     /**

@@ -10,7 +10,12 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import icon from 'flarum/common/helpers/icon';
 
 type ColumnMeta = { type: string; length: number | null; default: string | null; nullable: boolean };
-type UserColumnsData = { allColumns: Record<string, ColumnMeta>; removableColumns: string[]; piiKeys: string[] };
+type UserColumnsData = {
+  allColumns: Record<string, ColumnMeta>;
+  removableColumns: Record<string, string | null>;
+  piiKeys: string[];
+  piiKeyExtensions: Record<string, string | null>;
+};
 
 export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> extends AdminPage<CustomAttrs> {
   gdprDataTypes: DataType[] = [];
@@ -107,7 +112,7 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
     );
   }
 
-  userColumnTable({ allColumns, removableColumns, piiKeys }: UserColumnsData): Mithril.Children {
+  userColumnTable({ allColumns, removableColumns, piiKeys, piiKeyExtensions }: UserColumnsData): Mithril.Children {
     const t = (key: string) => app.translator.trans(`flarum-gdpr.admin.gdpr_page.user_table_data.${key}`);
 
     return (
@@ -118,11 +123,14 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
           <div className="GdprGrid-header">{t('nullable')}</div>
           <div className="GdprGrid-header">{t('pii')}</div>
           <div className="GdprGrid-header">{t('redacted_on_export')}</div>
+          <div className="GdprGrid-header">{t('extension')}</div>
         </div>
 
         {Object.entries(allColumns).map(([column, meta]) => {
           const isPii = piiKeys.includes(column);
-          const isExcluded = removableColumns.includes(column);
+          const redactedByExtension = column in removableColumns ? removableColumns[column] : undefined;
+          const isRedacted = redactedByExtension !== undefined;
+          const extensionId = redactedByExtension ?? (column in piiKeyExtensions ? piiKeyExtensions[column] : null);
 
           return (
             <div className="GdprGrid-row">
@@ -143,13 +151,16 @@ export default class GdprPage<CustomAttrs extends IPageAttrs = IPageAttrs> exten
                 )}
               </div>
               <div>
-                {isExcluded ? (
+                {isRedacted ? (
                   <Tooltip text={t('redacted_on_export_tooltip')}>
                     <span>{t('yes')}</span>
                   </Tooltip>
                 ) : (
                   <span className="helpText">{t('no')}</span>
                 )}
+              </div>
+              <div>
+                <ExtensionLink extension={extensionId ? (app.data.extensions[extensionId] ?? null) : null} />
               </div>
             </div>
           );
