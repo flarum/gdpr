@@ -36,12 +36,12 @@ class RequestErasureSerializer extends AbstractSerializer
         ];
     }
 
-    protected function user($erasure_request): Relationship
+    protected function user($erasure_request): ?Relationship
     {
         return $this->hasOne($erasure_request, BasicUserSerializer::class);
     }
 
-    protected function processedBy($erasure_request): Relationship
+    protected function processedBy($erasure_request): ?Relationship
     {
         return $this->hasOne($erasure_request, BasicUserSerializer::class);
     }
