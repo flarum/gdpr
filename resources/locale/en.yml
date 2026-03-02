@@ -63,6 +63,7 @@ flarum-gdpr:
             avatar:
                 delete_description: Deletes the user's avatar from the filesystem.
                 export_description: Retrieves the user's avatar from the filesystem and includes it in the export.
+            default_user_action: No action, handled by default user table data handling.
             discussions:
                 export_description: Exports all discussions the user has started. Data restricted to title and creation date.
             forum:

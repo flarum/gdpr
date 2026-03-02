@@ -201,13 +201,31 @@ final class DataProcessor
     }
 
     /**
-     * Retrieve the extra PII keys with their registering extension IDs.
+     * Get a map of every PII key to the extension ID that declared it.
+     * Keys declared by built-in types or core are mapped to null.
+     * When two sources declare the same key, the first wins (type-declared > extra).
      *
      * @return array<string, string|null> Map of key name => extension ID (or null for core).
      */
-    public function getExtraPiiKeysWithExtensions(): array
+    public function getPiiKeysWithExtensions(): array
     {
-        return self::$extraPiiKeysForSerialization;
+        $result = [];
+
+        foreach (self::$types as $typeClass => $extensionId) {
+            foreach ($typeClass::piiFields() as $field) {
+                if (!array_key_exists($field, $result)) {
+                    $result[$field] = $extensionId;
+                }
+            }
+        }
+
+        foreach (self::$extraPiiKeysForSerialization as $field => $extensionId) {
+            if (!array_key_exists($field, $result)) {
+                $result[$field] = $extensionId;
+            }
+        }
+
+        return $result;
     }
 
     /**
