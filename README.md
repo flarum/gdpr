@@ -23,6 +23,16 @@ All forum users now have a `Personal Data` section within their account settings
 
 From here, users may self-service export their data from the forum, or start an erasure request. Erasure requests are queued up for admins/moderators to process. Any unprocessed requests that are still pending after 30 days will be processed automatically using the configured default method (Deletion or Anonymization).
 
+#### Erasure confirmation security
+
+When a user clicks the email link to confirm their erasure request:
+
+- The one-time **verification token is invalidated** (set to `null`) so the same link cannot be re-used or re-confirm a request that has already been processed.
+- The **IP address** of the confirming client is stored in `confirmation_ip` on the erasure record, providing an audit trail for the confirmation event.
+- If the request has already been processed (status `processed` or `manual`), re-visiting the confirmation link returns a 422 error instead of silently resetting the request status.
+
+The stored IP address is automatically purged after **90 days** by the `gdpr:clear-confirmation-ips` scheduled command (runs daily), limiting the period for which this data is retained in line with data-minimisation principles.
+
 #### Specifying which queue to use
 If your forum runs multiple queues, ie `low` and `high`, you may specify which queue jobs for this extension are run on in your skeleton's `extend.php` file:
 
