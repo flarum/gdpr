@@ -2,9 +2,11 @@ import app from 'flarum/forum/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
+import fullTime from 'flarum/common/helpers/fullTime';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Stream from 'flarum/common/utils/Stream';
+import dayjs from 'dayjs';
 import type Mithril from 'mithril';
 import ErasureRequest from 'src/common/models/ErasureRequest';
 import UserCard from 'flarum/forum/components/UserCard';
@@ -53,7 +55,19 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
       <div>
         <UserCard className="UserCard--popover UserCard--gdpr" user={this.request.user()} />
         <p className="helpText">{app.translator.trans('flarum-gdpr.forum.process_erasure.text', { name: username(this.request.user()) })}</p>
-      </div>
+      </div>,
+      100
+    );
+
+    const confirmedAt = erasureRequest.userConfirmedAt();
+    items.add(
+      'timestamps',
+      <ul className="ErasureRequest-timestamps helpText">
+        <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.requested_at', { date: fullTime(erasureRequest.createdAt()!) })}</li>
+        {confirmedAt && <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.confirmed_at', { date: fullTime(confirmedAt) })}</li>}
+        {confirmedAt && <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.eligible_at', { date: fullTime(dayjs(confirmedAt).add(30, 'day').toDate()) })}</li>}
+      </ul>,
+      90
     );
 
     erasureRequest?.reason() &&
@@ -61,7 +75,8 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
         'reason',
         <p className="helpText">
           <code>{erasureRequest.reason()}</code>
-        </p>
+        </p>,
+        80
       );
 
     items.add(
@@ -73,7 +88,8 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
           bidi={this.comments}
           placeholder={extractText(app.translator.trans('flarum-gdpr.forum.process_erasure.comments_label'))}
         ></textarea>
-      </div>
+      </div>,
+      70
     );
 
     if (app.forum.attribute('erasureAnonymizationAllowed')) {
@@ -88,7 +104,8 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
             },
             app.translator.trans('flarum-gdpr.forum.process_erasure.anonymization_button')
           )}
-        </div>
+        </div>,
+        60
       );
     }
 
@@ -104,7 +121,8 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
             },
             app.translator.trans('flarum-gdpr.forum.process_erasure.deletion_button')
           )}
-        </div>
+        </div>,
+        50
       );
     }
 

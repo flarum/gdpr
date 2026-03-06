@@ -32,7 +32,7 @@ export default class ErasureRequestsList extends Component {
                           name: username(request.user()),
                         })}
                       </span>
-                      {humanTime(request.createdAt())}
+                      {humanTime(request.userConfirmedAt())}
                     </a>
                   </li>
                 );
