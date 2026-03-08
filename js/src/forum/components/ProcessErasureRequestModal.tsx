@@ -65,7 +65,11 @@ export default class ProcessErasureRequestModal extends Modal<ProcessErasureRequ
       <ul className="ErasureRequest-timestamps helpText">
         <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.requested_at', { date: fullTime(erasureRequest.createdAt()!) })}</li>
         {confirmedAt && <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.confirmed_at', { date: fullTime(confirmedAt) })}</li>}
-        {confirmedAt && <li>{app.translator.trans('flarum-gdpr.forum.process_erasure.eligible_at', { date: fullTime(dayjs(confirmedAt).add(30, 'day').toDate()) })}</li>}
+        {confirmedAt && (
+          <li>
+            {app.translator.trans('flarum-gdpr.forum.process_erasure.eligible_at', { date: fullTime(dayjs(confirmedAt).add(30, 'day').toDate()) })}
+          </li>
+        )}
       </ul>,
       90
     );
