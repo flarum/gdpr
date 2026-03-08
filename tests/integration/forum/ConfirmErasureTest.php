@@ -38,9 +38,13 @@ class ConfirmErasureTest extends TestCase
             User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'moderator@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 4, 'username' => 'processed_user', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'processed@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 5, 'username' => 'manual_user', 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim', 'email' => 'manual@machine.local', 'is_email_confirmed' => 1],
             ],
             'gdpr_erasure' => [
                 ['id' => 1, 'user_id' => 2, 'verification_token' => 'abc123', 'status' => 'awaiting_user_confirmation', 'reason' => 'I want to be forgotten', 'created_at' => Carbon::now()],
+                ['id' => 2, 'user_id' => 4, 'verification_token' => 'processed-token', 'status' => 'processed', 'reason' => null, 'created_at' => Carbon::now()->subDays(35), 'user_confirmed_at' => Carbon::now()->subDays(35)],
+                ['id' => 3, 'user_id' => 5, 'verification_token' => 'manual-token', 'status' => 'manual', 'reason' => null, 'created_at' => Carbon::now()->subDays(35), 'user_confirmed_at' => Carbon::now()->subDays(35)],
             ],
         ]);
 
@@ -89,10 +93,11 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('http://localhost?erasureRequestConfirmed=1', $response->getHeaderLine('Location'));
 
-        $erasureRequest = ErasureRequest::query()->where('verification_token', 'abc123')->first();
+        $erasureRequest = ErasureRequest::query()->find(1);
         $this->assertNotNull($erasureRequest);
         $this->assertEquals('user_confirmed', $erasureRequest->status);
         $this->assertNotNull($erasureRequest->user_confirmed_at);
+        $this->assertNull($erasureRequest->verification_token);
     }
 
     #[Test]
@@ -131,10 +136,53 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('http://localhost?erasureRequestConfirmed=1', $response->getHeaderLine('Location'));
 
-        $erasureRequest = ErasureRequest::query()->where('verification_token', 'abc123')->first();
+        $erasureRequest = ErasureRequest::query()->find(1);
         $this->assertNotNull($erasureRequest);
         $this->assertEquals('user_confirmed', $erasureRequest->status);
         $this->assertNotNull($erasureRequest->user_confirmed_at);
+        $this->assertNull($erasureRequest->verification_token);
+    }
+
+    #[Test]
+    public function confirmation_ip_is_stored()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/gdpr/erasure/confirm/abc123'
+            )->withAttribute('bypassCsrfToken', true)
+        );
+
+        $this->assertEquals(302, $response->getStatusCode());
+
+        $erasureRequest = ErasureRequest::query()->find(1);
+        $this->assertNotNull($erasureRequest->confirmation_ip);
+    }
+
+    #[Test]
+    public function processed_request_returns_422()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/gdpr/erasure/confirm/processed-token'
+            )->withAttribute('bypassCsrfToken', true)
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
+    }
+
+    #[Test]
+    public function manual_request_returns_422()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/gdpr/erasure/confirm/manual-token'
+            )->withAttribute('bypassCsrfToken', true)
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
     }
 
     #[Test]
