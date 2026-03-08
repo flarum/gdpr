@@ -39,7 +39,7 @@ class ConfirmErasureTest extends TestCase
             ],
             'gdpr_erasure' => [
                 ['id' => 1, 'user_id' => 2, 'verification_token' => 'abc123', 'status' => 'awaiting_user_confirmation', 'reason' => 'I want to be forgotten', 'created_at' => Carbon::now()],
-                ['id' => 2, 'user_id' => 2, 'verification_token' => 'processed-token', 'status' => 'processed', 'reason' => 'Already handled', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now(), 'processed_at' => Carbon::now()],
+                ['id' => 2, 'user_id' => 3, 'verification_token' => 'processed-token', 'status' => 'processed', 'reason' => 'Already handled', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now(), 'processed_at' => Carbon::now()],
             ],
         ]);
 
