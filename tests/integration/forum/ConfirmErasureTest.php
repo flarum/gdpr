@@ -39,6 +39,7 @@ class ConfirmErasureTest extends TestCase
             ],
             'gdpr_erasure' => [
                 ['id' => 1, 'user_id' => 2, 'verification_token' => 'abc123', 'status' => 'awaiting_user_confirmation', 'reason' => 'I want to be forgotten', 'created_at' => Carbon::now()],
+                ['id' => 2, 'user_id' => 3, 'verification_token' => 'processed-token', 'status' => 'processed', 'reason' => 'Already handled', 'created_at' => Carbon::now(), 'user_confirmed_at' => Carbon::now(), 'processed_at' => Carbon::now()],
             ],
         ]);
 
@@ -91,10 +92,27 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('http://localhost?erasureRequestConfirmed=1', $response->getHeaderLine('Location'));
 
-        $erasureRequest = ErasureRequest::query()->where('verification_token', 'abc123')->first();
+        $erasureRequest = ErasureRequest::query()->find(1);
         $this->assertNotNull($erasureRequest);
         $this->assertEquals('user_confirmed', $erasureRequest->status);
         $this->assertNotNull($erasureRequest->user_confirmed_at);
+        $this->assertNull($erasureRequest->verification_token);
+        $this->assertNotNull($erasureRequest->confirmation_ip);
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_re_confirm_already_processed_request()
+    {
+        $response = $this->send(
+            $this->request(
+                'GET',
+                '/gdpr/erasure/confirm/processed-token'
+            )->withAttribute('bypassCsrfToken', true)
+        );
+
+        $this->assertEquals(422, $response->getStatusCode());
     }
 
     /**
@@ -137,10 +155,12 @@ class ConfirmErasureTest extends TestCase
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('http://localhost?erasureRequestConfirmed=1', $response->getHeaderLine('Location'));
 
-        $erasureRequest = ErasureRequest::query()->where('verification_token', 'abc123')->first();
+        $erasureRequest = ErasureRequest::query()->find(1);
         $this->assertNotNull($erasureRequest);
         $this->assertEquals('user_confirmed', $erasureRequest->status);
         $this->assertNotNull($erasureRequest->user_confirmed_at);
+        $this->assertNull($erasureRequest->verification_token);
+        $this->assertNotNull($erasureRequest->confirmation_ip);
     }
 
     /**

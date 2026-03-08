@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $reason
  * @property Carbon      $created_at
  * @property Carbon|null $user_confirmed_at
+ * @property string|null $confirmation_ip
  * @property int|null    $processed_by
  * @property User|null   $processedBy
  * @property string|null $processor_comment
