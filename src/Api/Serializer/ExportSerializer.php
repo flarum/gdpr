@@ -37,12 +37,12 @@ class ExportSerializer extends AbstractSerializer
         return $attributes;
     }
 
-    protected function user($export): Relationship
+    protected function user($export): ?Relationship
     {
         return $this->hasOne($export, BasicUserSerializer::class);
     }
 
-    protected function actor($export): Relationship
+    protected function actor($export): ?Relationship
     {
         return $this->hasOne($export, BasicUserSerializer::class);
     }
