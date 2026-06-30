@@ -16,6 +16,7 @@ use Flarum\Gdpr\Events\Erasing;
 use Flarum\Gdpr\Models\ErasureRequest;
 use Flarum\Gdpr\Notifications\ErasureCompletedBlueprint;
 use Flarum\Http\UrlGenerator;
+use Flarum\Locale\Translator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -87,6 +88,7 @@ class ErasureJob extends GdprJob
         // Capture the user's locale on the shared translator before
         // anonymization wipes their preferences. The completion email below
         // re-uses the same translator instance, so this carries through.
+        /** @var TranslatorInterface&Translator $translator */
         $translator->setLocale($user->getPreference('locale') ?? $this->settings->get('default_locale'));
 
         $this->{$mode}($user, $processor);
